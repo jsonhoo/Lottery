@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="setting_set_bitrate" type="id"></item>
+    <item name="setting_set_rtmpurl" type="id"></item>
+    <item name="setting_set_camera_focus" type="id"></item>
+    <item name="setting_set_audio_loop" type="id"></item>
+    <item name="setting_set_audio_reverb" type="id"></item>
+    <item name="setting_set_fps" type="id"></item>
+    <item name="setting_set_encode_mode" type="id"></item>
+    <item name="setting_set_flip" type="id"></item>
+    <item name="setting_set_variable_framerate" type="id"></item>
+    <item name="setting_set_auto_bitrate" type="id"></item>
+    <item name="setting_chating_list" type="id"></item>
+    <item name="setting_waiting_list" type="id"></item>
+    <item name="setting_set_record_format" type="id"></item>
+    <item name="setting_set_watermark" type="id"></item>
+    <item name="setting_set_bgm" type="id"></item>
+    <item name="setting_set_volume" type="id"></item>
+    <item name="setting_take_screenshot" type="id"></item>
+    <item name="setting_beauty" type="id"></item>
+    <item name="setting_show_log" type="id"></item>
+    <item name="setting_anchor_link_mic" type="id"></item>
+    <item name="setting_faceu_filter" type="id"></item>
+</resources>

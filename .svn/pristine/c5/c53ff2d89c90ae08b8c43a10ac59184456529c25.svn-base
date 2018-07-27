@@ -1,0 +1,51 @@
+package com.wyzk.lottery.ui;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.wyzk.lottery.R;
+import com.wyzk.lottery.model.RoomModel;
+import com.wyzk.lottery.utils.BuildManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+
+public class RechargeDetailActivity extends LotteryBaseActivity {
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.title)
+    View title;
+
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_charge_detail);
+        ButterKnife.bind(this);
+        toolbar.setTitle("");
+        toolbar.setNavigationIcon(R.mipmap.arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        BuildManager.setStatusTrans(this, 1, title);
+    }
+
+
+}

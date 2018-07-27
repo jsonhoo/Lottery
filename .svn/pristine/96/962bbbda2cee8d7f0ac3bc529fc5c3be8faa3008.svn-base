@@ -1,0 +1,341 @@
+package com.wyzk.lottery.ui;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Display;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.wangsu.wsrtc.sdk.WSChatConfig;
+import com.wangsu.wsrtc.sdk.WSChatConstants;
+import com.wyzk.lottery.R;
+import com.wyzk.lottery.adapter.HomeAdapter;
+import com.wyzk.lottery.constant.IConst;
+import com.wyzk.lottery.constant.User;
+import com.wyzk.lottery.model.ResultReturn;
+import com.wyzk.lottery.model.RoomModel;
+import com.wyzk.lottery.model.UserInfoModel;
+import com.wyzk.lottery.network.Network;
+import com.wyzk.lottery.utils.ACache;
+import com.wyzk.lottery.utils.BuildManager;
+import com.wyzk.lottery.video.activity.Pull2Activity;
+import com.wyzk.lottery.video.activity.Push2Activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+
+public class MainActivity extends BaseActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+    @Bind(R.id.right)
+    CoordinatorLayout right;
+    @Bind(R.id.nav_view)
+    NavigationView left;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawer_layout;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    TextView tvName;
+    HomeAdapter adapter;
+    private boolean isDrawer = false;
+    private UserInfoModel userInfoModel;
+    private List<RoomModel.RowModel> mDataList = new ArrayList<>();
+
+    private long mPressedTime = 0;
+    private String token = null;
+
+    private int pageIndex = 1;
+    private int pageRows = 10;
+
+
+    Observer<ResultReturn<UserInfoModel>> userObserver = new Observer<ResultReturn<UserInfoModel>>() {
+        @Override
+        public void onCompleted() {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onNext(ResultReturn<UserInfoModel> result) {
+            if (result != null) {
+                if (result.getCode() == 0) {
+                    userInfoModel = result.getData();
+                    if (userInfoModel != null) {
+                        User.userInfo = userInfoModel;
+                        tvName.setText(userInfoModel.getUsername());
+                    }
+                } else {
+                    ACache.get(MainActivity.this).clear();
+                    toActivity(LoginActivity.class);
+                    finish();
+                }
+            } else {
+                ACache.get(MainActivity.this).clear();
+                toActivity(LoginActivity.class);
+                finish();
+            }
+        }
+
+    };
+
+    Observer<RoomModel> roomObserver = new Observer<RoomModel>() {
+        @Override
+        public void onCompleted() {
+        }
+
+
+        @Override
+        public void onError(Throwable e) {
+        }
+
+        @Override
+        public void onNext(RoomModel result) {
+            if (result != null) {
+                List<RoomModel.RowModel> rowModels = result.getRows();
+                mDataList.clear();
+                if (rowModels != null) {
+                    mDataList.addAll(rowModels);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer_layout.setDrawerListener(toggle);
+        toggle.syncState();
+
+        BuildManager.setStatusTrans2(this);
+
+        left.setNavigationItemSelectedListener(this);
+        right.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (isDrawer) {
+                    return left.dispatchTouchEvent(motionEvent);
+                } else {
+                    return false;
+                }
+            }
+        });
+        drawer_layout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                isDrawer = true;
+                //获取屏幕的宽高
+                WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+                Display display = manager.getDefaultDisplay();
+                //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
+                right.layout(left.getRight(), 0, left.getRight() + display.getWidth(), display.getHeight());
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                isDrawer = false;
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+            }
+        });
+
+        LinearLayout rootview = (LinearLayout) left.getHeaderView(0);
+        LinearLayout linearLayout = (LinearLayout) rootview.getChildAt(0);
+        tvName = (TextView) linearLayout.getChildAt(1);
+
+        RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if (token != null) {
+                    pageIndex = 1;
+                    getRoomList(token, pageIndex, pageRows);
+                    getUserInfo(token);
+                }
+                refreshlayout.finishRefresh(2000);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                if (token != null) {
+                    getRoomList(token, ++pageIndex, pageRows);
+                    getUserInfo(token);
+                }
+                refreshlayout.finishLoadmore(2000);
+            }
+        });
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(
+                this, DividerItemDecoration.HORIZONTAL));
+        adapter = new HomeAdapter(this, mDataList, R.layout.item_room);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new HomeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                toVideoActivity(position);
+            }
+        });
+
+        token = ACache.get(this).getAsString(IConst.TOKEN);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getRoomList(token, pageIndex, pageRows);
+        getUserInfo(token);
+    }
+
+    private void getRoomList(String token, int pageIndex, int pageRows) {
+        subscription = Network.getNetworkInstance().getLiveApi()
+                .getRoomList(token, pageIndex, pageRows)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(roomObserver);
+    }
+
+    private void getUserInfo(String token) {
+        subscription2 = Network.getNetworkInstance().getUserApi()
+                .getUserInfo(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userObserver);
+    }
+
+    public void toVideoActivity(int position) {
+        Intent intent;
+
+        RoomModel.RowModel rowModel = mDataList.get(position);
+        String userId = ACache.get(this).getAsString(IConst.USERID);
+        if (userId != null && userId.equals(rowModel.getUserId())) {
+            //庄家
+            intent = new Intent(this, Push2Activity.class);
+        } else {
+            //玩家
+            intent = new Intent(this, Pull2Activity.class);
+        }
+
+        String pushUrl = "rtmp://push.fabbk.com/live/111";
+        String pullUrl = "rtmp://pull.fabbk.com/live/111";
+        WSChatConfig config = new WSChatConfig();
+        int mCameraId = config.cameraId;
+        int mPreferEncodeMode = config.preferEncodeMode;
+        int mFps = config.fps;
+        WSChatConstants.VideoResolution mResolution = config.videoResolution;
+        Integer[] mBitrates = {500 * 1024, 800 * 1024, 1000 * 1024, 1200 * 1024, 1500 * 1024, 2000 * 1024};
+        Integer[] mMergeLayouts = {11, 12, 1, 2};
+        int mScreenOrientation = Configuration.ORIENTATION_LANDSCAPE;
+
+        intent.putExtra("pushRtmpUrl", pushUrl);
+        intent.putExtra("pullRtmpUrl", pullUrl);
+        intent.putExtra("camera", mCameraId);
+        intent.putExtra("encoder", mPreferEncodeMode);
+        intent.putExtra("fps", mFps);
+        intent.putExtra("bitrate", mBitrates[0]);
+        intent.putExtra("mergeLayout", mMergeLayouts[0]);
+        intent.putExtra("resolution", mResolution);
+        intent.putExtra("screenOrientation", mScreenOrientation);
+        intent.putExtra("has_video", true);
+        intent.putExtra("customVideoSource", false);
+//        intent.putExtra("roomId", "888");//原始的
+//        intent.putExtra("userId", "888" + (int) (Math.random() * 1000 + 1));
+        intent.putExtra("roomId", String.valueOf(rowModel.getRoomId()));//mqtt订阅的信息
+        intent.putExtra("userId", userId);
+        intent.putExtra("anchorId", "888" + "000");
+
+        intent.putExtra("userInfoModel", userInfoModel);
+        intent.putExtra("token", token);
+        intent.putExtra("rowModel", mDataList.get(position));
+        Bundle bundle = new Bundle();
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START);
+        } else {
+            long nowTime = System.currentTimeMillis();
+            if (nowTime - mPressedTime > 2000) {
+                Toast.makeText(this, getString(R.string.press_again), Toast.LENGTH_SHORT).show();
+                mPressedTime = nowTime;
+            } else {
+                super.onBackPressed();
+            }
+        }
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.my_integral) {
+            toActivity(MyIntegralActivity.class);
+        } else if (id == R.id.recharge) {
+            toActivity(RechargeActivity.class);
+        } else if (id == R.id.personal_information) {
+            Intent intent = new Intent(MainActivity.this, PersonalInformationActivity.class);
+            intent.putExtra("userInfoModel", userInfoModel);
+            startActivity(intent);
+        } else if (id == R.id.my_message) {
+            toActivity(MyMessageActivity.class);
+        } else if (id == R.id.service) {
+            toCall();
+        } else if (id == R.id.about) {
+            toActivity(AboutActivity.class);
+        }
+        drawer_layout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    public void onExit(View view) {
+        ACache.get(this).clear();
+        startActivity(new Intent(this, SplashActivity.class));
+        finish();
+    }
+}

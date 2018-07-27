@@ -1,0 +1,11 @@
+package com.wyzk.lottery.constant;
+
+import com.wyzk.lottery.model.UserInfoModel;
+
+/**
+ * Created by uuxia-mac on 2017/12/31.
+ */
+
+public class User {
+    public static UserInfoModel userInfo;
+}

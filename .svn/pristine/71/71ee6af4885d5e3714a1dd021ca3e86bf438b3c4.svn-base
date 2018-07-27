@@ -1,0 +1,314 @@
+package com.wyzk.lottery.video.activity;
+
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.PermissionChecker;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.WindowManager;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.fsix.mqtt.MqttConnManager;
+import com.fsix.mqtt.bean.MQBean;
+import com.fsix.mqtt.bean.MqttConnBean;
+import com.fsix.mqtt.observer.EventManager;
+import com.fsix.mqtt.observer.INotify;
+import com.fsix.mqtt.util.ATil;
+import com.wyzk.lottery.model.ExtraBean;
+import com.wyzk.lottery.utils.AppTools;
+import com.wyzk.lottery.utils.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * demo中界面的基类，定义了一些界面使用的公共方法和功能；<br/>
+ * <li>复写{@link #onKeyDown(int, KeyEvent)}，实现双击back键退出界面</li><br/>
+ * <li>添加{@link #checkAndRequestPermission()}，实现6.0及以上平台动态检查存储、摄像头、麦克风权限</li><br/>
+ * <li>复写{@link #onRequestPermissionsResult(int, String[], int[])}，配合动态权限检查</li><br/>
+ * <li>复写{@link #showRequestPermissinDialog(List)}，显示权限提示对话框</li><br/>
+ * <li>复写{@link #requestFullScreen()}，子类在onCreate方法中调用，实现界面全屏显示</li><br/>
+ */
+public abstract class BaseActivity extends Activity implements INotify<MQBean> {
+    public final static String VALUE_KEY = "ExtraBean";
+    private static final String TAG = "BaseActivity";
+    protected static long EXIT_INTERVAL = 2 * 1000;
+    /**
+     * 动态请求权限的权限列表
+     */
+    protected String[] PERMISSIONS = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_PHONE_STATE};
+    /**
+     * 动态请求权限的权限列表的提示信息
+     */
+    protected String[] PERMISSION_TOAST_STRING = new String[]{"存储", "相机", "麦克风"};
+    protected ExtraBean extraBean;
+    private long mBackKeyLastPressedTime;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventManager.getInstance().registerObserver(this);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            Object obj = bundle.getSerializable(VALUE_KEY);
+            if (obj != null && obj instanceof ExtraBean) {
+                extraBean = (ExtraBean) obj;
+            }
+        }
+    }
+
+    @Override
+    public void onNotify(MQBean mqBean) {
+    }
+
+    public static void setTextMarquee(TextView textView) {
+        if (textView != null) {
+            textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            textView.setSingleLine(true);
+            textView.setSelected(true);
+            textView.setFocusable(true);
+            textView.setFocusableInTouchMode(true);
+        }
+    }
+
+    public void registerMqtt(String roomId) {
+        MqttConnBean mqttConnBean = new MqttConnBean();
+        mqttConnBean.setBrokerUrl("tcp://120.77.252.48:1883");
+        mqttConnBean.setClientId(ATil.getDeviceId(this));
+        mqttConnBean.setUserName("admin");
+        mqttConnBean.setPassword("public");
+        mqttConnBean.setTopic("game/" + roomId);
+        MqttConnManager.getInstances().start(this, mqttConnBean);
+    }
+
+    /**
+     * 复写系统onKeyDown方法，实现双击back键退出功能。
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - mBackKeyLastPressedTime > EXIT_INTERVAL) {
+                Toast.makeText(this, "再按一次离开界面", Toast.LENGTH_SHORT).show();
+                mBackKeyLastPressedTime = currentTime;
+                return false;
+            }
+            return super.onKeyDown(keyCode, event);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventManager.getInstance().unregisterObserver(this);
+        MqttConnManager.getInstances().stop();
+    }
+
+    /**
+     * 6.0及以上平台动态请求{@link #PERMISSIONS}数组中定义的权限，<br/>
+     * 通过{@link #onRequestPermissionsResult(int, String[], int[])}方法回调，获得权限获取情况，<br/>
+     * 如果缺少权限，则通过{@link #showRequestPermissinDialog(List)}显示提示对话框，提示缺少权限。
+     *
+     * @return
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    protected boolean checkAndRequestPermission() {
+
+        ArrayList<String> lackedPermissions = new ArrayList<String>(PERMISSIONS.length);
+        for (int i = 0; i < PERMISSIONS.length; i++) {
+            int result = PermissionChecker.checkCallingOrSelfPermission(this, PERMISSIONS[i]);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                lackedPermissions.add(PERMISSIONS[i]);
+            }
+        }
+
+        if (lackedPermissions.size() > 0) {
+            String[] rP = new String[lackedPermissions.size()];
+            lackedPermissions.toArray(rP);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M - 1) {
+                requestPermissions(rP, 0);
+                Log.i(TAG, "requestPermissions " + lackedPermissions.toString() + " !");
+            } else {
+                int[] grantResults = new int[rP.length];
+                for (int i = 0; i < grantResults.length; i++) {
+                    grantResults[i] = PackageManager.PERMISSION_GRANTED;
+                }
+                onRequestPermissionsResult(0, rP, grantResults);
+                Log.i(TAG, "the platform versin below 23 M , cann't request permissions  !");
+            }
+            return false;
+        }
+        Log.i(TAG, "checkPermission success , All permission has granted !");
+        return true;
+    }
+
+    protected List<String> checkPermissions() {
+
+        ArrayList<String> lackedPermissions = new ArrayList<String>(PERMISSIONS.length);
+        for (int i = 0; i < PERMISSIONS.length; i++) {
+            int result = PermissionChecker.checkCallingOrSelfPermission(this, PERMISSIONS[i]);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                lackedPermissions.add(PERMISSIONS[i]);
+            }
+        }
+        return lackedPermissions;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.i(TAG, "permissions :" + Arrays.toString(permissions));
+        Log.i(TAG, "grantResults :" + Arrays.toString(grantResults));
+        ArrayList<String> lackedPermissions = new ArrayList<String>(PERMISSIONS.length);
+        for (int i = 0; i < permissions.length; i++) {
+            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                lackedPermissions.add(permissions[i]);
+            }
+        }
+        showRequestPermissinDialog(lackedPermissions);
+    }
+
+    /**
+     * 显示一个提示对话框
+     *
+     * @param mLackedPermissions
+     */
+    protected void showRequestPermissinDialog(List<String> mLackedPermissions) {
+        if (mLackedPermissions == null || mLackedPermissions.size() == 0)
+            return;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String permission : mLackedPermissions) {
+            for (int i = 0; i < PERMISSIONS.length; i++) {
+                if (PERMISSIONS[i].equals(permission)) {
+                    stringBuilder.append(PERMISSION_TOAST_STRING[i]).append(",");
+                }
+            }
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+        Builder builder = new Builder(this);
+        builder.setMessage("应用需要如下权限： " + stringBuilder.toString() + "，请从“设置”中打开相应权限。");
+        builder.setTitle(android.R.string.dialog_alert_title);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // do nothing
+
+                // Intent intent = new Intent();
+                // intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                // intent.setData(Uri.fromParts("package", getPackageName(),
+                // null));
+                // startActivity(intent);
+
+            }
+        });
+        builder.setCancelable(false);
+        builder.create().show();
+    }
+
+    /**
+     * 请求界面全屏显示
+     */
+    protected void requestFullScreen() {
+        Log.i(TAG, "addFlags FLAG_FULLSCREEN");
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    /**
+     * 显示一个Toast信息
+     *
+     * @param text
+     */
+    protected void showToast(final String text) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                ToastUtil.showToast(BaseActivity.this, text);
+            }
+        });
+    }
+
+    protected void tips(String msg) {
+        showToast(msg);
+    }
+
+
+    protected void toNextActivityExtra(ExtraBean device, Class<?> desActivity) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(VALUE_KEY, device);
+        AppTools.startForwardActivity(this, desActivity, bundle, false);
+    }
+
+    protected void showdialog(String title, String msg, String okStr, DialogInterface.OnClickListener ok) {
+        /* @setIcon 设置对话框图标
+         * @setTitle 设置对话框标题
+         * @setMessage 设置对话框消息提示
+         * setXXX方法返回Dialog对象，因此可以链式设置属性
+         */
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(this);
+        normalDialog.setTitle(title);
+        normalDialog.setMessage(msg);
+        normalDialog.setPositiveButton(okStr, ok);
+        normalDialog.setCancelable(false);
+        // 显示
+        normalDialog.show();
+    }
+
+    protected void showdialog(String title, String msg, String okStr, String cancleStr, DialogInterface.OnClickListener ok, DialogInterface.OnClickListener cancle) {
+        /* @setIcon 设置对话框图标
+         * @setTitle 设置对话框标题
+         * @setMessage 设置对话框消息提示
+         * setXXX方法返回Dialog对象，因此可以链式设置属性
+         */
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(this);
+        normalDialog.setTitle(title);
+        normalDialog.setMessage(msg);
+        normalDialog.setPositiveButton(okStr, ok);
+        normalDialog.setNegativeButton(cancleStr, cancle);
+        normalDialog.setCancelable(false);
+        // 显示
+        normalDialog.show();
+    }
+
+    protected void showdialog(String title, String msg, String okStr, String cancleStr, DialogInterface.OnClickListener ok, DialogInterface.OnClickListener cancle, DialogInterface.OnCancelListener listener) {
+        /* @setIcon 设置对话框图标
+         * @setTitle 设置对话框标题
+         * @setMessage 设置对话框消息提示
+         * setXXX方法返回Dialog对象，因此可以链式设置属性
+         */
+        final AlertDialog.Builder normalDialog =
+                new AlertDialog.Builder(this);
+        normalDialog.setTitle(title);
+        normalDialog.setMessage(msg);
+        normalDialog.setPositiveButton(okStr, ok);
+        normalDialog.setNegativeButton(cancleStr, cancle);
+        normalDialog.setOnCancelListener(listener);
+        // 显示
+        normalDialog.show();
+    }
+
+}

@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/surface_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black">
+
+            <com.wangsu.wsrtc.sdk.WSSurfaceView
+                android:id="@+id/preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/sv_statusLog"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="100dp"
+        android:background="#7d464645"
+        android:fadeScrollbars="true"
+        android:scrollbars="vertical">
+
+        <TextView
+            android:id="@+id/tv_statusLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:scrollbars="vertical"
+            android:textColor="#48BB31"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/sv_chatLog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@id/sv_statusLog"
+        android:layout_marginBottom="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="250dp"
+        android:background="#7d464645"
+        android:fadeScrollbars="true"
+        android:scrollbars="vertical">
+
+        <TextView
+            android:id="@+id/tv_chatEventLog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:scrollbars="vertical"
+            android:textColor="#48BB31"
+            android:textSize="13dp" />
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/view_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/pull_bg">
+
+        <LinearLayout
+            android:id="@+id/function_btn_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="#33000000"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btn_mute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@null"
+                android:padding="5dp"
+                android:src="@drawable/mute_btn"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btn_flash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@null"
+                android:padding="5dp"
+                android:src="@drawable/flashlight_btn"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/btn_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@null"
+                android:padding="5dp"
+                android:src="@drawable/ic_mode_switch_camera"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/message"
+            layout="@layout/message" />
+
+        <LinearLayout
+            android:id="@+id/tv_audience_waiting_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/message"
+            android:layout_marginLeft="@dimen/dimens5"
+            android:layout_marginTop="@dimen/dimens5"
+            android:layout_toLeftOf="@id/function_btn_group"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_audience_waiting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="等待中:"
+                android:textColor="#A00000"
+                android:textSize="15dp"></TextView>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/audience_waiting_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/audience_icon_hight"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tv_audience_chating_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tv_audience_waiting_group"
+            android:layout_marginLeft="@dimen/dimens5"
+            android:layout_marginTop="@dimen/dimens5"
+            android:layout_toLeftOf="@id/function_btn_group"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_audience_chating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="连麦中:"
+                android:textColor="#A00000"
+                android:textSize="15dp"></TextView>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/audience_chating_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/audience_icon_hight"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/deal_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/message"
+            android:layout_marginLeft="@dimen/dimens10"
+            android:layout_marginTop="@dimen/dimens25"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens16"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="玩家账号"
+                    android:textColor="@color/pull_top_text_color"
+                    android:textSize="@dimen/dimens13" />
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="@dimen/dimens70"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimens8"
+                    android:background="@drawable/pull_top_data"
+                    android:ellipsize="end"
+                    android:gravity="left"
+                    android:maxLength="10"
+                    android:padding="@dimen/dimens3"
+                    android:text="kr555"
+                    android:textColor="@color/pull_top_data_text_color"
+                    android:textSize="@dimen/dimens13" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens16"
+                android:layout_marginTop="@dimen/dimens5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="目前积分"
+                    android:textColor="@color/pull_top_text_color"
+                    android:textSize="@dimen/dimens13" />
+
+                <TextView
+                    android:id="@+id/tv_user_integral"
+                    android:layout_width="@dimen/dimens70"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimens8"
+                    android:background="@drawable/pull_top_data"
+                    android:gravity="left"
+                    android:padding="@dimen/dimens3"
+                    android:text="1000"
+                    android:textColor="@color/pull_top_data_text_color"
+                    android:textSize="@dimen/dimens13" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.wyzk.lottery.view.MyRadioGroup
+            android:id="@+id/rg_step"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/message"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/betting"
+                    style="@style/tab_style"
+                    android:enabled="false"
+                    android:text="下注中\n一分钟" />
+
+                <include layout="@layout/divider_vertical" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/dealing"
+                    style="@style/tab_style"
+                    android:enabled="false"
+                    android:text="封盘\n发牌" />
+
+                <include layout="@layout/divider_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/sendResult"
+                    style="@style/tab_style"
+                    android:enabled="false"
+                    android:text="上报\n结果" />
+            </LinearLayout>
+
+        </com.wyzk.lottery.view.MyRadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/deal_message"
+            android:layout_marginTop="@dimen/dimens60"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <include layout="@layout/place" />
+
+            <LinearLayout
+                android:id="@+id/ll_rank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens10"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/rg_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/yi"
+                        style="@style/button_style"
+                        android:text="排名1" />
+
+                    <Button
+                        android:id="@+id/er"
+                        style="@style/button_style"
+                        android:layout_marginLeft="@dimen/dimens8"
+                        android:text="排名2" />
+
+                    <Button
+                        android:id="@+id/san"
+                        style="@style/button_style"
+                        android:layout_marginLeft="@dimen/dimens8"
+                        android:text="排名3" />
+
+                    <Button
+                        android:id="@+id/si"
+                        style="@style/button_style"
+                        android:layout_marginLeft="@dimen/dimens8"
+                        android:text="排名4" />
+
+                    <Button
+                        android:id="@+id/wu"
+                        style="@style/button_style"
+                        android:layout_marginLeft="@dimen/dimens8"
+                        android:checked="false"
+                        android:text="排名5" />
+
+                    <Button
+                        android:id="@+id/liu"
+                        style="@style/button_style"
+                        android:layout_marginLeft="@dimen/dimens8"
+                        android:checked="false"
+                        android:text="排名6" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/tab_text"
+                    android:layout_marginLeft="@dimen/dimens10"
+                    android:background="@drawable/submit_btn_selector"
+                    android:clickable="true"
+                    android:onClick="resetResult"
+                    android:text="重置\n结果" />
+
+                <TextView
+                    style="@style/tab_text"
+                    android:background="@drawable/cancel_btn_selector"
+                    android:clickable="true"
+                    android:onClick="onSubmitResult"
+                    android:text="上报\n结果" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/dimens5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/generate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/num_btn_selector"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="generate"
+                    android:paddingBottom="@dimen/dimens8"
+                    android:paddingLeft="@dimen/dimens8"
+                    android:paddingRight="@dimen/dimens8"
+                    android:paddingTop="@dimen/dimens8"
+                    android:text="开始下注"
+                    android:textSize="@dimen/dimens12" />
+
+                <TextView
+                    android:id="@+id/cancle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dimens8"
+                    android:layout_toRightOf="@id/generate"
+                    android:background="@drawable/num_btn_selector"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="onCancel"
+                    android:paddingBottom="@dimen/dimens8"
+                    android:paddingLeft="@dimen/dimens8"
+                    android:paddingRight="@dimen/dimens8"
+                    android:paddingTop="@dimen/dimens8"
+                    android:text="场次作废"
+                    android:textSize="@dimen/dimens12" />
+
+                <TextView
+                    android:id="@+id/fengpan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dimens8"
+                    android:layout_toRightOf="@id/cancle"
+                    android:background="@drawable/num_btn_selector"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="onFengPan"
+                    android:paddingBottom="@dimen/dimens8"
+                    android:paddingLeft="@dimen/dimens8"
+                    android:paddingRight="@dimen/dimens8"
+                    android:paddingTop="@dimen/dimens8"
+                    android:text="封盘"
+                    android:textSize="@dimen/dimens12" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:background="@null"
+            android:paddingBottom="5dp"
+            android:src="@drawable/record_btn"
+            android:text="Start"
+            android:visibility="gone" />
+
+
+        <ImageButton
+            android:id="@+id/btn_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:src="@drawable/ic_settings"
+            android:textColor="#FFFFFF"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</FrameLayout>

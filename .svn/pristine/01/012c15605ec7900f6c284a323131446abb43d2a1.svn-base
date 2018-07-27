@@ -1,0 +1,239 @@
+package com.wyzk.lottery.ui;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.widget.AbsListView;
+import android.widget.AbsSpinner;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.fsix.mqtt.MqttConnManager;
+import com.fsix.mqtt.bean.MQBean;
+import com.fsix.mqtt.bean.MqttConnBean;
+import com.fsix.mqtt.observer.EventManager;
+import com.fsix.mqtt.observer.INotify;
+import com.fsix.mqtt.util.ATil;
+import com.wyzk.lottery.R;
+import com.wyzk.lottery.constant.IConst;
+import com.wyzk.lottery.model.ExtraBean;
+import com.wyzk.lottery.utils.ACache;
+import com.wyzk.lottery.utils.AppTools;
+import com.wyzk.lottery.utils.AppUpdate;
+import com.wyzk.lottery.utils.Base64;
+import com.wyzk.lottery.utils.SharePreferencesUtil;
+import com.wyzk.lottery.view.LoadingView;
+
+import rx.Subscription;
+
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, INotify<MQBean<String>> {
+    public final static String VALUE_KEY = "ExtraBean";
+    protected Subscription subscription;
+    protected Subscription subscription2;
+    protected ExtraBean extraBean;
+    protected String token;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventManager.getInstance().registerObserver(this);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            Object obj = bundle.getSerializable(VALUE_KEY);
+            if (obj != null && obj instanceof ExtraBean) {
+                extraBean = (ExtraBean) obj;
+            }
+        }
+
+        String sToken = ACache.get(this).getAsString(IConst.TOKEN);
+        if (!TextUtils.isEmpty(sToken)) {
+            token = sToken;
+        }
+        AppUpdate.checkUpdateVersion(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unsubscribe();
+        EventManager.getInstance().unregisterObserver(this);
+    }
+
+    @Override
+    public void onNotify(MQBean<String> eventData) {
+        if (eventData != null) {
+
+        }
+    }
+
+    protected void unsubscribe() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+        if (subscription2 != null && !subscription2.isUnsubscribed()) {
+            subscription2.unsubscribe();
+        }
+    }
+
+    public void toActivity(Class<?> clazz) {
+        Intent intent = new Intent(this, clazz);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    public void toCall() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + getString(R.string.call)));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    protected void unbindDrawables(View view) {
+        if (view != null) {
+            if (view.getBackground() != null) {
+                view.getBackground().setCallback(null);
+            }
+            if (view instanceof ImageView) {
+                ImageView imageView = (ImageView) view;
+                imageView.setImageDrawable(null);
+            }
+            if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
+                for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                    unbindDrawables(((ViewGroup) view).getChildAt(i));
+                }
+                if (!(view instanceof AbsSpinner) && !(view instanceof AbsListView)) {
+                    ((ViewGroup) view).removeAllViews();
+                }
+            }
+        }
+    }
+
+    /**
+     * 显示一个Toast信息
+     *
+     * @param text
+     */
+    protected void showToast(final String text) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast.makeText(BaseActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    protected void tips(String msg) {
+        showToast(msg);
+    }
+
+    protected View inflateSubView(int subId, int inflateId) {
+        View noNetSubTree = findViewById(inflateId);
+        if (noNetSubTree == null) {
+            ViewStub viewStub = (ViewStub) findViewById(subId);
+            noNetSubTree = viewStub.inflate();
+        }
+        noNetSubTree.setVisibility(View.VISIBLE);
+        return noNetSubTree;
+    }
+
+    protected void showLoadingView() {
+        View view = inflateSubView(R.id.activity_loading_stub,
+                R.id.activity_loading_subTree);
+        if (view != null) {
+            LoadingView loadingView = (LoadingView) view.findViewById(R.id.loading_view);
+            if (loadingView != null) {
+                loadingView.showLoading(true, R.string.loading_busy, 0);
+            }
+        }
+    }
+
+    protected void dismissLoadingView() {
+        View view = findViewById(R.id.activity_loading_subTree);
+        if (view != null) {
+            LoadingView loadingView = (LoadingView) view.findViewById(R.id.loading_view);
+            if (loadingView != null) {
+                loadingView.hidenLoading();
+            }
+        }
+    }
+
+    protected void showNetErroView(int id) {
+        View view = inflateSubView(R.id.activity_net_error_stub,
+                R.id.activity_net_error_subTree);
+        if (view != null) {
+            view.setVisibility(View.VISIBLE);
+            //注意这里是fragment_net_error_subTree
+            //add By SuS
+            View refresh = view.findViewById(R.id.activity_net_error_subTree);
+            TextView txtView = (TextView) view.findViewById(R.id.error_saying_bg_textview);
+            if (txtView != null) {
+                txtView.setText(id);
+            }
+            if (refresh != null) {
+                refresh.setOnClickListener(this);
+            }
+        }
+    }
+
+    protected void dismissNetErroView() {
+        View view = findViewById(R.id.activity_net_error_subTree);
+        if (view != null) {
+            view.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 内容为空的时候显示
+     */
+    protected void showContentEmptyView() {
+        View view = inflateSubView(R.id.activity_empty_stub,
+                R.id.activity_empty_subTree);
+        view.setVisibility(View.VISIBLE);
+    }
+
+    protected void dismissContentEmptyView() {
+        View view = findViewById(R.id.activity_empty_subTree);
+        if (view != null) {
+            view.setVisibility(View.GONE);
+        }
+    }
+
+    protected void toNextActivityExtra(ExtraBean device, Class<?> desActivity) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(VALUE_KEY, device);
+        AppTools.startForwardActivity(this, desActivity, bundle, false);
+    }
+
+
+    protected void registerMqtt(String topic) {
+        MqttConnBean mqttConnBean = new MqttConnBean();
+        mqttConnBean.setBrokerUrl("tcp://120.77.252.48:1883");
+        mqttConnBean.setClientId(ATil.getDeviceId(this));
+        mqttConnBean.setUserName("admin");
+        mqttConnBean.setPassword("public");
+        mqttConnBean.setTopic(topic);
+        MqttConnManager.getInstances().start(this, mqttConnBean);
+    }
+
+    protected <T> T getSp(String key) {
+        return Base64.strBase64Obj(SharePreferencesUtil.getString(this, key));
+    }
+
+    protected <T> void setSp(String key, T data) {
+        SharePreferencesUtil.putString(this, key, Base64.objBase64Str(data));
+    }
+}

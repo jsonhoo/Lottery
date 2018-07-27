@@ -1,0 +1,116 @@
+<resources>
+    <string name="app_name">聚宝盆</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="login">登录</string>
+    <string name="username">账号：</string>
+    <string name="username_hint">请输入账号</string>
+    <string name="password">密码：</string>
+    <string name="password_hint">请输入密码</string>
+    <string name="donnot_have_username">没有账号？点击注册</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_fail">登录失败</string>
+    <string name="username_pwd_empty">用户名或密码不能为空</string>
+
+    <string name="register">注册</string>
+    <string name="version">当前版本：V</string>
+    <string name="contact">联系方式：</string>
+    <string name="contact_hint">请输入联系方式</string>
+    <string name="nickname">昵称：</string>
+    <string name="sex">性别：</string>
+    <string name="nickname_hint">请输入昵称</string>
+    <string name="enter_your_details">请将内容填完整!</string>
+    <string name="register_fail">注册失败,请检查网络状态!</string>
+    <string name="register_success">恭喜!注册成功</string>
+
+    <string name="my_integral">我的积分</string>
+    <string name="recharge">充值</string>
+    <string name="personal_information">个人信息</string>
+    <string name="my_message">我的消息</string>
+    <string name="introduction">\u3000\u3000三公游戏使用一副扑克牌中的52张牌（大小王除外），其中牌张A－9之间的这些牌为点数牌，牌张10为数字牌=0点牌，牌张J、Q、K、为公牌。系统给每位玩家发完三张牌后，将依次比较自己与其他玩家的牌型，每种牌型都有自己的规定牌型倍数。在比较牌型大小后，会根据牌型系数来计算每位玩家的输赢是多少倍数。每位玩家开牌后分别与其他几位玩家比牌，比牌胜者取得本人相应牌型系数的正分，比牌失败者取得对手玩家相应牌型系数的负分，比牌计分的总和就是每一个玩家取得的得分。再乘相应房间的系数就是玩家最后的游戏胜负。</string>
+    <string name="service">客服</string>
+    <string name="call">13579113579</string>
+    <string name="service_phone">客服专线 13579113579</string>
+    <string name="about">关于</string>
+
+    <string name="room_list">房间列表</string>
+    <string name="press_again">再按一次退出程序</string>
+    <string name="press_again2">再按一次房间</string>
+
+    <string name="total_integral">总积分</string>
+
+    <string name="sure_recharge">确认充值</string>
+    <string name="recharge_record">充值记录</string>
+
+
+    <string name="tips_net_error">网络不给力\n点击屏幕继续加载</string>
+    <string name="tips_content_empty">空空如野</string>
+    <string name="loading_busy">努力加载中...</string>
+
+    <string name="tips">公告：为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验为了让客户有更好的游戏体验</string>
+
+    <string name="place1">东北</string>
+    <string name="place2">东门</string>
+    <string name="place3">东南</string>
+    <string name="place4">西北</string>
+    <string name="place5">西门</string>
+    <string name="place6">西南</string>
+
+    <string name="status0">准备中</string>
+    <string name="status1">下注中</string>
+    <string name="status2">封盘中</string>
+    <string name="status3">结算中</string>
+    <string name="status4">结算完成</string>
+    <string name="status5">场次作废</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="start">开始</string>
+    <string name="stop">结束</string>
+
+    <string name="game_not_start">游戏未开始</string>
+    <string name="game_already_start">游戏已经开始</string>
+    <string name="game_not_on_bet_time">游戏不在下注时间</string>
+    <string name="already_bet">已经下注</string>
+    <string name="bet_success">下注成功</string>
+    <string name="already_bet_cannot_clear">已经下注，不能清除</string>
+    <string name="select_place">请先选择下注方位</string>
+    <string name="integral_shortage">积分不足</string>
+    <string name="please_select_place">请先选择方位</string>
+    <string name="please_select_place_or_integral">请先选择方位和下注积分</string>
+
+
+    <string name="generate_error">生成场次失败</string>
+
+
+    <string name="pref_category_private_settings_key">private_settings_key</string>
+    <string name="pref_category_private_settings_title">个人相关</string>
+    <string name="pref_private_appid_key">yehua</string>
+    <string name="pref_private_appid_title">鉴权AppId(必填)</string>
+    =
+    <string name="pref_private_appid_dialog_title">请输入鉴权AppId</string>
+    <string name="pref_private_authkey_key">C0ED2EB419E14EE38BE38D3D1AFC9E4A</string>
+    <string name="pref_private_authkey_title">鉴权Key(必填)</string>
+    <string name="pref_private_authley_dialog_title">请输入鉴权key</string>
+    <string name="pref_private_user_host_key">"wsrtc.yehua.com"</string>
+    <string name="pref_private_user_host_title">客户域名(必填)</string>
+    <string name="pref_private_user_host_dialog_title">请输入客户域名</string>
+    <string name="pref_private_sls_url_key">pref_private_sls_url_key</string>
+    <string name="pref_private_sls_url_title">逻辑服务器(测试使用，不必填写)</string>
+    <string name="pref_private_sls_url_dialog_title">请输入逻辑服务器</string>
+    <string name="pref_private_dispatch_url_key">pref_private_dispatch_url_key</string>
+    <string name="pref_private_dispatch_url_title">调度服务器(测试使用，不必填写)</string>
+    <string name="pref_private_dispatch_url_dialog_title">请输入调度服务器</string>
+
+    <string name="pref_category_more_settings_key">more_settings_key</string>
+    <string name="pref_category_more_settings_title">更多</string>
+    <string name="pref_more_config_page_debug_key">more_config_page_debug_key</string>
+    <string name="pref_more_config_page_debug_title">配置页面显示更多设置选项</string>
+    <bool name="pref_more_config_page_debug_default">false</bool>
+    <string name="pref_value_on">打开</string>
+    <string name="pref_value_off">关闭</string>
+    <string name="pref_more_config_file_path_key">more_config_file_path_key</string>
+    <string name="pref_more_config_file_path_title">配置文件路径</string>
+
+</resources>

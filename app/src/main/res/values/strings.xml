@@ -1,0 +1,158 @@
+<resources>
+    <string name="app_name">闲来棋牌</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="login">登录</string>
+    <string name="username">账号：</string>
+    <string name="username_hint">请输入账号</string>
+    <string name="password">密码：</string>
+    <string name="password_hint">请输入密码</string>
+    <string name="donnot_have_username">没有账号？点击注册</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_fail">登录失败</string>
+    <string name="username_pwd_empty">用户名或密码不能为空</string>
+
+    <string name="register">注册</string>
+    <string name="version">当前版本：V</string>
+    <string name="contact">联系方式：</string>
+    <string name="contact_hint">请输入联系方式</string>
+    <string name="nickname">昵称：</string>
+    <string name="sex">性别：</string>
+    <string name="nickname_hint">请输入昵称</string>
+    <string name="enter_your_details">请将内容填完整!</string>
+    <string name="register_fail">注册失败,请检查网络状态!</string>
+    <string name="register_success">恭喜!注册成功</string>
+
+    <string name="my_integral">我的积分</string>
+    <string name="recharge">充值体现</string>
+    <string name="recharge_detail">明细</string>
+
+    <string name="personal_information">个人信息</string>
+    <string name="my_message">我的消息</string>
+    <string name="introduction">\u3000\u3000欢迎光临，三公游戏！</string>
+    <string name="service">客服</string>
+    <string name="call">13579113579</string>
+    <string name="service_phone">联系客服</string>
+    <string name="about">关于</string>
+
+    <string name="room_list">房间列表</string>
+    <string name="press_again">再按一次退出程序</string>
+    <string name="press_again2">再按一次房间</string>
+
+    <string name="total_integral">总积分</string>
+
+    <string name="sure_recharge">确认充值</string>
+    <string name="recharge_record">充值记录</string>
+
+    <string name="set_rate">设置抽成</string>
+    <string name="submit">提交</string>
+    <string name="set_succ">设置成功</string>
+    <string name="set_fail">设置失败</string>
+
+
+    <string name="tips_net_error">网络不给力\n点击屏幕继续加载</string>
+    <string name="tips_content_empty">空空如野</string>
+    <string name="loading_busy">努力加载中...</string>
+
+    <string name="tips">抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防上当受骗。适度游戏益闹，沉迷游戏伤身。合理安排时间，享受健康生活。</string>
+
+    <string name="place1">1</string>
+    <string name="place2">2</string>
+    <string name="place3">3</string>
+    <string name="place4">4</string>
+    <string name="place5">5</string>
+    <string name="place6">6</string>
+
+    <string name="status0">准备中</string>
+    <string name="status1">下注中</string>
+    <string name="status2">封盘中</string>
+    <string name="status3">结算中</string>
+    <string name="status4">结算完成</string>
+    <string name="status5">场次作废</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="start">开始</string>
+    <string name="stop">结束</string>
+
+
+    <string name="serial_number">流水号</string>
+    <string name="win_lose">盈亏</string>
+
+    <string name="zero_second">0s</string>
+
+    <string name="game_not_start">请先等待房主开启游戏</string>
+    <string name="game_already_start">游戏已经开始</string>
+    <string name="already_bet">已经下注</string>
+    <string name="game_already_start_cannot_clear">游戏已经开始，不能清除</string>
+    <string name="already_bet_cannot_clear">已经下注成功，不能清除</string>
+    <string name="bet_success">下注成功</string>
+    <string name="select_place">请先选择下注方位</string>
+    <string name="integral_shortage">积分不足</string>
+    <string name="please_select_place_or_integral">请先选择方位和下注积分</string>
+
+    <string name="please_select_place">请先选择方位</string>
+    <string name="generate_success">开始下注成功</string>
+    <string name="cancel_success">场次作废成功</string>
+    <string name="fengpan_success">封盘成功</string>
+
+    <!-- 充值提现-->
+    <string name="account_carsh">账号余额（元）</string>
+    <string name="account_charge">账号充值</string>
+    <string name="account_charge_support">支持银行卡、支付宝，财付通、微信</string>
+    <string name="user_exchange">用户提现</string>
+    <string name="user_exchange_detail">支持各大银行及地方银行提现</string>
+
+    <string name="user_recharge_record">充值记录</string>
+    <string name="user_record_detail">充值明细查询</string>
+    <string name="user_withdrawal_record_detail">提现明细查询</string>
+
+
+    <!-- 账号充值-->
+    <string name="current_account">当前账号:</string>
+    <string name="contact_service">联系客服</string>
+    <string name="input_charge_amount">请输入充值金额</string>
+    <string name="select_charge_way">选择支付方式</string>
+    <string name="select_bank">网银转账</string>
+    <string name="select_bank_detail">大额支出专用绿色通道，首选支持方式</string>
+    <string name="select_scan">扫描支付</string>
+    <string name="select_scan_detail">支付宝、微信、QQ钱包等线下二维码支付</string>
+    <string name="select_alipay">支付宝转账</string>
+    <string name="select_alipay_detail">支付宝转账绿色通道</string>
+
+    <!-- 提现-->
+    <string name="user_withdrawal_title">提现</string>
+    <string name="user_withdrawal_record">提现记录</string>
+    <string name="user_withdrawal_value">可提现金额</string>
+    <string name="user_card_num">卡号：</string>
+    <string name="user_card_name">持卡人：</string>
+    <string name="user_card_bank">银行卡：</string>
+
+    <string name="user_withdrawal_tips">提款金额</string>
+    <string name="user_withdrawal_rang">可提款金额(1—200,000)</string>
+    <string name="sumbit_apply">提交申请</string>
+
+    <!-- 提现记录-->
+    <string name="available_balance">可用余额(元)</string>
+    <string name="outstanding_balance">未结余额(元)</string>
+    <string name="recharge_total_amount">充值总额(元)</string>
+    <string name="withdrawal_total_amount">提现总额(元)</string>
+    <string name="settlement_type">类型</string>
+    <string name="start_date">起始日期</string>
+    <string name="end_date">结束日期</string>
+
+
+    <string name="order_detail">订单详情</string>
+    <string name="order_serial_number">流水号</string>
+    <string name="order_status">状态</string>
+    <string name="order_value">金额</string>
+    <string name="order_time">时间</string>
+
+    <string name="platform_card_no">平台卡号</string>
+    <string name="order_note_code">备注码</string>
+    <string name="platform_card_user_name">持卡人</string>
+    <string name="platform_card_bank_name">发卡行</string>
+
+
+</resources>

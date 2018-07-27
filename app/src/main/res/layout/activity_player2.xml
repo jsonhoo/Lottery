@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/surface_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
+
+            <com.wangsu.wsrtc.sdk.WSSurfaceView
+                android:id="@+id/surface_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/message"
+        layout="@layout/message_player"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/message"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ListView
+                android:layout_width="70dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/dimens5"
+                android:background="@drawable/num_btn_selector"
+                android:clickable="true"
+                android:text="显示趋势"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1">
+
+            <include
+                layout="@layout/include_time_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens8"/>
+
+            <include
+                layout="@layout/place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/dimens5"
+            android:layout_marginRight="@dimen/dimens5"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/yishi"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:background="@drawable/yishi"/>
+
+            <Button
+                android:id="@+id/wushi"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:background="@drawable/wushi"
+                android:button="@null"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/yibai"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:layout_marginTop="@dimen/dimens5"
+                android:background="@drawable/yibai"
+                android:button="@null"/>
+
+            <Button
+                android:id="@+id/wubai"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:background="@drawable/wubai"
+                android:button="@null"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/yik"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:layout_marginTop="@dimen/dimens5"
+                android:background="@drawable/yik"
+                android:button="@null"/>
+
+            <Button
+                android:id="@+id/wuk"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:background="@drawable/wuk"
+                android:button="@null"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/shik"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:layout_marginTop="@dimen/dimens5"
+                android:background="@drawable/shik"
+                android:button="@null"/>
+
+            <Button
+                android:id="@+id/wushik"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:background="@drawable/wushik"
+                android:button="@null"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/yibaik"
+                android:layout_width="@dimen/money_icon_dimen"
+                android:layout_height="@dimen/money_icon_dimen"
+                android:layout_marginTop="@dimen/dimens5"
+                android:background="@drawable/yibaik"
+                android:button="@null"/>
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="@dimen/dimens45"
+                android:layout_height="@dimen/dimens45"
+                android:layout_marginTop="@dimen/dimens5"
+                android:background="@drawable/submit_btn_selector"
+                android:onClick="onSubmitScore"
+                android:text="确认\n投注"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens11"/>
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="@dimen/dimens45"
+                android:layout_height="@dimen/dimens45"
+                android:layout_marginTop="@dimen/dimens5"
+                android:background="@drawable/cancel_btn_selector"
+                android:onClick="onClearScore"
+                android:text="清除\n投注"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens11"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

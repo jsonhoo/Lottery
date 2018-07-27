@@ -1,0 +1,54 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dimens_04">0.4dp</dimen>
+    <dimen name="dimens1">1dp</dimen>
+    <dimen name="dimens2">2dp</dimen>
+    <dimen name="dimens3">3dp</dimen>
+    <dimen name="dimens5">5dp</dimen>
+    <dimen name="dimens6">6dp</dimen>
+    <dimen name="dimens7">7dp</dimen>
+    <dimen name="dimens8">8dp</dimen>
+    <dimen name="dimens9">9dp</dimen>
+    <dimen name="dimens10">10dp</dimen>
+    <dimen name="dimens11">11dp</dimen>
+    <dimen name="dimens12">12dp</dimen>
+    <dimen name="dimens13">13dp</dimen>
+    <dimen name="dimens14">14dp</dimen>
+    <dimen name="dimens15">15dp</dimen>
+    <dimen name="dimens16">16dp</dimen>
+    <dimen name="dimens18">18dp</dimen>
+    <dimen name="dimens20">20dp</dimen>
+    <dimen name="dimens22">22dp</dimen>
+    <dimen name="dimens25">25dp</dimen>
+    <dimen name="dimens30">30dp</dimen>
+    <dimen name="dimens32">32dp</dimen>
+    <dimen name="dimens33">33dp</dimen>
+    <dimen name="dimens35">35dp</dimen>
+    <dimen name="dimens37">37dp</dimen>
+    <dimen name="dimens38">38dp</dimen>
+    <dimen name="dimens40">40dp</dimen>
+    <dimen name="dimens42">42dp</dimen>
+    <dimen name="dimens45">45dp</dimen>
+    <dimen name="dimens48">48dp</dimen>
+    <dimen name="dimens50">50dp</dimen>
+    <dimen name="dimens60">60dp</dimen>
+    <dimen name="dimens70">70dp</dimen>
+    <dimen name="dimens80">80dp</dimen>
+    <dimen name="dimens105">105dp</dimen>
+    <dimen name="dimens160">160dp</dimen>
+    <dimen name="dimens220">220dp</dimen>
+
+
+    <dimen name="money_icon_dimen">@dimen/dimens38</dimen>
+
+    <dimen name="audience_icon_hight">40dp</dimen>
+
+    <dimen name="config_textview_size">10dp</dimen>
+    <dimen name="config_edittext_size">12dp</dimen>
+</resources>

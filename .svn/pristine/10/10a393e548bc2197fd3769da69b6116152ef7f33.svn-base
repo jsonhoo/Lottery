@@ -1,0 +1,1829 @@
+package com.wyzk.lottery.video.activity;
+
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.hardware.Camera.CameraInfo;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.fsix.mqtt.bean.MQBean;
+import com.fsix.mqtt.util.GsonUtil;
+import com.wangsu.wsrtc.faceunity.filter.FaceuYuvFilter;
+import com.wangsu.wsrtc.faceunity.view.FaceuFilterDialog;
+import com.wangsu.wsrtc.media.MediaConstants;
+import com.wangsu.wsrtc.sdk.WSChatConfig;
+import com.wangsu.wsrtc.sdk.WSChatConstants;
+import com.wangsu.wsrtc.sdk.WSSurfaceView;
+import com.wangsu.wsrtc.sdk.WSVersion;
+import com.wangsu.wsrtc.signal.SignalConstants;
+import com.wangsu.wsrtc.signal.SignalManager.ChatStateListener;
+import com.wangsu.wsrtc.utils.ALog;
+import com.wyzk.lottery.R;
+import com.wyzk.lottery.constant.IConst;
+import com.wyzk.lottery.constant.User;
+import com.wyzk.lottery.model.MQPlayerBean;
+import com.wyzk.lottery.model.ResultReturn;
+import com.wyzk.lottery.model.RoomRoundModel;
+import com.wyzk.lottery.model.UserInfoModel;
+import com.wyzk.lottery.network.Network;
+import com.wyzk.lottery.utils.ACache;
+import com.wyzk.lottery.utils.BuildManager;
+import com.wyzk.lottery.utils.TimeUtils;
+import com.wyzk.lottery.video.adapter.SettingsAdapter;
+import com.wyzk.lottery.video.linkmic.FaceuVideoCapture;
+import com.wyzk.lottery.video.linkmic.LinkMicManager;
+import com.wyzk.lottery.video.object.SettingItem;
+import com.wyzk.lottery.video.utils.AudienceQueue;
+import com.wyzk.lottery.video.utils.DialogUtils;
+import com.wyzk.lottery.video.utils.SettingsPanelViewUtil;
+import com.wyzk.lottery.video.utils.UserMediaStatus;
+import com.wyzk.lottery.video.view.MusicPickDialog;
+import com.wyzk.lottery.video.widget.BeautySettingDialog;
+import com.wyzk.lottery.view.MarqueeView;
+import com.wyzk.lottery.view.PlaceView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.webrtc.VideoCapturer;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
+import static com.wangsu.wsrtc.sdk.WSRtcUtils.formatPullStatusString;
+import static com.wangsu.wsrtc.sdk.WSRtcUtils.formatPushStatusString;
+
+public class Push2Activity extends BaseActivity implements OnClickListener, OnItemClickListener, BeautySettingDialog.IOnBeautyParamsChangeListener, LinkMicManager.LinkMicListener {
+    private static final String TAG = "PushActivity";
+    protected StringBuffer mChatEventLogStr = new StringBuffer("");
+
+    private TextView serial_num;//流水号
+
+    private View createView, cancelView, fengpan, reportResult;
+
+    private TextView status;//当前状态 ，下注 封盘。。。
+    private TextView time;//剩余时间
+
+    LinearLayout llRank;//排名
+    Button yi;
+    Button er;
+    Button san;
+    Button si;
+    Button wu;
+    Button liu;
+
+    private TextView tv_user_integral;
+    private TextView tv_username;
+
+    private String token;
+
+    private PlaceView p1;//方位1
+    private PlaceView p2;//方位2
+    private PlaceView p3;//方位3
+    private PlaceView p4;//方位4
+    private PlaceView p5;//方位5
+    private PlaceView p6;//方位6
+
+    private MarqueeView mMarqueeView;
+
+    private RelativeLayout surface_group;
+    private WSSurfaceView mWSSurfaceView;
+    ImageView iv_arrow;
+    private TextView mStatusLogTv;
+    private ScrollView mStatusScrollView;
+    private TextView mChatEventLogTv;
+    private ScrollView mLogScrollView;
+    private WSChatConfig mChatConfig;
+    private ImageButton btn_record;
+    private ImageButton mFlashImageBtn = null;
+    private ImageButton mMuteImageBtn = null;
+    private SettingsPanelViewUtil mSettingPanelUtil;
+    private SharedPreferences mPreferences = null;
+    private BeautySettingDialog mBeautySettingDialog;
+    private AudienceQueue mWaitingQueue = null;
+    private AudienceQueue mChatingQueue = null;
+    private int mVideoHeight = 0;
+    private int mVideoWidth = 0;
+    private int mMergeLayout = 1;
+    private String mPushUrl = null;
+    private String mRoomId = null;
+    private String mUserId = null;
+    private LinkMicManager mChatManager = null;
+    private ChatStateListener mChatStateChangeListener = null;
+    private boolean[] mWaterMarkSelected = new boolean[]{false, false};
+    private WSChatConstants.ChatState mChatState = WSChatConstants.ChatState.IDLE;
+    private MusicPickDialog mBgmPickDialog = null;
+    private boolean mIsBgmPlaying = false;
+    private List<String> mBgmFiles = new LinkedList<String>();
+    private int mCurrentBgmIndex = -1;
+    private UserMediaStatus mMediaStatus = new UserMediaStatus();
+    private FaceuYuvFilter mFaceuYuvFilter = null;
+    private FaceuFilterDialog mFaceuFilterDialog = null;
+    private List<SettingItem> mSettingItems = new ArrayList<SettingItem>() {
+        {
+            add(new SettingItem(R.id.setting_beauty, "美颜", 0, true));
+            add(new SettingItem(R.id.setting_set_watermark, "水印", 0, true));
+            add(new SettingItem(R.id.setting_set_bgm, "背景音乐", 0, true));
+            add(new SettingItem(R.id.setting_set_camera_focus, "聚焦模式", 0, true));
+            add(new SettingItem(R.id.setting_show_log, "日志", 0, true));
+            add(new SettingItem(R.id.setting_anchor_link_mic, "主播连麦", 0, true));
+        }
+    };
+    private ProgressDialog mStartProgressDialog = null;
+    private ProgressDialog mStopProgressDialog = null;
+    private int mCurrentCameraId = CameraInfo.CAMERA_FACING_FRONT;
+    private boolean mIsUserPushing = false;
+    private boolean mIsMute = false;
+    private Bundle mAnchorLinkMicBundle;
+    private boolean isGameStart = false;
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private int countdown = 60;
+    private Runnable countDownRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (countdown <= 0) {
+                fengpanGame();
+            } else {
+                handler.postDelayed(countDownRunnable, 1000);
+            }
+            time.setText(countdown + "s");
+            countdown--;
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        requestFullScreen();
+        initLayout();
+        initFromIntent();
+        initLayoutState();
+        checkAndRequestPermission();
+
+        BuildManager.setStatusTransOther(this);
+        token = ACache.get(this).getAsString(IConst.TOKEN);
+
+        mChatManager = LinkMicManager.getInstance();
+        mChatManager.init(this, true, mChatConfig);
+        if (mChatConfig.isCustomVideoSource) {
+            VideoCapturer videoCapturer = mChatManager.getCustomVideoCapturer();
+            if (videoCapturer instanceof FaceuVideoCapture) {
+                mFaceuYuvFilter = ((FaceuVideoCapture) videoCapturer).getFaceuFilter();
+                mSettingItems.add(new SettingItem(R.id.setting_faceu_filter, "FU滤镜", 0, true));
+            }
+        }
+
+        mChatManager.registerLinkMicListener(this);
+
+        mChatStateChangeListener = new ChatStateListener() {
+
+            @Override
+            public void onChatStateChange(final WSChatConstants.ChatState preState, final WSChatConstants.ChatState newState) {
+                mChatState = newState;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            }
+        };
+        mChatManager.registerChatStateChangeListener(mChatStateChangeListener);
+
+        getLastRoomRound(Integer.parseInt(mRoomId));
+        registerMqtt(mRoomId);
+    }
+
+    @Override
+    public void onNotify(MQBean eventData) {
+        super.onNotify(eventData);
+        if (eventData != null) {
+            Object data = eventData.getData();
+            if (data instanceof String) {
+                System.out.println("hhhhhhh" + eventData.toString());
+                String json = (String) data;
+                final MQPlayerBean mqPlayerBean = GsonUtil.getInstance().toObject(json, MQPlayerBean.class);
+                if (mqPlayerBean != null) {
+                    int position = mqPlayerBean.getPosition();
+                    int betValue = mqPlayerBean.getBetValue();
+                    if (position != 0 && betValue != 0) {
+                        setPlaceValue(position, betValue);
+                    }
+                    getUserInfo();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            serial_num.setText("流水号：" + mqPlayerBean.getRoomRoundId());
+                            setStatus(mqPlayerBean.getStatus());
+                        }
+                    });
+                }
+            } else if (data instanceof Throwable) {
+                Throwable e = (Throwable) data;
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setStatus(int value) {
+        switch (value) {
+            case 1://下注中
+                status.setText(getString(R.string.status1));
+                time.setVisibility(View.VISIBLE);
+                clearData();
+                resetData();
+                break;
+            case 2://封盘中
+                status.setText(getString(R.string.status2));
+                time.setVisibility(View.GONE);
+                break;
+            case 3://结算中
+                status.setText(getString(R.string.status3));
+                time.setVisibility(View.GONE);
+                break;
+            case 4://结算完成
+                status.setText(getString(R.string.status4));
+                time.setVisibility(View.GONE);
+                clearData();
+                resetData();
+                break;
+            case 5://场次作废
+                status.setText(getString(R.string.status5));
+                time.setVisibility(View.GONE);
+                clearData();
+                resetData();
+                break;
+        }
+    }
+
+    private void clearData() {
+        p1.setItemNumText(0);
+        p1.setItemPlacePeo(0);
+        p2.setItemNumText(0);
+        p2.setItemPlacePeo(0);
+        p3.setItemNumText(0);
+        p3.setItemPlacePeo(0);
+        p4.setItemNumText(0);
+        p4.setItemPlacePeo(0);
+        p5.setItemNumText(0);
+        p5.setItemPlacePeo(0);
+        p6.setItemNumText(0);
+        p6.setItemPlacePeo(0);
+    }
+
+    private void initFromIntent() {
+        Bundle bundle = getIntent().getExtras();
+        mPushUrl = bundle.getString("pushRtmpUrl", "");
+        mCurrentCameraId = bundle.getInt("camera", -1);
+        int encoderState = bundle.getInt("encoder", -1);
+        int frameRate = bundle.getInt("fps");
+        int bitrate = bundle.getInt("bitrate");
+        WSChatConstants.VideoResolution videoResolution = (WSChatConstants.VideoResolution) bundle.getSerializable("resolution");
+        mVideoWidth = videoResolution.getWidth();
+        mVideoHeight = videoResolution.getHeight();
+        mMergeLayout = bundle.getInt("mergeLayout");
+        String appId = bundle.getString("appId");
+        String authKey = bundle.getString("authKey");
+        mRoomId = bundle.getString("roomId");
+        mUserId = bundle.getString("anchorId");
+        boolean hasVideo = bundle.getBoolean("has_video");
+        boolean customVideoSource = bundle.getBoolean("customVideoSource");
+
+        mChatConfig = new WSChatConfig();
+        mChatConfig.setCaptureView(mWSSurfaceView);
+        mChatConfig.setCameraId(mCurrentCameraId);
+        mChatConfig.setPreferCodecMode(encoderState);
+        mChatConfig.setFps(frameRate);
+        mChatConfig.setVideoResolution(videoResolution);
+        mChatConfig.setVideoBitrate(bitrate);
+        mChatConfig.setHasVideo(hasVideo);
+        mChatConfig.setCustomVideoSource(customVideoSource);
+        mChatConfig.setMergeLayout(mMergeLayout);
+        mChatConfig.setAppId("yehua");
+        mChatConfig.setAuthKey("C0ED2EB419E14EE38BE38D3D1AFC9E4A");
+        mChatConfig.setPushRtmpUrl(mPushUrl);
+        //SlsUrl测试使用，不必填写
+        mChatConfig.setSlsUrl(mPreferences.getString(getString(R.string.pref_private_sls_url_key), ""));
+        //DispatchUrl测试使用，不必填写
+        mChatConfig.setDispatchUrl(mPreferences.getString(getString(R.string.pref_private_dispatch_url_key), ""));
+        //UserHost必填
+        mChatConfig.setUserHostUrl("wsrtc.yehua.com");
+        mChatConfig.setRoomID(mRoomId);
+        mChatConfig.setUserId(mUserId);
+        mChatConfig.setAnchorId(mUserId);
+        mChatConfig.setIsAnchor(true);
+    }
+
+    private void initLayout() {
+        ButterKnife.bind(this);
+        Bundle bundle = getIntent().getExtras();
+        int screenOrientation = bundle.getInt("screenOrientation");
+        int requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+        switch (screenOrientation) {
+            case Configuration.ORIENTATION_PORTRAIT:
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                break;
+            case Configuration.ORIENTATION_LANDSCAPE:
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                break;
+            default:
+                break;
+        }
+        setContentView(R.layout.activity_push2);
+        setRequestedOrientation(requestedOrientation);
+
+        serial_num = (TextView) findViewById(R.id.serial_num);
+
+        status = (TextView) findViewById(R.id.status);
+        time = (TextView) findViewById(R.id.time);
+
+        mWSSurfaceView = (WSSurfaceView) findViewById(R.id.preview);
+        surface_group = (RelativeLayout) findViewById(R.id.surface_group);
+        iv_arrow = (ImageView) findViewById(R.id.iv_arrow);
+        iv_arrow.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) surface_group.getLayoutParams();
+                if (lp.width == WindowManager.LayoutParams.MATCH_PARENT) {
+                    lp.width = (int) (getResources().getDimension(R.dimen.dimens220) + 0.5f);
+                    lp.height = (int) (getResources().getDimension(R.dimen.dimens160) + 0.5f);
+                    iv_arrow.setImageResource(R.mipmap.uvv_player_scale_btn);
+                } else {
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+                    iv_arrow.setImageResource(R.mipmap.uvv_star_zoom_in);
+                }
+                surface_group.setLayoutParams(lp);
+            }
+        });
+
+        createView = findViewById(R.id.generate);
+        cancelView = findViewById(R.id.cancle);
+        fengpan = findViewById(R.id.fengpan);
+        reportResult = findViewById(R.id.reportResult);
+        reportResult.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportResult.setEnabled(false);
+                llRank.setVisibility(View.VISIBLE);
+                setViewVisible();
+            }
+        });
+
+        p1 = (PlaceView) findViewById(R.id.p1);
+        p2 = (PlaceView) findViewById(R.id.p2);
+        p3 = (PlaceView) findViewById(R.id.p3);
+        p4 = (PlaceView) findViewById(R.id.p4);
+        p5 = (PlaceView) findViewById(R.id.p5);
+        p6 = (PlaceView) findViewById(R.id.p6);
+        p1.setOnClickListener(this);
+        p2.setOnClickListener(this);
+        p3.setOnClickListener(this);
+        p4.setOnClickListener(this);
+        p5.setOnClickListener(this);
+        p6.setOnClickListener(this);
+
+        btn_record = (ImageButton) findViewById(R.id.btn_record);
+        btn_record.setOnClickListener(this);
+
+        findViewById(R.id.btn_switch).setOnClickListener(this);
+
+        mFlashImageBtn = (ImageButton) findViewById(R.id.btn_flash);
+        mFlashImageBtn.setOnClickListener(this);
+        mMuteImageBtn = (ImageButton) findViewById(R.id.btn_mute);
+        mMuteImageBtn.setOnClickListener(this);
+
+        findViewById(R.id.btn_setting).setOnClickListener(this);
+        mSettingPanelUtil = new SettingsPanelViewUtil(this, new SettingsAdapter(this, mSettingItems), this);
+
+        mBeautySettingDialog = new BeautySettingDialog(this);
+        mBeautySettingDialog.setBeautyParamsChangeListener(this);
+
+        mWaitingQueue = new AudienceQueue(this, (ViewGroup) findViewById(R.id.audience_waiting_container), null);
+        mWaitingQueue.setItemClickListener(new AudienceQueue.ItemClickListener() {
+
+            @Override
+            public void onItemClickListener(View view, final String userId, final String pushUrl) {
+                String message;
+                if (pushUrl == null) {
+                    message = "是否同意用户\"" + userId + "\"的连麦请求？";
+                } else {
+                    message = "是否同意主播\"" + userId + "\"的连麦请求？";
+                }
+                DialogUtils.showYNDialog(Push2Activity.this, message, "同意", "拒绝", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mWaitingQueue.removeUser(userId);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("AudienceId", userId);
+                        bundle.putString("AnchorPushUrl", pushUrl);
+                        bundle.putBoolean("IsAccept", which == DialogInterface.BUTTON_POSITIVE);
+                        mChatManager.replyChatRequest(bundle);
+                    }
+                });
+
+            }
+        });
+        mChatingQueue = new AudienceQueue(this, (ViewGroup) findViewById(R.id.audience_chating_container), null);
+        mChatingQueue.setItemClickListener(new AudienceQueue.ItemClickListener() {
+
+            @Override
+            public void onItemClickListener(View view, final String userId, final String pushUrl) {
+                if (mChatManager.getAnchorLinkMicFlag() == SignalConstants.FLAG_LINK_MIC_ANCHOR_NOT_ROOMOWNER) {
+                    showToast("主播连麦中，无法踢出房间主，退出请按结束");
+                    return;
+                }
+                String message = "是否将用户\"" + userId + "\"踢出连麦？";
+                DialogUtils.showYNDialog(Push2Activity.this, message, "是", "否", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            mChatManager.kickAudience(userId);
+                        }
+                    }
+                });
+            }
+        });
+
+        //Log
+        mStatusLogTv = (TextView) findViewById(R.id.tv_statusLog);
+        mStatusLogTv.setMovementMethod(new ScrollingMovementMethod());
+        mStatusScrollView = (ScrollView) findViewById(R.id.sv_statusLog);
+        mStatusScrollView.setVisibility(View.GONE);
+
+        mChatEventLogTv = (TextView) findViewById(R.id.tv_chatEventLog);
+        mChatEventLogTv.setText(mChatEventLogStr);
+        mChatEventLogTv.setMovementMethod(new ScrollingMovementMethod());
+        mLogScrollView = (ScrollView) findViewById(R.id.sv_chatLog);
+        mLogScrollView.setVisibility(View.GONE);
+
+        mMarqueeView = (MarqueeView) findViewById(R.id.adv);
+        mMarqueeView.setText(getString(R.string.tips));
+
+        tv_user_integral = (TextView) findViewById(R.id.tv_user_integral);
+        tv_username = (TextView) findViewById(R.id.tv_username);
+
+        llRank = (LinearLayout) findViewById(R.id.ll_rank);
+
+        yi = (Button) findViewById(R.id.yi);
+        er = (Button) findViewById(R.id.er);
+        san = (Button) findViewById(R.id.san);
+        si = (Button) findViewById(R.id.si);
+        wu = (Button) findViewById(R.id.wu);
+        liu = (Button) findViewById(R.id.liu);
+        yi.setOnClickListener(this);
+        er.setOnClickListener(this);
+        san.setOnClickListener(this);
+        si.setOnClickListener(this);
+        wu.setOnClickListener(this);
+        liu.setOnClickListener(this);
+
+        final TextView current_time = (TextView) findViewById(R.id.current_time);
+        TimeUtils.sub(new TimeUtils.CallBack() {
+            @Override
+            public void onNext(String str) {
+                if (!TextUtils.isEmpty(str)) {
+                    current_time.setText(str);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * 排名按钮
+     *
+     * @param checkedId
+     */
+    private void setButtonChecked(int checkedId) {
+        if (positionId == 0) {
+            tips(getString(R.string.please_select_place));
+            return;
+        }
+        switch (checkedId) {
+            case 1:
+                setScore(1);
+                yi.setVisibility(View.INVISIBLE);
+                break;
+            case 2:
+                setScore(2);
+                er.setVisibility(View.INVISIBLE);
+                break;
+            case 3:
+                setScore(3);
+                san.setVisibility(View.INVISIBLE);
+                break;
+            case 4:
+                setScore(4);
+                si.setVisibility(View.INVISIBLE);
+                break;
+            case 5:
+                setScore(5);
+                wu.setVisibility(View.INVISIBLE);
+                break;
+            case 6:
+                setScore(6);
+                liu.setVisibility(View.INVISIBLE);
+                break;
+        }
+    }
+
+    /**
+     * 设置分数
+     */
+    private void setScore(int value) {
+        switch (positionId) {
+            case 1:
+                setRank(p1, value);
+                break;
+            case 2:
+                setRank(p2, value);
+                break;
+            case 3:
+                setRank(p3, value);
+                break;
+            case 4:
+                setRank(p4, value);
+                break;
+            case 5:
+                setRank(p5, value);
+                break;
+            case 6:
+                setRank(p6, value);
+                break;
+        }
+        positionId = 0;
+    }
+
+    /**
+     * 设置排名
+     */
+    private void setRank(PlaceView p, int value) {
+        switch (p.getRank()) {
+            case 1:
+                yi.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                er.setVisibility(View.VISIBLE);
+                break;
+            case 3:
+                san.setVisibility(View.VISIBLE);
+                break;
+            case 4:
+                si.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                wu.setVisibility(View.VISIBLE);
+                break;
+            case 6:
+                liu.setVisibility(View.VISIBLE);
+                break;
+        }
+        p.setRank(String.valueOf(value));
+    }
+
+
+    private int positionId;
+
+    /**
+     * 方位选择
+     *
+     * @param position
+     */
+    private void setChecked(int position) {
+        p1.setItemChecked(false);
+        p2.setItemChecked(false);
+        p3.setItemChecked(false);
+        p4.setItemChecked(false);
+        p5.setItemChecked(false);
+        p6.setItemChecked(false);
+        switch (position) {
+            case 1:
+                setPosition(1, p1);
+                break;
+            case 2:
+                setPosition(2, p2);
+                break;
+            case 3:
+                setPosition(3, p3);
+                break;
+            case 4:
+                setPosition(4, p4);
+                break;
+            case 5:
+                setPosition(5, p5);
+                break;
+            case 6:
+                setPosition(6, p6);
+                break;
+        }
+    }
+
+    /**
+     * 设置方位
+     */
+    private void setPosition(int position, PlaceView p) {
+        positionId = position;
+        p.setItemChecked(true);
+    }
+
+    /**
+     * 重置结果
+     */
+    public void resetResult(View view) {
+        setViewVisible();
+        resetData();
+    }
+
+    private void setViewVisible() {
+        yi.setVisibility(View.VISIBLE);
+        er.setVisibility(View.VISIBLE);
+        san.setVisibility(View.VISIBLE);
+        si.setVisibility(View.VISIBLE);
+        wu.setVisibility(View.VISIBLE);
+        liu.setVisibility(View.VISIBLE);
+    }
+
+    private void resetData() {
+        p1.setItemChecked(false);
+        p2.setItemChecked(false);
+        p3.setItemChecked(false);
+        p4.setItemChecked(false);
+        p5.setItemChecked(false);
+        p6.setItemChecked(false);
+        p1.clearRank();
+        p2.clearRank();
+        p3.clearRank();
+        p4.clearRank();
+        p5.clearRank();
+        p6.clearRank();
+        positionId = 0;
+    }
+
+    private void getUserInfo() {
+        Network.getNetworkInstance().getUserApi()
+                .getUserInfo(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResultReturn<UserInfoModel>>() {
+                    @Override
+                    public void call(ResultReturn<UserInfoModel> userInfoModelResultReturn) {
+                        if (userInfoModelResultReturn != null) {
+                            UserInfoModel user = userInfoModelResultReturn.getData();
+                            if (user != null) {
+                                User.userInfo = user;
+                                tv_user_integral.setText(User.userInfo == null ? "" : "" + User.userInfo.getIntegralValue());
+                                tv_username.setText(User.userInfo == null ? "" : "" + User.userInfo.getUsername());
+                            }
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+    }
+
+    private void initLayoutState() {
+        setButtonEnabled(mFlashImageBtn, true);
+    }
+
+    @Override
+    protected void onResume() {
+        //横竖屏切换
+        updateLayout();
+        super.onResume();
+        mChatManager.resume();
+        mMarqueeView.startScroll();
+        getUserInfo();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        mChatManager.pause();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mChatManager.unregisterChatListener();
+        mChatManager.release();
+        TimeUtils.disSub();
+        mMarqueeView.stopScroll();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    public void onClick(final View v) {
+        switch (v.getId()) {
+            case R.id.btn_record:
+                if (mIsUserPushing) {
+                    stopPush();
+                } else {
+                    startPush();
+                }
+                break;
+            case R.id.btn_switch:
+                mChatManager.switchCamera();
+                break;
+            case R.id.btn_mute:
+                mIsMute = !mIsMute;
+                mChatManager.muteMic(mIsMute);
+                v.setSelected(!v.isSelected());
+                break;
+            case R.id.btn_flash:
+                mChatManager.switchCameraFlashMode();
+                break;
+            case R.id.btn_setting:
+                if (mSettingPanelUtil.isShowing()) {
+                    mSettingPanelUtil.dismiss();
+                } else {
+                    mSettingPanelUtil.show();
+                }
+                break;
+            case R.id.p1:
+                setChecked(1);
+                break;
+            case R.id.p2:
+                setChecked(2);
+                break;
+            case R.id.p3:
+                setChecked(3);
+                break;
+            case R.id.p4:
+                setChecked(4);
+                break;
+            case R.id.p5:
+                setChecked(5);
+                break;
+            case R.id.p6:
+                setChecked(6);
+                break;
+            case R.id.yi:
+                setButtonChecked(1);
+                break;
+            case R.id.er:
+                setButtonChecked(2);
+                break;
+            case R.id.san:
+                setButtonChecked(3);
+                break;
+            case R.id.si:
+                setButtonChecked(4);
+                break;
+            case R.id.wu:
+                setButtonChecked(5);
+                break;
+            case R.id.liu:
+                setButtonChecked(6);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        SettingItem item = mSettingItems.get(position);
+        if (item == null)
+            return;
+
+        switch (item.settingId) {
+            case R.id.setting_set_bgm:
+                if (mBgmPickDialog == null) {
+                    mBgmPickDialog = new MusicPickDialog();
+                }
+                if (mBgmPickDialog.isAdded())
+                    return;
+                mBgmPickDialog.setOnclickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            mBgmFiles = ((MusicPickDialog) dialog).getCheckedMusicList();
+                            if (mIsBgmPlaying) {
+                                mChatManager.stopBgm();
+                                mIsBgmPlaying = false;
+                            }
+                            if (mBgmFiles.size() == 0) {
+                                mCurrentBgmIndex = -1;
+                            } else {
+                                mCurrentBgmIndex = 0;
+                                mChatManager.startBgm(mBgmFiles.get(mCurrentBgmIndex), 0.2f);
+                                mIsBgmPlaying = true;
+                            }
+
+                        }
+
+                    }
+                });
+                mBgmPickDialog.show(getFragmentManager(), mBgmPickDialog.getClass().getSimpleName());
+                break;
+            case R.id.setting_set_watermark:
+                final CharSequence[] items = {"时间水印", "logo水印"};
+                DialogUtils.showMultiChoiceDialog(this, "请选择水印类型", items, mWaterMarkSelected, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        mWaterMarkSelected[which] = isChecked;
+                    }
+                }, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            updateWaterMarkState(getResources().getConfiguration().orientation);
+                        }
+                    }
+                });
+                break;
+            case R.id.setting_set_camera_focus:
+                //默认情况下是自动聚焦
+                DialogUtils.showSingleChoiceDialog(this, "请选择聚焦模式", new String[]{"自动聚焦", "手动聚焦"}, mWSSurfaceView.isCameraManualFocusMode() ? 1 : 0, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mChatManager.switchCameraFocusMode();
+                    }
+                });
+                break;
+            case R.id.setting_beauty:
+                if (mBeautySettingDialog != null) {
+                    mBeautySettingDialog.show();
+                }
+                break;
+            case R.id.setting_show_log:
+                if (mStatusScrollView.getVisibility() == View.GONE) {
+                    mChatEventLogTv.setText(mChatEventLogStr);
+                    mLogScrollView.setVisibility(View.VISIBLE);
+                    mStatusScrollView.setVisibility(View.VISIBLE);
+                } else {
+                    mLogScrollView.setVisibility(View.GONE);
+                    mStatusScrollView.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.setting_anchor_link_mic:
+                final String[] keys = new String[]{"目标房间", "主播ID"};
+                String[] defaultValues = null;
+                if (mAnchorLinkMicBundle != null) {
+                    defaultValues = new String[]{mAnchorLinkMicBundle.getString(SignalConstants.KEY_ROOM_ID), mAnchorLinkMicBundle.getString(SignalConstants.KEY_ANCHOR_ID)};
+                }
+                DialogUtils.showConfigInputDialog(this, InputType.TYPE_CLASS_TEXT, keys, defaultValues, null, new DialogUtils.InputConfigClickListener() {
+                    @Override
+                    public void onResult(DialogInterface dialog, HashMap<String, String> result) {
+                        if (mChatManager.getAnchorLinkMicFlag() > 0) {
+                            showToast("正在主播连麦中，若需切换目标房间，请先结束");
+                            return;
+                        }
+                        String roomId = result.get(keys[0]);
+                        String anchorId = result.get(keys[1]);
+                        if (TextUtils.isEmpty(roomId) || TextUtils.isEmpty(anchorId)) {
+                            showToast("目标房间或主播ID不能为空");
+                            return;
+                        }
+                        if (roomId.equals(mChatConfig.roomID) && anchorId.equals(mChatConfig.userId)) {
+                            showToast("目标房间不能为自己的房间");
+                            return;
+                        }
+                        if (mChatState == WSChatConstants.ChatState.IDLE || mChatState == WSChatConstants.ChatState.CONNECTING) {
+                            showToast("房间未创建");
+                            return;
+                        }
+                        if (mAnchorLinkMicBundle == null) {
+                            mAnchorLinkMicBundle = new Bundle();
+                        }
+                        mAnchorLinkMicBundle.putString(SignalConstants.KEY_ROOM_ID, roomId);
+                        mAnchorLinkMicBundle.putString(SignalConstants.KEY_ANCHOR_ID, anchorId);
+                        mChatManager.startAnchorLinkMic(mAnchorLinkMicBundle);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        if (mChatManager.getAnchorLinkMicFlag() == SignalConstants.FLAG_LINK_MIC_ANCHOR_ROOMOWNER) {
+                            showToast("主播连麦房间主结束连麦请t出连麦者");
+                        } else if (mChatManager.getAnchorLinkMicFlag() == SignalConstants.FLAG_LINK_MIC_ANCHOR_NOT_ROOMOWNER) {
+                            if (mChatState == WSChatConstants.ChatState.CONNECTED) {
+                                mChatManager.cancelAnchorLinkMic();
+                            } else {
+                                mChatManager.stopAnchorLinkMic();
+                            }
+                        } else {
+                            showToast("当前未开始主播连麦");
+                        }
+                    }
+                }, R.string.start, R.string.stop);
+                break;
+            case R.id.setting_faceu_filter:
+                if (mFaceuYuvFilter != null) {
+                    if (mFaceuFilterDialog != null && mFaceuFilterDialog.isAdded()) {
+                        return;
+                    }
+                    mFaceuFilterDialog = new FaceuFilterDialog();
+                    //通过将filter传递给dialog，让dialog控制FaceuVideoCapture中滤镜效果
+                    mFaceuFilterDialog.setActiveFilter(mFaceuYuvFilter);
+                    mFaceuFilterDialog.show(Push2Activity.this.getFragmentManager(), mFaceuFilterDialog.getClass().getSimpleName());
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void startPush() {
+        Log.d(TAG, "startPush.");
+        if (mIsUserPushing) {
+            return;
+        }
+        if (mStartProgressDialog == null) {
+            mStartProgressDialog = DialogUtils.showSimpleProgressDialog(this, "正在启动推流，请稍等", false, new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    if (mStartProgressDialog != null) {
+                        mStartProgressDialog.cancel();
+                        mStartProgressDialog = null;
+                    }
+                }
+            });
+        }
+        mIsUserPushing = true;
+        resetLog();
+        mChatManager.startPush();
+        btn_record.setSelected(true);
+        btn_record.setEnabled(false);
+    }
+
+    private void stopPush() {
+        Log.d(TAG, "stopPush.");
+        if (!mIsUserPushing) {
+            return;
+        }
+        if (mStopProgressDialog == null) {
+            mStopProgressDialog = DialogUtils.showSimpleProgressDialog(this, "正在停止推流，请稍等", false, new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    if (mStopProgressDialog != null) {
+                        mStopProgressDialog.cancel();
+                        mStopProgressDialog = null;
+                    }
+                }
+            });
+        }
+        mIsUserPushing = false;
+        mChatManager.stopPush();
+        btn_record.setSelected(false);
+        btn_record.setEnabled(false);//防止在频繁点击时，有的手机Dialog弹出较慢，使得该Button还能点击的情况
+    }
+
+    private void updateWaterMarkState(int orientation) {
+        mChatManager.hideWaterMarkTime();
+        mChatManager.hideWaterMarkLogo();
+        if (mWaterMarkSelected[0]) {
+            if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+                mChatManager.showWaterMarkTime(0.02f, 0.02f, 0.4f, Color.WHITE, 1.0f);
+            } else {
+                mChatManager.showWaterMarkTime(0.02f, 0.01f, 0.2f, Color.WHITE, 1.0f);
+            }
+        }
+
+        if (mWaterMarkSelected[1]) {
+            double videoRatio = ((double) mVideoWidth) / ((double) mVideoHeight);
+            boolean isRatio_4_3 = Math.abs(videoRatio - (4.0 / 3.0)) < 0.1;
+            ALog.i(TAG, "isRatio_4_3 " + isRatio_4_3);
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                if (isRatio_4_3) {
+                    mChatManager.showWaterMarkLogo("assets://logo.png", 1.0f, 0.00f, 0.100f, 0.075f, 1.0f);
+                } else {
+                    mChatManager.showWaterMarkLogo("assets://logo.png", 1.0f, 0.00f, 0.133f, 0.075f, 1.0f);
+                }
+            } else {
+                if (isRatio_4_3) {
+                    mChatManager.showWaterMarkLogo("assets://logo.png", 1.0f, 0.00f, 0.075f, 0.100f, 1.0f);
+                } else {
+                    mChatManager.showWaterMarkLogo("assets://logo.png", 1.0f, 0.00f, 0.075f, 0.133f, 1.0f);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onBeautyParamsChange(BeautySettingDialog.BeautyParams params, int type) {
+        switch (type) {
+            case BeautySettingDialog.BEAUTY_SWITCH_FILTER:
+                if (mChatManager != null) {
+                    mChatManager.switchFilter(params.filterType);
+                }
+                break;
+            case BeautySettingDialog.BEAUTY_SET_STYLE_FILTER_MODEL:
+                if (mChatManager != null) {
+                    mChatManager.setStyleFilterModel(params.modlePath, params.level);
+                }
+                break;
+            case BeautySettingDialog.BEAUTY_SET_FILTER:
+                if (mChatManager != null) {
+                    mChatManager.setFilter(params.filter);
+                }
+                break;
+            case BeautySettingDialog.BEAUTY_SET_FILTERS:
+                if (mChatManager != null) {
+                    mChatManager.setFilter(params.filters);
+                }
+                break;
+        }
+    }
+
+    private void updateLayout() {
+        if (mFlashImageBtn != null) {
+            mFlashImageBtn.setSelected(false);
+        }
+    }
+
+    @Override
+    public void bgmStop() {
+        ALog.i(TAG, "SignalConstants.EVENT_BGM_STOPPED ..." + mBgmFiles.size() + ", " + mIsBgmPlaying);
+        if (mBgmFiles.size() == 0) {
+            mCurrentBgmIndex = -1;
+            mIsBgmPlaying = false;
+            return;
+        }
+        mCurrentBgmIndex++;
+        if (mCurrentBgmIndex >= mBgmFiles.size()) {
+            mCurrentBgmIndex = 0;
+        }
+        if (mIsBgmPlaying) {
+            mChatManager.stopBgm();
+            mChatManager.startBgm(mBgmFiles.get(mCurrentBgmIndex), 0.2f);
+            mIsBgmPlaying = true;
+        } else {
+            mIsBgmPlaying = false;
+        }
+    }
+
+    @Override
+    public void onSwitchCameraDone(final boolean isSuccess, boolean isFrontCamera, String description) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mFlashImageBtn != null && isSuccess) {
+                    mFlashImageBtn.setSelected(false);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onSwitchFlashMode(final boolean isSuccess) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mFlashImageBtn != null && isSuccess) {
+                    mFlashImageBtn.setSelected(!mFlashImageBtn.isSelected());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onStartPushState(final boolean isSuccess, String des) {
+        ALog.d(TAG, "onStartPushState");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mStartProgressDialog != null) {
+                    mStartProgressDialog.dismiss();
+                }
+                btn_record.setEnabled(true);
+                if (!isSuccess) {
+                    btn_record.setSelected(false);
+                    mIsUserPushing = false;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onLinkMicRequestResult(boolean isAgreed, String roomId) {
+    }
+
+    @Override
+    public void kickedout(String userId) {
+
+    }
+
+    @Override
+    public void memberCancelRequest(final String userId) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mWaitingQueue.removeUser(userId);
+            }
+        });
+
+    }
+
+    @Override
+    public void memberExitRoom(Object userList) {
+        List<Map<String, Object>> extraList = (List<Map<String, Object>>) userList;
+        showToast((extraList == null ? 0 : extraList.size()) + "个观众 退出了房间 ！！");
+        if (extraList != null) {
+            for (Map<String, Object> map : extraList) {
+                String userId = (String) map.get(SignalConstants.KEY_USER_ID);
+                mChatingQueue.removeUser(userId);
+                mMediaStatus.removeUserState(userId);
+            }
+        }
+    }
+
+    @Override
+    public void memberJoinFailed4RoomLimit(Object userId) {
+
+    }
+
+    @Override
+    public void memberJoinRoom(Object userList) {
+        List<Map<String, Object>> extraList = (List<Map<String, Object>>) userList;
+        showToast((extraList == null ? 0 : extraList.size()) + "个观众 加入了连麦 ！！");
+        if (extraList != null) {
+            for (Map<String, Object> map : extraList) {
+                String userId = (String) map.get(SignalConstants.KEY_USER_ID);
+                mWaitingQueue.removeUser(userId);//如果加入连麦的观众仍然在等待队列中，先从等待队列中移除
+                mChatingQueue.addUser(userId);
+            }
+        }
+    }
+
+    @Override
+    public void receiveRequestIncome(Object userList) {
+        ALog.d(TAG, "receiveRequestIncome");
+        List<Map<String, Object>> extraList = (List<Map<String, Object>>) userList;
+        if (extraList == null)
+            return;
+        for (Map<String, Object> map : extraList) {
+            mWaitingQueue.addUser((String) map.get(SignalConstants.KEY_USER_ID), (String) map.get(SignalConstants.KEY_PUSH_URL));
+        }
+    }
+
+    @Override
+    public void roomDestoryed(final String roomId) {
+        ALog.d(TAG, "roomDestoryed");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                btn_record.setSelected(false);
+                mIsUserPushing = false;
+            }
+        });
+    }
+
+    @Override
+    public void disconnected(final String roomId) {
+        ALog.d(TAG, "disconnected");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mWaitingQueue.clear();
+                mChatingQueue.clear();
+                btn_record.setEnabled(true);
+                if (mStopProgressDialog != null) {
+                    mStopProgressDialog.cancel();
+                    mStopProgressDialog = null;
+                }
+                if (mStartProgressDialog != null) {
+                    mStartProgressDialog.cancel();
+                    mStartProgressDialog = null;
+                }
+                btn_record.setSelected(false);
+                mIsUserPushing = false;
+            }
+        });
+    }
+
+    @Override
+    public void statusInfo(String info, final Bundle bundle) {
+        if (info != null) {
+            appendChatLog(info);
+
+            if (mLogScrollView.getVisibility() == View.GONE) {
+                return;
+            }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mChatEventLogTv.setText(mChatEventLogStr);
+                }
+            });
+
+        } else {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String action = bundle.getString(MediaConstants.STATUS_ACTION);
+                    String userId = bundle.getString(MediaConstants.STATUS_USER_INFO);
+                    if (action != null && action.equals("PUSH")) {
+                        String status = formatPushStatusString(bundle);
+                        mMediaStatus.putUserState(userId, status);
+                    } else if (action != null && action.equals("PULL")) {
+                        String status = formatPullStatusString(bundle);
+                        mMediaStatus.putUserState(userId, status);
+                    }
+                    if (mStatusScrollView.getVisibility() == View.GONE) {
+                        return;
+                    }
+                    String status = mMediaStatus.getUserStates();
+                    mStatusLogTv.setText(status);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void clearQueue(String message) {
+        if (message != null) {
+            showToast(message);
+        }
+        mWaitingQueue.clear();
+        mChatingQueue.clear();
+    }
+
+    @Override
+    public void kickSomeoneFailed(String userId) {
+        if (!TextUtils.isEmpty(userId)) {
+            showToast("踢出连麦用户\"" + userId + "\"失败，请重试");
+        }
+    }
+
+    @Override
+    public void acceptChatFailed(String userId, String pushUrl) {
+        if (!TextUtils.isEmpty(userId) && mWaitingQueue != null) {
+            mWaitingQueue.addUser(userId, pushUrl);// 此处可让用户重试，这里简单起见直接将用户加回等待连麦列表
+            showToast("同意用户\"" + userId + "\"连麦请求失败，已将该用户重新加回等待连麦列表");
+        }
+    }
+
+    @Override
+    public void kickAllFailed(String userId, String pushUrl) {
+        showToast("清除房间所有连麦者失败");
+        if (!TextUtils.isEmpty(userId) && mWaitingQueue != null) {
+            mWaitingQueue.addUser(userId, pushUrl);
+        }
+    }
+
+    private void resetLog() {
+        //status log
+        mMediaStatus.clear();
+
+        //even log
+        mChatEventLogStr.setLength(0);
+        mStatusLogTv.setText("");
+        mChatEventLogTv.setText("");
+        mChatEventLogStr.append("WSChat SDK Version:" + WSVersion.VERSION).append("\r\n");
+        mChatEventLogStr.append("用户ID:" + mChatConfig.userId).append("\r\n");
+        mChatEventLogStr.append("房间ID:" + mChatConfig.roomID).append("\r\n");
+        mChatEventLogStr.append("推流URL:" + mChatConfig.pushRtmpUrl).append("\r\n");
+        mChatEventLogTv.setText(mChatEventLogStr);
+    }
+
+    private void appendChatLog(String log) {
+        //检查长度
+        while (mChatEventLogStr.length() > 3000) {
+            int idx = mChatEventLogStr.indexOf("\n");
+            if (idx == 0)
+                idx = 1;
+            mChatEventLogStr = mChatEventLogStr.delete(0, idx);
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
+        String date = sdf.format(System.currentTimeMillis());
+        mChatEventLogStr = mChatEventLogStr.append("\n" + "[" + date + "]" + log);
+    }
+
+    private void showConnectErrorDialog(String info) {
+        DialogUtils.showAlertDialog(this, info);
+    }
+
+    protected void setButtonEnabled(ImageButton button, boolean enabled) {
+        if (button == null)
+            return;
+        if (enabled) {
+            button.setEnabled(true);
+            button.clearColorFilter();
+        } else {
+            button.setEnabled(false);
+            button.setColorFilter(0xAA000000);
+        }
+    }
+
+    private void showGroup() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.tv_audience_chating_group).setVisibility(View.VISIBLE);
+                findViewById(R.id.tv_audience_waiting_group).setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void hideGroup() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.tv_audience_chating_group).setVisibility(View.GONE);
+                findViewById(R.id.tv_audience_waiting_group).setVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    /**
+     * 获取最新的场次信息
+     *
+     * @param roomId
+     */
+    private void getLastRoomRound(int roomId) {
+        Subscription subscription = Network.getNetworkInstance().getLiveApi()
+                .getLastRoomRound(token, roomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResultReturn<RoomRoundModel>>() {
+                    @Override
+                    public void call(ResultReturn<RoomRoundModel> ret) {
+                        if (ret.getCode() == 0) {
+                            RoomRoundModel rModel = ret.getData();
+                            if (rModel != null) {
+                                if (rModel.getRoomRoundId() > 0) {
+                                    serial_num.setText("流水号：" + rModel.getRoomRoundId());
+                                }
+                                //填充座位信息
+                                List<RoomRoundModel.PlaceBetModel> placeBetModels = rModel.getList();
+                                if (placeBetModels != null && placeBetModels.size() > 0) {
+                                    int length = placeBetModels.size();
+                                    for (int i = 0; i < length; i++) {
+                                        RoomRoundModel.PlaceBetModel placeBetModel = placeBetModels.get(i);
+                                        int betPosition = placeBetModel.getPosition();
+                                        int betValue = placeBetModel.getBetValue();
+                                        int count = placeBetModel.getCount();
+                                        setPlaceValue(betPosition, betValue, count);
+                                    }
+                                } else {
+                                    clearData();
+                                }
+                                //填充座位信息
+
+                                int count = rModel.getCountdown();
+                                //1 房间状态（1：下注中，2：封盘中，3：结算中，4：结算完成，5：作废）
+                                int stats = rModel.getRoundState();
+                                if (stats == 0) {
+                                    onInitStatus();
+                                } else if (stats == 1) {
+                                    if (count == 0) {
+                                        //有一个下注时间结束的场次，请封盘！
+                                        showBetEndDialog();
+                                    } else {
+                                        //显示倒计时
+                                        setStatus(stats);
+                                        showTiming(count);
+                                    }
+                                } else if (stats == 2) {
+                                    //封盘中，场次作废或者上报结果
+                                    showFengPanDialog();
+                                }
+                            }
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                    }
+                });
+    }
+
+    /**
+     * 下注完成时的对话框
+     */
+    private void showBetEndDialog() {
+        showdialog("请封盘", "有一个下注中的场次，请封盘！", "封盘", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                fengpanGame();
+            }
+        });
+    }
+
+    /**
+     * 显示倒计时
+     *
+     * @param count 剩余时间
+     */
+    private void showTiming(int count) {
+        killTimer();
+
+        countdown = count;
+        handler.post(countDownRunnable);
+
+        createView.setEnabled(false);
+        cancelView.setEnabled(true);
+        fengpan.setEnabled(true);
+        reportResult.setEnabled(false);
+    }
+
+    /**
+     * 封盘对话框
+     */
+    private void showFengPanDialog() {
+        showdialog("封盘中", "有一个场次封盘中", "上报结果", "场次作废", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onSubmitResultStatus();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //场次作废
+                cancelRound();
+            }
+        });
+    }
+
+    private void setPlaceValue(int position, int betValue) {
+        switch (position) {
+            case 1:
+                p1.setItemNumText(p1.getItemNum() + betValue);
+                p1.setItemPlacePeo(p1.getItemPlacePeo() + 1);
+                break;
+            case 2:
+                p2.setItemNumText(p2.getItemNum() + betValue);
+                p2.setItemPlacePeo(p2.getItemPlacePeo() + 1);
+                break;
+            case 3:
+                p3.setItemNumText(p3.getItemNum() + betValue);
+                p3.setItemPlacePeo(p3.getItemPlacePeo() + 1);
+                break;
+            case 4:
+                p4.setItemNumText(p4.getItemNum() + betValue);
+                p4.setItemPlacePeo(p4.getItemPlacePeo() + 1);
+                break;
+            case 5:
+                p5.setItemNumText(p5.getItemNum() + betValue);
+                p5.setItemPlacePeo(p5.getItemPlacePeo() + 1);
+                break;
+            case 6:
+                p6.setItemNumText(p6.getItemNum() + betValue);
+                p6.setItemPlacePeo(p6.getItemPlacePeo() + 1);
+                break;
+        }
+    }
+
+    private void setPlaceValue(int position, int betValue, int count) {
+        switch (position) {
+            case 1:
+                p1.setItemNumText(betValue);
+                p1.setItemPlacePeo(count);
+                break;
+            case 2:
+                p2.setItemNumText(betValue);
+                p2.setItemPlacePeo(count);
+                break;
+            case 3:
+                p3.setItemNumText(betValue);
+                p3.setItemPlacePeo(count);
+                break;
+            case 4:
+                p4.setItemNumText(betValue);
+                p4.setItemPlacePeo(count);
+                break;
+            case 5:
+                p5.setItemNumText(betValue);
+                p5.setItemPlacePeo(count);
+                break;
+            case 6:
+                p6.setItemNumText(betValue);
+                p6.setItemPlacePeo(count);
+                break;
+        }
+    }
+
+    /**
+     * 生成场次
+     *
+     * @param view
+     */
+    public void generate(View view) {
+        createView = view;
+        generateGame();
+    }
+
+    /**
+     * 场次作废
+     *
+     * @param view
+     */
+    public void onCancel(View view) {
+        cancelView = view;
+        cancelRound();
+    }
+
+    /**
+     * 封盘
+     *
+     * @param view
+     */
+    public void onFengPan(View view) {
+        fengpan = view;
+        fengpanGame();
+    }
+
+    private void killTimer() {
+        handler.removeCallbacks(countDownRunnable);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                time.setText("0");
+            }
+        });
+    }
+
+    /**
+     * 生成场次接口
+     */
+    private void generateGame() {
+        Subscription subscription = Network.getNetworkInstance().getLiveApi()
+                .generate(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResultReturn<String>>() {
+                    @Override
+                    public void call(ResultReturn<String> resultReturn) {
+                        if (resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            onBetStatus(60);
+                        } else {
+                            tips(resultReturn.getMsg() + "");
+                            onInitStatus();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        tips(throwable.getMessage() + "");
+                        onInitStatus();
+                    }
+                });
+    }
+
+    /**
+     * 场次作废接口
+     */
+    private void cancelRound() {
+        Subscription subscription = Network.getNetworkInstance().getLiveApi()
+                .cancelRoomRound(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResultReturn<String>>() {
+                    @Override
+                    public void call(ResultReturn<String> resultReturn) {
+                        if (resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            onInitStatus();
+                        } else {
+                            tips(resultReturn.getMsg() + "");
+                        }
+
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        tips(throwable.getMessage() + "");
+                    }
+                });
+    }
+
+    /**
+     * 封盘接口
+     */
+    private void fengpanGame() {
+        Subscription subscription = Network.getNetworkInstance().getLiveApi()
+                .licensing(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResultReturn<String>>() {
+                    @Override
+                    public void call(ResultReturn<String> resultReturn) {
+                        if (resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            onFengPanStatus();
+                        } else {
+                            tips(resultReturn.getMsg() + "");
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        tips(throwable.getMessage() + "");
+                    }
+                });
+    }
+
+    /**
+     * 结算
+     *
+     * @param view
+     */
+    public void onSubmitResult(View view) {
+        int value1 = p1.getRank();
+        int value2 = p2.getRank();
+        int value3 = p3.getRank();
+        int value4 = p4.getRank();
+        int value5 = p5.getRank();
+        int value6 = p6.getRank();
+
+        if (value1 == 0 || value2 == 0 || value3 == 0 || value4 == 0 || value5 == 0 || value6 == 0) {
+            tips("请正确上报数据");
+            return;
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        try {
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("position", 1);
+            jsonObject1.put("rank", value1);
+
+            JSONObject jsonObject2 = new JSONObject();
+            jsonObject2.put("position", 2);
+            jsonObject2.put("rank", value2);
+
+            JSONObject jsonObject3 = new JSONObject();
+            jsonObject3.put("position", 3);
+            jsonObject3.put("rank", value3);
+
+            JSONObject jsonObject4 = new JSONObject();
+            jsonObject4.put("position", 4);
+            jsonObject4.put("rank", value4);
+
+            JSONObject jsonObject5 = new JSONObject();
+            jsonObject5.put("position", 5);
+            jsonObject5.put("rank", value5);
+
+            JSONObject jsonObject6 = new JSONObject();
+            jsonObject6.put("position", 6);
+            jsonObject6.put("rank", value6);
+
+            jsonArray.put(0, jsonObject1);
+            jsonArray.put(1, jsonObject2);
+            jsonArray.put(2, jsonObject3);
+            jsonArray.put(3, jsonObject4);
+            jsonArray.put(4, jsonObject5);
+            jsonArray.put(5, jsonObject6);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody rsbody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), jsonArray.toString());
+        Subscription subscription = Network.getNetworkInstance().getLiveApi()
+                .settleRound(token, rsbody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResultReturn<String>>() {
+                    @Override
+                    public void call(ResultReturn<String> resultReturn) {
+                        if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            tips("上报成功");
+                            onInitStatus();
+                        } else {
+                            tips(resultReturn.getMsg() + "");
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        tips(throwable.getMessage() + "");
+                    }
+                });
+
+    }
+
+    /**
+     * 初始化阶段
+     */
+    private void onInitStatus() {
+        countdown = 0;
+        isGameStart = false;
+        killTimer();
+
+        llRank.setVisibility(View.GONE);
+
+        createView.setEnabled(true);
+        cancelView.setEnabled(false);
+        fengpan.setEnabled(false);
+        reportResult.setEnabled(false);
+    }
+
+    /**
+     * 下注中状态
+     */
+    private void onBetStatus(int count) {
+        countdown = count;
+
+        createView.setEnabled(false);
+        cancelView.setEnabled(true);
+        fengpan.setEnabled(true);
+        reportResult.setEnabled(false);
+
+        llRank.setVisibility(View.GONE);
+
+        handler.removeCallbacks(countDownRunnable);
+        handler.post(countDownRunnable);
+    }
+
+
+    /**
+     * 封盘状态
+     */
+    private void onFengPanStatus() {
+        countdown = 0;
+        isGameStart = true;
+        killTimer();
+
+        createView.setEnabled(false);
+        cancelView.setEnabled(true);
+        fengpan.setEnabled(false);
+        reportResult.setEnabled(true);
+    }
+
+    /**
+     * 上报结果状态
+     */
+    private void onSubmitResultStatus() {
+        llRank.setVisibility(View.VISIBLE);
+
+        createView.setEnabled(false);
+        cancelView.setEnabled(true);
+        fengpan.setEnabled(false);
+        reportResult.setEnabled(false);
+    }
+
+}
