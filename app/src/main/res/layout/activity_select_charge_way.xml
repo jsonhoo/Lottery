@@ -28,7 +28,7 @@
                 android:textSize="@dimen/dimens18"  />
 
             <TextView
-                android:id="@+id/tv_conact_service"
+                android:id="@+id/tv_contact_service"
                 android:layout_width="wrap_content"
                 android:padding="@dimen/dimens10"
                 android:layout_height="wrap_content"

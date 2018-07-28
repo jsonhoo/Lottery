@@ -22,9 +22,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/my_message"
+                android:text="@string/personal_information"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"/>
+                android:textSize="20sp"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -33,16 +33,43 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimens13"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="@dimen/dimens13"
-            android:text="@string/introduction"
+            android:layout_marginTop="@dimen/dimens20"
+            android:background="@mipmap/pic_hy"/>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimens30"
+            android:layout_marginTop="20dp"
+            android:text="用户昵称：jack chen"
             android:textColor="@color/main_text_color"
-            android:textSize="@dimen/dimens15"/>
+            android:textSize="@dimen/dimens16"/>
+
+        <include layout="@layout/divider"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimens20"
+            android:background="@mipmap/self_money"/>
+
+        <TextView
+            android:id="@+id/tv_integral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="当前积分：1000"
+            android:textColor="@color/main_text_color"
+            android:textSize="@dimen/dimens16"/>
+
     </LinearLayout>
+
+
 </LinearLayout>

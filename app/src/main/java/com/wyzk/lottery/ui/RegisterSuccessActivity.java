@@ -1,7 +1,6 @@
 package com.wyzk.lottery.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -11,17 +10,25 @@ import com.wyzk.lottery.utils.BuildManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AccountChargeActivity extends LotteryBaseActivity implements View.OnClickListener {
+public class RegisterSuccessActivity extends LotteryBaseActivity {
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.title)
-    View title;
+    @Bind(R.id.tv_back)
+    View tv_back;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_charge);
+        setContentView(R.layout.activity_register_success);
         ButterKnife.bind(this);
+        tv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         toolbar.setTitle("");
         toolbar.setNavigationIcon(R.mipmap.arrow_back);
         setSupportActionBar(toolbar);
@@ -31,11 +38,7 @@ public class AccountChargeActivity extends LotteryBaseActivity implements View.O
                 finish();
             }
         });
-        BuildManager.setStatusTrans(this, 1, title);
-    }
 
-    @Override
-    public void onClick(View v) {
-
+        BuildManager.setStatusTrans(this, 1, toolbar);
     }
 }

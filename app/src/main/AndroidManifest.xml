@@ -55,14 +55,27 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
+            android:name=".ui.RegisterSuccessActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.MyIntegralActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.RechargeActivity"
+            android:name=".ui.RechargeWithdrawalActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.SelectChargeWayActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.AccountChargeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.UserWithdrawalActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.RechargeRecordActivity"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.PersonalInformationActivity"
             android:screenOrientation="portrait"/>

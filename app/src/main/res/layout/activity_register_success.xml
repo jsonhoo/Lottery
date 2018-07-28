@@ -15,14 +15,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/my_message"
+                android:text="@string/register_success2"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimens18"/>
         </android.support.v7.widget.Toolbar>
@@ -33,16 +32,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimens13"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="@dimen/dimens13"
-            android:text="@string/introduction"
+            android:layout_marginTop="120dp"
+            android:background="@mipmap/register_success"
+            android:onClick="onFiveClick"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/register_success"
             android:textColor="@color/main_text_color"
             android:textSize="@dimen/dimens15"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:autoLink="all"
+                android:text="@string/back_login"
+                android:textColor="@color/main_text_color"
+                android:textSize="@dimen/dimens12"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@color/black"/>
+        </LinearLayout>
+
     </LinearLayout>
+
+
 </LinearLayout>

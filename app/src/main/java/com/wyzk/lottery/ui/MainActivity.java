@@ -257,7 +257,7 @@ public class MainActivity extends LotteryBaseActivity
         if (id == R.id.my_integral) {
             toActivity(MyIntegralActivity.class);
         } else if (id == R.id.recharge) {
-            toActivity(RechargeActivity.class);
+            toActivity(RechargeWithdrawalActivity.class);
         } else if (id == R.id.personal_information) {
             ExtraBean extraBean = new ExtraBean();
             extraBean.setData(userInfoModel);
