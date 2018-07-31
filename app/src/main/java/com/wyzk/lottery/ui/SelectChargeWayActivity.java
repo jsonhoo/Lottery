@@ -60,6 +60,6 @@ public class SelectChargeWayActivity extends LotteryBaseActivity implements View
 
     @Override
     public void onClick(View v) {
-        toActivity(AccountChargeActivity.class);
+        toActivity(AccountChargeActivity111.class);
     }
 }
