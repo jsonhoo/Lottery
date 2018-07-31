@@ -11,7 +11,7 @@ import com.wyzk.lottery.utils.BuildManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AccountChargeActivity111 extends LotteryBaseActivity implements View.OnClickListener {
+public class AccountChargeActivity extends LotteryBaseActivity implements View.OnClickListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.title)

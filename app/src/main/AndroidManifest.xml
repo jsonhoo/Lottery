@@ -67,7 +67,7 @@
             android:name=".ui.SelectChargeWayActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.AccountChargeActivity111"
+            android:name=".ui.AccountChargeActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.UserWithdrawalActivity"
