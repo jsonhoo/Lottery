@@ -31,12 +31,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import rx.Subscription;
+import io.reactivex.disposables.Disposable;
 
 public abstract class LotteryBaseActivity extends AppCompatActivity implements INotify<MQBean> {
     public final static String VALUE_KEY = "ExtraBean";
-    protected Subscription subscription;
-    protected Subscription subscription2;
+    protected Disposable subscription;
+    protected Disposable subscription2;
     protected ExtraBean extraBean;
     protected String token;
     private static MQ mq;
@@ -89,11 +89,11 @@ public abstract class LotteryBaseActivity extends AppCompatActivity implements I
     }
 
     protected void unSubscribe() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
+        if (subscription != null && !subscription.isDisposed()) {
+            subscription.dispose();
         }
-        if (subscription2 != null && !subscription2.isUnsubscribed()) {
-            subscription2.unsubscribe();
+        if (subscription2 != null && !subscription2.isDisposed()) {
+            subscription2.dispose();
         }
     }
 

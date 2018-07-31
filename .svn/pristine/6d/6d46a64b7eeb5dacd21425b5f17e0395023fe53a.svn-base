@@ -1,7 +1,0 @@
-package com.wyzk.lottery.constant;
-
-
-public interface IConst {
-    String TOKEN = "token";
-    String USERID = "userId";
-}

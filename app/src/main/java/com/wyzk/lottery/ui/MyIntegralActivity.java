@@ -25,9 +25,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MyIntegralActivity extends LotteryBaseActivity {
@@ -86,9 +86,9 @@ public class MyIntegralActivity extends LotteryBaseActivity {
                 .getUserInfo(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<UserInfoModel>>() {
+                .subscribe(new Consumer<ResultReturn<UserInfoModel>>() {
                     @Override
-                    public void call(ResultReturn<UserInfoModel> userInfoModelResultReturn) {
+                    public void accept(ResultReturn<UserInfoModel> userInfoModelResultReturn) throws Exception {
                         if (userInfoModelResultReturn != null) {
                             UserInfoModel user = userInfoModelResultReturn.getData();
                             if (user != null) {
@@ -97,32 +97,23 @@ public class MyIntegralActivity extends LotteryBaseActivity {
                         }
 
                     }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
                 });
     }
+
 
     private void getUserConsumePageList(int pageIndex, int rowIndex) {
         Network.getNetworkInstance().getUserApi()
                 .getConsumePageList(token, pageIndex, rowIndex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<IntegralRecordModel>() {
+                .subscribe(new Consumer<IntegralRecordModel>() {
                     @Override
-                    public void call(IntegralRecordModel data) {
+                    public void accept(IntegralRecordModel data) throws Exception {
                         if (data != null && data.getRows() != null) {
                             integralRecordModel = data;
                             mDataList.addAll(data.getRows());
                             homeAdapter.notifyDataSetChanged();
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        throwable.printStackTrace();
                     }
                 });
     }

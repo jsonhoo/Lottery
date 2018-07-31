@@ -1,7 +1,0 @@
-package com.wyzk.lottery.utils;
-
-import com.fsix.mqtt.MQ;
-
-public class MQClient {
-    public static MQ MQTT;
-}

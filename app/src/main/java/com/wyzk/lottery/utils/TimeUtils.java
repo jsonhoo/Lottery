@@ -4,17 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class TimeUtils {
 
     private static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    private static Subscription subscription;
+    private static Disposable subscription;
 
     public static String getCurrentTimeFormat(long mills) {
         SimpleDateFormat sdf = new SimpleDateFormat(DEFAULT_FORMAT);
@@ -24,18 +25,9 @@ public class TimeUtils {
     public static void sub(final CallBack callBack) {
         subscription = Observable.interval(0, 1, TimeUnit.SECONDS, Schedulers.io()).take(Integer.MAX_VALUE)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Long>() {
+                .subscribe(new Consumer<Long>() {
                     @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Long value) {
+                    public void accept(Long aLong) throws Exception {
                         if (callBack != null) {
                             callBack.onNext(TimeUtils.getCurrentTimeFormat(System.currentTimeMillis()));
                         }
@@ -45,8 +37,8 @@ public class TimeUtils {
 
 
     public static void disSub() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
+        if (subscription != null && !subscription.isDisposed()) {
+            subscription.dispose();
         }
     }
 

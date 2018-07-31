@@ -42,9 +42,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainActivity extends LotteryBaseActivity
@@ -70,18 +70,10 @@ public class MainActivity extends LotteryBaseActivity
     private int pageRows = 10;
 
 
-    Observer<ResultReturn<UserInfoModel>> userObserver = new Observer<ResultReturn<UserInfoModel>>() {
-        @Override
-        public void onCompleted() {
-        }
+    Consumer<ResultReturn<UserInfoModel>> userObserver = new Consumer<ResultReturn<UserInfoModel>>() {
 
         @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onNext(ResultReturn<UserInfoModel> result) {
+        public void accept(ResultReturn<UserInfoModel> result) throws Exception {
             if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue() && result.getData() != null) {
                 userInfoModel = result.getData();
                 tvName.setText(userInfoModel.getUsername());
@@ -89,21 +81,11 @@ public class MainActivity extends LotteryBaseActivity
                 logout();
             }
         }
-
     };
 
-    Observer<RoomModel> roomObserver = new Observer<RoomModel>() {
+    Consumer<RoomModel> roomObserver = new Consumer<RoomModel>() {
         @Override
-        public void onCompleted() {
-        }
-
-
-        @Override
-        public void onError(Throwable e) {
-        }
-
-        @Override
-        public void onNext(RoomModel result) {
+        public void accept(RoomModel result) throws Exception {
             if (result != null) {
                 List<RoomModel.RowModel> rowModels = result.getRows();
                 mDataList.clear();

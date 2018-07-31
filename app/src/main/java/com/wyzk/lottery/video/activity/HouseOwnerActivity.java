@@ -41,11 +41,12 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+
 
 /**
  * 房主的页面
@@ -216,20 +217,14 @@ public class HouseOwnerActivity extends VideoBaseActivity implements OnClickList
                 .getUserInfo(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<UserInfoModel>>() {
+                .subscribe(new Consumer<ResultReturn<UserInfoModel>>() {
                     @Override
-                    public void call(ResultReturn<UserInfoModel> userInfoModelResultReturn) {
+                    public void accept(ResultReturn<UserInfoModel> userInfoModelResultReturn) throws Exception {
                         if (userInfoModelResultReturn != null && userInfoModelResultReturn.getData() != null) {
                             UserInfoModel user = userInfoModelResultReturn.getData();
                             tv_user_integral.setText("" + user.getIntegralValue());
                             tv_username.setText("" + user.getUsername());
                         }
-
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-
                     }
                 });
     }
@@ -242,16 +237,12 @@ public class HouseOwnerActivity extends VideoBaseActivity implements OnClickList
                 .getLastRoomRound(token, roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<RoomRoundModel>>() {
+                .subscribe(new Consumer<ResultReturn<RoomRoundModel>>() {
                     @Override
-                    public void call(ResultReturn<RoomRoundModel> ret) {
+                    public void accept(ResultReturn<RoomRoundModel> ret) throws Exception {
                         if (ret != null && ret.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue() && ret.getData() != null) {
                             updateRoomStatus(ret.getData());
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
                     }
                 });
     }
@@ -777,19 +768,14 @@ public class HouseOwnerActivity extends VideoBaseActivity implements OnClickList
                 .generate(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<String>>() {
+                .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void call(ResultReturn<String> resultReturn) {
+                    public void accept(ResultReturn<String> resultReturn) throws Exception {
                         if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             tips(getString(R.string.generate_success));
                         } else {
                             tips(resultReturn.getMsg() + "");
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        tips(throwable.getMessage() + "");
                     }
                 });
     }
@@ -802,19 +788,14 @@ public class HouseOwnerActivity extends VideoBaseActivity implements OnClickList
                 .licensing(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<String>>() {
+                .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void call(ResultReturn<String> resultReturn) {
+                    public void accept(ResultReturn<String> resultReturn) throws Exception {
                         if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             tips(getString(R.string.fengpan_success));
                         } else {
                             tips(resultReturn.getMsg() + "");
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        tips(throwable.getMessage() + "");
                     }
                 });
     }
@@ -827,20 +808,14 @@ public class HouseOwnerActivity extends VideoBaseActivity implements OnClickList
                 .cancelRoomRound(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<String>>() {
+                .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void call(ResultReturn<String> resultReturn) {
+                    public void accept(ResultReturn<String> resultReturn) throws Exception {
                         if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             tips(getString(R.string.cancel_success));
                         } else {
                             tips(resultReturn.getMsg() + "");
                         }
-
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        tips(throwable.getMessage() + "");
                     }
                 });
     }
@@ -906,19 +881,14 @@ public class HouseOwnerActivity extends VideoBaseActivity implements OnClickList
                 .settleRound(token, rsbody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<String>>() {
+                .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void call(ResultReturn<String> resultReturn) {
+                    public void accept(ResultReturn<String> resultReturn) throws Exception {
                         if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             tips("上报成功");
                         } else {
                             tips(resultReturn.getMsg() + "");
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        tips(throwable.getMessage() + "");
                     }
                 });
 

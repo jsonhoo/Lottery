@@ -21,12 +21,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class TestActivity extends LotteryBaseActivity {
     private String token;
@@ -64,35 +65,41 @@ public class TestActivity extends LotteryBaseActivity {
     }
 
     private void cancle() {
-        Subscription subscription = Network.getNetworkInstance().getLiveApi()
+        Network.getNetworkInstance().getLiveApi()
                 .cancelRoomRound(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<String>>() {
+                .subscribe(new SingleObserver<ResultReturn<String>>() {
                     @Override
-                    public void call(ResultReturn<String> stringResultReturn) {
+                    public void onSubscribe(Disposable d) {
+                        subscription = d;
                     }
-                }, new Action1<Throwable>() {
+
                     @Override
-                    public void call(Throwable throwable) {
+                    public void onSuccess(ResultReturn<String> stringResultReturn) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
 
                     }
                 });
     }
 
     private void startXiazhu() {
-        Subscription subscription = Network.getNetworkInstance().getLiveApi()
+        subscription = Network.getNetworkInstance().getLiveApi()
                 .generate(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<String>>() {
+                .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void call(ResultReturn<String> stringResultReturn) {
+                    public void accept(ResultReturn<String> stringResultReturn) throws Exception {
                         tips(stringResultReturn.toString());
                     }
-                }, new Action1<Throwable>() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void call(Throwable throwable) {
+                    public void accept(Throwable throwable) throws Exception {
                         tips(throwable.getMessage());
                     }
                 });
@@ -172,23 +179,22 @@ public class TestActivity extends LotteryBaseActivity {
         }
         String json = jsonArray.toString();
         RequestBody rsbody = RequestBody.create(MediaType.parse("application/json; charset=UTF-8"), json);
-        Subscription subscription = Network.getNetworkInstance().getLiveApi()
+        subscription = Network.getNetworkInstance().getLiveApi()
                 .settleRound(token, rsbody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<String>>() {
+                .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void call(ResultReturn<String> stringResultReturn) {
+                    public void accept(ResultReturn<String> stringResultReturn) throws Exception {
                         if (stringResultReturn != null && stringResultReturn.getCode() == 0) {
                             tips("上报成功");
                         } else {
                             tips("上报失败");
                         }
                     }
-                }, new Action1<Throwable>() {
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void call(Throwable throwable) {
-                        throwable.printStackTrace();
+                    public void accept(Throwable throwable) throws Exception {
                         tips("上报失败");
                         tips("onSettle======>" + throwable.getMessage());
                     }

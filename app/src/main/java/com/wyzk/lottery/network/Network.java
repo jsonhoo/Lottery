@@ -23,7 +23,7 @@ import okio.BufferedSource;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Network {
@@ -33,7 +33,7 @@ public class Network {
     private LiveApi liveApi;
     private OkHttpClient okHttpClient;
     private Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
-    private CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
+    private CallAdapter.Factory rxJavaCallAdapterFactory = RxJava2CallAdapterFactory.create();
 
     public Network() {
         if (okHttpClient == null) {

@@ -14,9 +14,9 @@ import com.wyzk.lottery.utils.BuildManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class PersonalInformationActivity extends LotteryBaseActivity {
@@ -64,9 +64,9 @@ public class PersonalInformationActivity extends LotteryBaseActivity {
                 .getUserInfo(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<UserInfoModel>>() {
+                .subscribe(new Consumer<ResultReturn<UserInfoModel>>() {
                     @Override
-                    public void call(ResultReturn<UserInfoModel> userInfoModelResultReturn) {
+                    public void accept(ResultReturn<UserInfoModel> userInfoModelResultReturn) throws Exception {
                         if (userInfoModelResultReturn != null) {
                             UserInfoModel user = userInfoModelResultReturn.getData();
                             if (user != null) {
@@ -74,12 +74,6 @@ public class PersonalInformationActivity extends LotteryBaseActivity {
                                 tv_integral.setText("当前积分：" + user.getIntegralValue());
                             }
                         }
-
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        throwable.printStackTrace();
                     }
                 });
     }

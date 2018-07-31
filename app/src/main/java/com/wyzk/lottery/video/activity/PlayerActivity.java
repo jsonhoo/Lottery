@@ -9,12 +9,8 @@ import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fsix.mqtt.bean.MQBean;
@@ -36,16 +32,16 @@ import com.wyzk.lottery.utils.TimeUtils;
 import com.wyzk.lottery.utils.ToastUtil2;
 import com.wyzk.lottery.video.linkmic.LinkMicManager;
 import com.wyzk.lottery.video.utils.MyWSChatConfig;
-import com.wyzk.lottery.view.MarqueeView;
 import com.wyzk.lottery.view.PlaceView;
 import com.wyzk.lottery.view.TrendPopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * 玩家的页面
@@ -209,20 +205,15 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
                 .getUserInfo(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<UserInfoModel>>() {
+                .subscribe(new Consumer<ResultReturn<UserInfoModel>>() {
                     @Override
-                    public void call(ResultReturn<UserInfoModel> userInfoModelResultReturn) {
+                    public void accept(ResultReturn<UserInfoModel> userInfoModelResultReturn) throws Exception {
                         if (userInfoModelResultReturn != null && userInfoModelResultReturn.getData() != null) {
                             UserInfoModel user = userInfoModelResultReturn.getData();
                             userIntegral = user.getIntegralValue();
                             tv_user_integral.setText("" + user.getIntegralValue());
                             tv_username.setText("" + user.getUsername());
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-
                     }
                 });
     }
@@ -250,18 +241,14 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
                 .getTrend(token, roomId, gameId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<List<RoundInfoModel>>>() {
+                .subscribe(new Consumer<ResultReturn<List<RoundInfoModel>>>() {
                     @Override
-                    public void call(ResultReturn<List<RoundInfoModel>> ret) {
+                    public void accept(ResultReturn<List<RoundInfoModel>> ret) throws Exception {
                         if (ret.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             if (ret.getData() != null) {
                                 roundInfoModels.addAll(ret.getData());
                             }
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
                     }
                 });
     }
@@ -279,16 +266,12 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
                 .getLastRoomRound(token, roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<RoomRoundModel>>() {
+                .subscribe(new Consumer<ResultReturn<RoomRoundModel>>() {
                     @Override
-                    public void call(ResultReturn<RoomRoundModel> ret) {
+                    public void accept(ResultReturn<RoomRoundModel> ret) throws Exception {
                         if (ret != null && ret.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue() && ret.getData() != null) {
                             updateRoomStatus(ret.getData());
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
                     }
                 });
     }
@@ -716,19 +699,15 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
                 .bet(token, roomId, positionId, roundId, betIntegral)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<String>>() {
+                .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void call(ResultReturn<String> resultReturn) {
+                    public void accept(ResultReturn<String> resultReturn) throws Exception {
                         if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             isBet = true;
                             tips(getString(R.string.bet_success));
                         } else {
                             tips(resultReturn.getMsg() + "");
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
                     }
                 });
     }
@@ -759,16 +738,12 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
                 .getWinLoseByRoundId(token, roundId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<ResultReturn<WinLoseModel>>() {
+                .subscribe(new Consumer<ResultReturn<WinLoseModel>>() {
                     @Override
-                    public void call(ResultReturn<WinLoseModel> resultReturn) {
+                    public void accept(ResultReturn<WinLoseModel> resultReturn) throws Exception {
                         if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             showResult(resultReturn.getData().getWinLoseValue());
                         }
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
                     }
                 });
     }

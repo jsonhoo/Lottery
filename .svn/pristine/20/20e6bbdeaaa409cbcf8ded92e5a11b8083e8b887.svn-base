@@ -1,4 +1,0 @@
-include ':app'
-include ':faceunity'
-include ':ijkplayer'
-//include ':TestVersionUpdate'

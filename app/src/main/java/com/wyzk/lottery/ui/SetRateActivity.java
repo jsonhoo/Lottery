@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.model.ResultReturn;
@@ -18,9 +17,10 @@ import com.wyzk.lottery.view.MyRadioGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * 设置抽成比例 0-10%
@@ -123,21 +123,17 @@ public class SetRateActivity extends LotteryBaseActivity {
                 .myRoom(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultReturn<RoomModel.RowModel>>() {
+                .subscribe(new Consumer<ResultReturn<RoomModel.RowModel>>() {
                     @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissLoadingView();
-                    }
-
-                    @Override
-                    public void onNext(ResultReturn<RoomModel.RowModel> result) {
+                    public void accept(ResultReturn<RoomModel.RowModel> result) throws Exception {
                         if (result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             setChecked(result.getData().getPercentage());
                         }
+                        dismissLoadingView();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
                         dismissLoadingView();
                     }
                 });
@@ -192,21 +188,17 @@ public class SetRateActivity extends LotteryBaseActivity {
                 .updateRoomPercentage(token, roomId + "", percentage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultReturn<String>>() {
+                .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissLoadingView();
-                        Toast.makeText(SetRateActivity.this, getString(R.string.set_fail), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(ResultReturn<String> result) {
-                        Toast.makeText(SetRateActivity.this, getString(R.string.set_succ), Toast.LENGTH_SHORT).show();
+                    public void accept(ResultReturn<String> stringResultReturn) throws Exception {
+                        showToast(getString(R.string.set_succ));
                         finish();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        dismissLoadingView();
+                        showToast(getString(R.string.set_fail));
                     }
                 });
     }

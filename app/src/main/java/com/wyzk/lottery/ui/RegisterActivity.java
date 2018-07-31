@@ -15,9 +15,10 @@ import com.wyzk.lottery.utils.BuildManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class RegisterActivity extends LotteryBaseActivity {
 
@@ -38,27 +39,24 @@ public class RegisterActivity extends LotteryBaseActivity {
 
     Observer<ResultReturn<String>> observer = new Observer<ResultReturn<String>>() {
         @Override
-        public void onCompleted() {
-        }
+        public void onSubscribe(Disposable d) {
 
-        @Override
-        public void onError(Throwable e) {
-            dismissLoadingView();
-            Toast.makeText(RegisterActivity.this, getString(R.string.register_fail), Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onNext(ResultReturn<String> result) {
-            if (result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
-                dismissLoadingView();
-                toActivity(RegisterSuccessActivity.class);
-                finish();
-            } else {
-                dismissLoadingView();
-                Toast.makeText(RegisterActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-            }
+
         }
 
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
     };
 
     @Override
@@ -93,10 +91,38 @@ public class RegisterActivity extends LotteryBaseActivity {
 
     private void registerUser(final String username, final String password, final String realname, int sex) {
         showLoadingView();
-        subscription = Network.getNetworkInstance().getUserApi()
+        Network.getNetworkInstance().getUserApi()
                 .register(username, password, realname, sex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+                .subscribe(new Observer<ResultReturn<String>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        subscription = d;
+                    }
+
+                    @Override
+                    public void onNext(ResultReturn<String> result) {
+                        if (result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            dismissLoadingView();
+                            toActivity(RegisterSuccessActivity.class);
+                            finish();
+                        } else {
+                            dismissLoadingView();
+                            Toast.makeText(RegisterActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissLoadingView();
+                        showToast(getString(R.string.register_fail));
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

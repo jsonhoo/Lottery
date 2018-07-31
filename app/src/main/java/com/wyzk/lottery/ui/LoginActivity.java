@@ -23,9 +23,10 @@ import com.wyzk.lottery.utils.BuildManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * 登录页面
@@ -70,7 +71,7 @@ public class LoginActivity extends LotteryBaseActivity {
         String username = edt_username.getText().toString().trim();
         String pwd = edtPassword.getText().toString().trim();
         if (TextUtils.isEmpty(username) || TextUtils.isEmpty(pwd)) {
-            Toast.makeText(LoginActivity.this, getString(R.string.username_pwd_empty), Toast.LENGTH_SHORT).show();
+            showToast(getString(R.string.username_pwd_empty));
             return;
         }
         showLoadingView();
@@ -84,19 +85,9 @@ public class LoginActivity extends LotteryBaseActivity {
                 .login(username, password, imei)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultReturn<TokenModel>>() {
+                .subscribe(new Consumer<ResultReturn<TokenModel>>() {
                     @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissLoadingView();
-                        Toast.makeText(LoginActivity.this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(ResultReturn<TokenModel> result) {
+                    public void accept(ResultReturn<TokenModel> result) throws Exception {
                         dismissLoadingView();
                         if (result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
@@ -112,6 +103,12 @@ public class LoginActivity extends LotteryBaseActivity {
                         } else {
                             Toast.makeText(LoginActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
                         }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        dismissLoadingView();
+                        Toast.makeText(LoginActivity.this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

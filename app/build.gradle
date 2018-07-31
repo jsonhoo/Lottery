@@ -44,15 +44,17 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
     compile 'com.facebook.fresco:fresco:1.5.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    compile 'io.reactivex:rxjava:1.0.10'
+    compile ('com.jakewharton.rxbinding2:rxbinding:2.1.1'){
+        exclude group: 'com.android.support'
+    }
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
 
+
+
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     compile(name: 'wsrtcsdk-v1.1.1', ext: 'aar')
@@ -65,6 +67,8 @@ dependencies {
     compile 'com.github.xxl6097:emailsdk:0.0.1'
 
     compile 'com.teprinciple:updateapputils:1.4'
-
+    compile ('com.github.tbruyelle:rxpermissions:0.10.2'){
+        exclude group: 'com.android.support'
+    }
     compile 'org.greenrobot:eventbus:3.0.0'
 }

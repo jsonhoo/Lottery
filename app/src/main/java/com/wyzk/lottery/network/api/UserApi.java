@@ -7,12 +7,12 @@ import com.wyzk.lottery.model.ResultReturn;
 import com.wyzk.lottery.model.TokenModel;
 import com.wyzk.lottery.model.UserInfoModel;
 
+import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Url;
-import rx.Observable;
 
 
 public interface UserApi {
