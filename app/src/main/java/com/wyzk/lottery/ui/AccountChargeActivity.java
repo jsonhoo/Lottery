@@ -17,7 +17,6 @@ public class AccountChargeActivity extends LotteryBaseActivity implements View.O
     @Bind(R.id.title)
     View title;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
