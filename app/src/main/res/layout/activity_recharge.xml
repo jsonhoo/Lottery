@@ -75,21 +75,21 @@
             android:id="@+id/rl_view_one"
             android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="@dimen/dimens60">
 
             <ImageView
                 android:id="@+id/image_1"
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/pay_home_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_width="@dimen/dimens50"
+                android:layout_height="@dimen/dimens50" />
 
                 <TextView
                     android:layout_toRightOf="@+id/image_1"
                     android:layout_alignTop="@+id/image_1"
                     android:text="@string/account_charge"
-                    android:textSize="@dimen/dimens20"
+                    android:textSize="@dimen/dimens16"
                     android:layout_marginLeft="@dimen/dimens10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -98,7 +98,7 @@
                     android:layout_marginLeft="@dimen/dimens10"
                     android:layout_alignBottom="@+id/image_1"
                     android:layout_toRightOf="@+id/image_1"
-                    android:textSize="@dimen/dimens15"
+                    android:textSize="@dimen/dimens14"
                     android:textColor="@color/silver"
                     android:text="@string/account_charge_support"
                     android:layout_width="wrap_content"
@@ -118,21 +118,21 @@
             android:background="@color/white"
             android:layout_marginTop="@dimen/dimens10"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="@dimen/dimens60">
 
             <ImageView
                 android:id="@+id/image_2"
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/pay_home_withdraw_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_width="@dimen/dimens50"
+                android:layout_height="@dimen/dimens50" />
 
             <TextView
                 android:layout_toRightOf="@+id/image_2"
                 android:layout_alignTop="@+id/image_2"
                 android:text="@string/user_exchange"
-                android:textSize="@dimen/dimens20"
+                android:textSize="@dimen/dimens16"
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -141,7 +141,7 @@
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_alignBottom="@+id/image_2"
                 android:layout_toRightOf="@+id/image_2"
-                android:textSize="@dimen/dimens15"
+                android:textSize="@dimen/dimens14"
                 android:text="@string/user_exchange_detail"
                 android:textColor="@color/silver"
                 android:layout_width="wrap_content"
@@ -161,21 +161,21 @@
             android:background="@color/white"
             android:layout_marginTop="@dimen/dimens10"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="@dimen/dimens60">
 
             <ImageView
                 android:id="@+id/image_3"
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/pay_home_history_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_width="@dimen/dimens50"
+                android:layout_height="@dimen/dimens50" />
 
             <TextView
                 android:layout_toRightOf="@+id/image_3"
                 android:layout_alignTop="@+id/image_3"
                 android:text="@string/user_recharge_record"
-                android:textSize="@dimen/dimens20"
+                android:textSize="@dimen/dimens16"
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -184,7 +184,7 @@
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_alignBottom="@+id/image_3"
                 android:layout_toRightOf="@+id/image_3"
-                android:textSize="@dimen/dimens15"
+                android:textSize="@dimen/dimens14"
                 android:textColor="@color/silver"
                 android:text="@string/user_record_detail"
                 android:layout_width="wrap_content"
@@ -205,21 +205,21 @@
             android:background="@color/white"
             android:layout_marginTop="@dimen/dimens10"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="@dimen/dimens60">
 
             <ImageView
                 android:id="@+id/image_4"
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/pay_home_history_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_width="@dimen/dimens50"
+                android:layout_height="@dimen/dimens50" />
 
             <TextView
                 android:layout_toRightOf="@+id/image_4"
                 android:layout_alignTop="@+id/image_4"
                 android:text="@string/user_withdrawal_record"
-                android:textSize="@dimen/dimens20"
+                android:textSize="@dimen/dimens16"
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -228,7 +228,7 @@
                 android:layout_marginLeft="@dimen/dimens10"
                 android:layout_alignBottom="@+id/image_4"
                 android:layout_toRightOf="@+id/image_4"
-                android:textSize="@dimen/dimens15"
+                android:textSize="@dimen/dimens14"
                 android:textColor="@color/silver"
                 android:text="@string/user_withdrawal_record_detail"
                 android:layout_width="wrap_content"
