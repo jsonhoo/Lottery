@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.fsix.mqtt.MQ;
@@ -44,19 +45,16 @@ public abstract class LotteryBaseActivity extends AppCompatActivity implements I
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
-
         EventManager.getInstance().registerObserver(this);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             extraBean = (ExtraBean) bundle.getSerializable(VALUE_KEY);
         }
-
         token = ACache.get(this).getAsString(IConst.TOKEN);
-
         EventBus.getDefault().register(this);
-
     }
 
 
