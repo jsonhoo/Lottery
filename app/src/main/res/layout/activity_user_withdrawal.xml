@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/silver"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
@@ -44,56 +44,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginTop="@dimen/dimens10"
-            android:textColor="@color/main_text_color"
-            android:text="@string/user_withdrawal_value"
-            android:textSize="@dimen/dimens20"
-            android:layout_marginLeft="@dimen/dimens20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_withdrawal_value"
-            android:layout_margin="@dimen/dimens20"
-            android:textColor="@color/main_text_color"
-            android:text="0.0"
-            android:textSize="@dimen/dimens20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/dimens10"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent"
+        android:background="@color/silver"
+        android:orientation="vertical">
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
-
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_height="wrap_content">
             <TextView
+                android:layout_marginTop="@dimen/dimens10"
                 android:textColor="@color/main_text_color"
-                android:layout_gravity="center_vertical"
-                android:text="@string/user_card_name"
+                android:text="@string/user_withdrawal_value"
                 android:textSize="@dimen/dimens20"
                 android:layout_marginLeft="@dimen/dimens20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tv_user_card_name"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dimens20"
+                android:id="@+id/tv_withdrawal_value"
+                android:layout_margin="@dimen/dimens20"
                 android:textColor="@color/main_text_color"
-                android:text="张力"
+                android:text="0.0"
                 android:textSize="@dimen/dimens20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -102,93 +74,128 @@
 
         <LinearLayout
             android:layout_marginTop="@dimen/dimens10"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/main_text_color"
-                android:text="@string/user_card_bank"
-                android:textSize="@dimen/dimens20"
-                android:layout_marginLeft="@dimen/dimens20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
 
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/tv_bank_name"
-                android:layout_marginLeft="@dimen/dimens20"
-                android:textColor="@color/main_text_color"
-                android:text="中国银行"
-                android:textSize="@dimen/dimens20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@color/main_text_color"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/user_card_name"
+                    android:textSize="@dimen/dimens20"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_user_card_name"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:textColor="@color/main_text_color"
+                    android:text="张力"
+                    android:textSize="@dimen/dimens20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/dimens10"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/main_text_color"
+                    android:text="@string/user_card_bank"
+                    android:textSize="@dimen/dimens20"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/tv_bank_name"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:textColor="@color/main_text_color"
+                    android:text="中国银行"
+                    android:textSize="@dimen/dimens20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/dimens10"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/main_text_color"
+                    android:text="@string/user_card_num"
+                    android:textSize="@dimen/dimens20"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_card_num"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:textColor="@color/main_text_color"
+                    android:text="622543216754123"
+                    android:textSize="@dimen/dimens20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
-            android:layout_marginTop="@dimen/dimens10"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/dimens10"
+            android:background="@color/white"
+            android:layout_height="@dimen/dimens40">
 
             <TextView
-                android:layout_gravity="center_vertical"
-                android:textColor="@color/main_text_color"
-                android:text="@string/user_card_num"
-                android:textSize="@dimen/dimens20"
                 android:layout_marginLeft="@dimen/dimens20"
+                android:layout_gravity="center_vertical"
+                android:text="@string/user_withdrawal_tips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tv_card_num"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dimens20"
-                android:textColor="@color/main_text_color"
-                android:text="622543216754123"
-                android:textSize="@dimen/dimens20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/ev_input"
+                android:paddingLeft="@dimen/dimens10"
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:background="@drawable/bg_edittext"
+                android:padding="5dip"
+                android:textColorHint="#AAAAAA"
+                android:textSize="15dip"
+                android:singleLine="true"
+                android:hint="@string/user_withdrawal_rang" />
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dimens10"
-        android:background="@color/white"
-        android:layout_height="@dimen/dimens40">
 
         <TextView
-            android:layout_marginLeft="@dimen/dimens20"
-            android:layout_gravity="center_vertical"
-            android:text="@string/user_withdrawal_tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/ev_input"
-            android:paddingLeft="@dimen/dimens10"
-            android:layout_width="fill_parent"
-            android:layout_height="40dip"
+            android:text="@string/sumbit_apply"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimens20"
+            android:layout_width="match_parent"
             android:background="@drawable/bg_edittext"
-            android:padding="5dip"
-            android:textColorHint="#AAAAAA"
-            android:textSize="15dip"
-            android:singleLine="true"
-            android:hint="@string/user_withdrawal_rang" />
-
+            android:layout_height="@dimen/dimens50" />
     </LinearLayout>
 
-    <TextView
-        android:text="@string/sumbit_apply"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/dimens20"
-        android:layout_width="match_parent"
-        android:background="@drawable/bg_edittext"
-        android:layout_height="@dimen/dimens50" />
 
 </LinearLayout>

@@ -25,4 +25,12 @@ public interface UrlContainer {
     String GET_USER_WIN_LOSE = "/game/round/getLastUserWinLoseByRoundId";//获取用户盈亏积分
     String UPDATE_ROOM_PERCENTAGE = "/game/room/updateRoomPercentage";//房间修改
     String MYROOM = "/game/room/myRoom";//房间信息
+
+
+    //充值接口
+    String GET_INTEGRAL_LIST = "/game/integral/pageList";//积分列表
+    String GET_CHARGE_HISTORY_LIST = "/game/integral/charge/history";//我的充值记录
+    String EXCHANGE_ADD = "/game/integral/exchange/add";//提现申请
+    String CHARGE_ADD = "/game/integral/charge/add";//申请充值
+
 }
