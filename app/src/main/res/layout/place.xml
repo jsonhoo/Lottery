@@ -8,53 +8,58 @@
 
     <com.wyzk.lottery.view.PlaceView
         android:id="@+id/p1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         app:item_num_text="0"
         app:item_place_peo="0"
         app:item_place_text="@string/place1" />
 
     <com.wyzk.lottery.view.PlaceView
         android:id="@+id/p2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens10"
+        android:layout_weight="1"
         app:item_num_text="0"
         app:item_place_peo="0"
         app:item_place_text="@string/place2" />
 
     <com.wyzk.lottery.view.PlaceView
         android:id="@+id/p3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens10"
+        android:layout_weight="1"
+
         app:item_num_text="0"
         app:item_place_peo="0"
         app:item_place_text="@string/place3" />
 
     <com.wyzk.lottery.view.PlaceView
         android:id="@+id/p4"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens10"
+        android:layout_weight="1"
+
         app:item_num_text="0"
         app:item_place_peo="0"
         app:item_place_text="@string/place4" />
 
     <com.wyzk.lottery.view.PlaceView
         android:id="@+id/p5"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens10"
+        android:layout_weight="1"
+
         app:item_num_text="0"
         app:item_place_peo="0"
         app:item_place_text="@string/place5" />
 
     <com.wyzk.lottery.view.PlaceView
         android:id="@+id/p6"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimens10"
+        android:layout_weight="1"
+
         app:item_num_text="0"
         app:item_place_peo="0"
         app:item_place_text="@string/place6" />

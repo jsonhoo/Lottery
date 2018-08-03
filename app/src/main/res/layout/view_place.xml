@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/dimens3"
-    android:layout_marginRight="@dimen/dimens3"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -32,11 +30,9 @@
 
     <LinearLayout
         android:id="@+id/view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimens5"
-        android:layout_marginLeft="@dimen/dimens5"
-        android:layout_marginRight="@dimen/dimens5"
         android:layout_marginTop="@dimen/dimens5"
         android:background="@drawable/rect_place_selector"
         android:gravity="center"

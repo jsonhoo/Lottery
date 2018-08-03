@@ -39,7 +39,22 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tv_online"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimens40"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dimens3"
+                android:paddingRight="@dimen/dimens3"
+                android:text="人数:25"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens14"
+                android:textStyle="bold"/>
+
+
             <ListView
+                android:scrollbars="none"
+                android:id="@+id/list"
                 android:layout_width="70dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -47,13 +62,14 @@
 
             <TextView
                 android:id="@+id/show"
+                android:padding="@dimen/dimens5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/dimens5"
                 android:background="@drawable/num_btn_selector"
                 android:clickable="true"
-                android:text="显示趋势"
+                android:text="趋势"
                 android:textColor="@color/black"/>
         </LinearLayout>
 

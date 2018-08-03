@@ -91,6 +91,8 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
     private Handler handler = new Handler(Looper.getMainLooper());
     private int countdown;
 
+    private TextView tv_online;
+
     private Runnable countDownRunnable = new Runnable() {
         @Override
         public void run() {
@@ -138,6 +140,8 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
         serial_num = (TextView) findViewById(R.id.serial_num);
         status = (TextView) findViewById(R.id.status);
         time = (TextView) findViewById(R.id.time);
+
+        tv_online = (TextView)findViewById(R.id.tv_online);
 
         p1 = (PlaceView) findViewById(R.id.p1);
         p2 = (PlaceView) findViewById(R.id.p2);
