@@ -28,6 +28,9 @@ public interface UrlContainer {
 
 
     //充值接口
+    String GET_BANK = "/game/integral/charge/bank";//获取管理员充值卡号
+    String ADD = "/game/integral/charge/add";//申请充值
+
     String GET_INTEGRAL_LIST = "/game/integral/pageList";//积分列表
     String GET_CHARGE_HISTORY_LIST = "/game/integral/charge/history";//我的充值记录
     String EXCHANGE_ADD = "/game/integral/exchange/add";//提现申请

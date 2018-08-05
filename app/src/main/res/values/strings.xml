@@ -47,6 +47,8 @@
 
     <string name="sure_recharge">确认充值</string>
     <string name="recharge_record">充值记录</string>
+    <string name="withdrawal_record">提现记录</string>
+    <string name="money_is_empty">请输入充值金额</string>
 
     <string name="set_rate">设置抽成</string>
     <string name="submit">提交</string>
@@ -118,8 +120,8 @@
     <string name="select_charge_way">选择支付方式</string>
     <string name="select_bank">网银转账</string>
     <string name="select_bank_detail">大额支出专用绿色通道，首选支持方式</string>
-    <string name="select_scan">扫描支付</string>
-    <string name="select_scan_detail">支付宝、微信、QQ钱包等线下二维码支付</string>
+    <string name="select_wechat">微信支付</string>
+    <string name="select_wechat_detail">添加微信好友，微信支付</string>
     <string name="select_alipay">支付宝转账</string>
     <string name="select_alipay_detail">支付宝转账绿色通道</string>
 

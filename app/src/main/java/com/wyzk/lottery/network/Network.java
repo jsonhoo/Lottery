@@ -2,6 +2,7 @@ package com.wyzk.lottery.network;
 
 import com.fsix.mqtt.util.Logc;
 import com.wyzk.lottery.constant.UrlContainer;
+import com.wyzk.lottery.network.api.IntegralApi;
 import com.wyzk.lottery.network.api.LiveApi;
 import com.wyzk.lottery.network.api.UserApi;
 
@@ -29,10 +30,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Network {
     public final static String TAG = "NETWORK_TAG:";
     private static Network network;
+    private UserApi userApi;
+    private LiveApi liveApi;
+    private IntegralApi integralApi;
     private OkHttpClient okHttpClient;
     private Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private CallAdapter.Factory rxJavaCallAdapterFactory = RxJava2CallAdapterFactory.create();
-    private Retrofit mRetrofit;
+
     public Network() {
         if (okHttpClient == null) {
             synchronized (Network.class) {
@@ -40,10 +44,6 @@ public class Network {
                     okHttpClient = new OkHttpClient().newBuilder().addInterceptor(new LoggingInterceptor()).build();
                 }
             }
-        }
-
-        if(mRetrofit == null){
-            mRetrofit = createRetrofit();
         }
     }
 
@@ -98,39 +98,43 @@ public class Network {
         Logc.i(TAG + bodyString);
     }
 
-    /**
-     * 创建相应的服务接口
-     */
-    public <T> T create(Class<T> service){
-        checkNotNull(service, "service is null");
-        return mRetrofit.create(service);
-    }
-
-    private Retrofit createRetrofit() {
-        //初始化OkHttp
-        // 返回 Retrofit 对象
-        return new Retrofit.Builder()
-                .client(okHttpClient)
-                .baseUrl(UrlContainer.BASE_URL)
-                .addConverterFactory(gsonConverterFactory)
-                .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                .build();
-    }
-
-    private  <T> T checkNotNull(T object, String message) {
-        if (object == null) {
-            throw new NullPointerException(message);
-        }
-        return object;
-    }
-
-
     public UserApi getUserApi() {
-        return Network.getNetworkInstance().create(UserApi.class);
+        if (userApi == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .baseUrl(UrlContainer.BASE_URL)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            userApi = retrofit.create(UserApi.class);
+        }
+        return userApi;
     }
 
     public LiveApi getLiveApi() {
-        return Network.getNetworkInstance().create(LiveApi.class);
+        if (liveApi == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .baseUrl(UrlContainer.BASE_URL)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            liveApi = retrofit.create(LiveApi.class);
+        }
+        return liveApi;
+    }
+
+    public IntegralApi getIntegralApi() {
+        if (integralApi == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .baseUrl(UrlContainer.BASE_URL)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            integralApi = retrofit.create(IntegralApi.class);
+        }
+        return integralApi;
     }
 
     class LoggingInterceptor implements Interceptor {

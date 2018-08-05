@@ -5,12 +5,19 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.wyzk.lottery.R;
+import com.wyzk.lottery.model.ResultReturn;
+import com.wyzk.lottery.model.UserInfoModel;
+import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class RechargeWithdrawalActivity extends LotteryBaseActivity implements View.OnClickListener {
@@ -18,6 +25,9 @@ public class RechargeWithdrawalActivity extends LotteryBaseActivity implements V
     Toolbar toolbar;
     @Bind(R.id.title)
     View title;
+
+    @Bind(R.id.tv_money)
+    TextView tv_money;
 
     @Bind(R.id.rl_view_one)
     RelativeLayout rl_view_one;
@@ -28,10 +38,12 @@ public class RechargeWithdrawalActivity extends LotteryBaseActivity implements V
     @Bind(R.id.rl_view_four)
     RelativeLayout rl_view_four;
 
+    private UserInfoModel userInfoModel;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recharge);
+        setContentView(R.layout.activity_recharge_withdrawal);
         ButterKnife.bind(this);
         toolbar.setTitle("");
         toolbar.setNavigationIcon(R.mipmap.arrow_back);
@@ -50,6 +62,36 @@ public class RechargeWithdrawalActivity extends LotteryBaseActivity implements V
         rl_view_four.setOnClickListener(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserInfo();
+    }
+
+    private void getUserInfo() {
+        Network.getNetworkInstance().getUserApi()
+                .getUserInfo(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ResultReturn<UserInfoModel>>() {
+                    @Override
+                    public void accept(ResultReturn<UserInfoModel> userInfoModelResultReturn) {
+                        if (userInfoModelResultReturn != null) {
+                            userInfoModel = userInfoModelResultReturn.getData();
+                            if (userInfoModel != null) {
+                                tv_money.setText(userInfoModel.getIntegralValue() + "");
+                            }
+                        }
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
     public void rechargeRecord(View view) {
         toActivity(RechargeRecordActivity.class);
     }
@@ -58,7 +100,9 @@ public class RechargeWithdrawalActivity extends LotteryBaseActivity implements V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_view_one:
-                toActivity(SelectChargeWayActivity.class);
+                if (userInfoModel != null) {
+                    SelectChargeWayActivity.startSelectChargeWayActivity(this, userInfoModel);
+                }
                 break;
             case R.id.rl_view_two:
                 toActivity(UserWithdrawalActivity.class);
@@ -67,7 +111,7 @@ public class RechargeWithdrawalActivity extends LotteryBaseActivity implements V
                 toActivity(RechargeRecordActivity.class);
                 break;
             case R.id.rl_view_four:
-                toActivity(UserWithdrawalActivity.class);
+                toActivity(WithdrawalRecordActivity.class);
                 break;
         }
     }

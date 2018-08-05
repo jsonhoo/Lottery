@@ -1,5 +1,7 @@
 package com.wyzk.lottery.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wyzk.lottery.R;
+import com.wyzk.lottery.model.UserInfoModel;
 import com.wyzk.lottery.utils.BuildManager;
 
 import butterknife.Bind;
@@ -30,6 +33,12 @@ public class SelectChargeWayActivity extends LotteryBaseActivity implements View
     RelativeLayout rl_view_two;
     @Bind(R.id.rl_view_three)
     RelativeLayout rl_view_three;
+
+    public static void startSelectChargeWayActivity(Context context, UserInfoModel userInfoModel) {
+        Intent intent = new Intent(context, SelectChargeWayActivity.class);
+        intent.putExtra("userInfoModel", userInfoModel);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +69,21 @@ public class SelectChargeWayActivity extends LotteryBaseActivity implements View
 
     @Override
     public void onClick(View v) {
-        toActivity(AccountChargeActivity.class);
+        switch (v.getId()) {
+            case R.id.rl_view_one:
+                toAccountChargeActivity(1);
+                break;
+            case R.id.rl_view_two:
+                toAccountChargeActivity(2);
+                break;
+            case R.id.rl_view_three:
+                toAccountChargeActivity(3);
+                break;
+        }
+    }
+
+    private void toAccountChargeActivity(int type) {
+        AccountChargeActivity.startAccountChargeActivity(this,
+                (UserInfoModel) getIntent().getSerializableExtra("userInfoModel"), type);
     }
 }

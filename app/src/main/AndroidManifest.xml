@@ -75,7 +75,9 @@
         <activity
             android:name=".ui.RechargeRecordActivity"
             android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".ui.WithdrawalRecordActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.PersonalInformationActivity"
             android:screenOrientation="portrait"/>
