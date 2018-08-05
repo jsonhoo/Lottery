@@ -8,7 +8,7 @@ public class BankBean implements Serializable {
     private String userManagerPayAccountId;
     private String managerPayAccountBank;
     private String managerPayAccountName;
-    private String managerPayAccountType;
+    private int managerPayAccountType;
     private String managerPayAccount;
 
     public String getRemarkCode() {
@@ -43,11 +43,11 @@ public class BankBean implements Serializable {
         this.managerPayAccountName = managerPayAccountName;
     }
 
-    public String getManagerPayAccountType() {
+    public int getManagerPayAccountType() {
         return managerPayAccountType;
     }
 
-    public void setManagerPayAccountType(String managerPayAccountType) {
+    public void setManagerPayAccountType(int managerPayAccountType) {
         this.managerPayAccountType = managerPayAccountType;
     }
 

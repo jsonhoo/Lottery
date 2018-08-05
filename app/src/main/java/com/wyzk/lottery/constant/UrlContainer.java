@@ -27,13 +27,13 @@ public interface UrlContainer {
     String MYROOM = "/game/room/myRoom";//房间信息
 
 
-    //充值接口
+    //积分模块
     String GET_BANK = "/game/integral/charge/bank";//获取管理员充值卡号
-    String ADD = "/game/integral/charge/add";//申请充值
-
-    String GET_INTEGRAL_LIST = "/game/integral/pageList";//积分列表
+    String ADD_CHARGE = "/game/integral/charge/add";//申请充值
+    String ADD_ACCOUNT = "/game/integral/exchange/account/add";//新增提现账号
+    String GET_ACCOUNT_LIST = "/game/integral/exchange/account/list";//获取提现账号列表
+    String WITHDRAWAL = "/game/integral/exchange/add";//提现申请
     String GET_CHARGE_HISTORY_LIST = "/game/integral/charge/history";//我的充值记录
-    String EXCHANGE_ADD = "/game/integral/exchange/add";//提现申请
-    String CHARGE_ADD = "/game/integral/charge/add";//申请充值
+    String GET_INTEGRAL_LIST = "/game/integral/pageList";//积分列表
 
 }

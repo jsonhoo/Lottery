@@ -125,13 +125,30 @@
     <string name="select_alipay">支付宝转账</string>
     <string name="select_alipay_detail">支付宝转账绿色通道</string>
 
+    <string name="bank">网上银行</string>
+    <string name="alipay">支付宝</string>
+    <string name="wechat">微信</string>
+
+    <string name="chargestatus1">待充值</string>
+    <string name="chargestatus2">已充值</string>
+    <string name="chargestatus3">作废</string>
+    <string name="chargestatus4">驳回</string>
+
+    <string name="submit_success">提交成功，请耐心等待客服审核。</string>
+    <string name="submit_fail">提交失败</string>
+
     <!-- 提现-->
     <string name="user_withdrawal_title">提现</string>
+    <string name="add_account">新增账号</string>
+    <string name="havenot_account">没有提现账号？去新增</string>
     <string name="user_withdrawal_record">提现记录</string>
-    <string name="user_withdrawal_value">可提现金额</string>
+    <string name="user_withdrawal_value">可提现金额（元）</string>
     <string name="user_card_num">卡号：</string>
     <string name="user_card_name">持卡人：</string>
     <string name="user_card_bank">银行卡：</string>
+    <string name="empty_data">数据不能为空</string>
+    <string name="money_shortage">账户余额不足</string>
+    <string name="account_empty">请先选择或创建账号</string>
 
     <string name="user_withdrawal_tips">提款金额</string>
     <string name="user_withdrawal_rang">可提款金额(1—200,000)</string>
@@ -154,9 +171,12 @@
     <string name="order_time">时间</string>
 
     <string name="platform_card_no">平台卡号</string>
+    <string name="platform_card_no2">平台卡号:</string>
     <string name="order_note_code">备注码</string>
     <string name="platform_card_user_name">持卡人</string>
+    <string name="platform_card_user_name2">持卡人:</string>
     <string name="platform_card_bank_name">发卡行</string>
+    <string name="platform_card_bank_name2">发卡行:</string>
 
 
 </resources>

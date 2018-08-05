@@ -36,6 +36,7 @@ public class Network {
     private OkHttpClient okHttpClient;
     private Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private CallAdapter.Factory rxJavaCallAdapterFactory = RxJava2CallAdapterFactory.create();
+    private Retrofit mRetrofit;
 
     public Network() {
         if (okHttpClient == null) {
@@ -44,6 +45,10 @@ public class Network {
                     okHttpClient = new OkHttpClient().newBuilder().addInterceptor(new LoggingInterceptor()).build();
                 }
             }
+        }
+
+        if (mRetrofit == null) {
+            mRetrofit = createRetrofit();
         }
     }
 
@@ -98,41 +103,49 @@ public class Network {
         Logc.i(TAG + bodyString);
     }
 
+    /**
+     * 创建相应的服务接口
+     */
+    public <T> T create(Class<T> service) {
+        checkNotNull(service, "service is null");
+        return mRetrofit.create(service);
+    }
+
+    private Retrofit createRetrofit() {
+        //初始化OkHttp
+        // 返回 Retrofit 对象
+        return new Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(UrlContainer.BASE_URL)
+                .addConverterFactory(gsonConverterFactory)
+                .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                .build();
+    }
+
+    private <T> T checkNotNull(T object, String message) {
+        if (object == null) {
+            throw new NullPointerException(message);
+        }
+        return object;
+    }
+
     public UserApi getUserApi() {
         if (userApi == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(okHttpClient)
-                    .baseUrl(UrlContainer.BASE_URL)
-                    .addConverterFactory(gsonConverterFactory)
-                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                    .build();
-            userApi = retrofit.create(UserApi.class);
+            return Network.getNetworkInstance().create(UserApi.class);
         }
         return userApi;
     }
 
     public LiveApi getLiveApi() {
         if (liveApi == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(okHttpClient)
-                    .baseUrl(UrlContainer.BASE_URL)
-                    .addConverterFactory(gsonConverterFactory)
-                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                    .build();
-            liveApi = retrofit.create(LiveApi.class);
+            return Network.getNetworkInstance().create(LiveApi.class);
         }
         return liveApi;
     }
 
     public IntegralApi getIntegralApi() {
         if (integralApi == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(okHttpClient)
-                    .baseUrl(UrlContainer.BASE_URL)
-                    .addConverterFactory(gsonConverterFactory)
-                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                    .build();
-            integralApi = retrofit.create(IntegralApi.class);
+            return Network.getNetworkInstance().create(IntegralApi.class);
         }
         return integralApi;
     }

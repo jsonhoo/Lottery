@@ -98,14 +98,15 @@ public class RechargeWithdrawalActivity extends LotteryBaseActivity implements V
 
     @Override
     public void onClick(View v) {
+        if (userInfoModel == null) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.rl_view_one:
-                if (userInfoModel != null) {
-                    SelectChargeWayActivity.startSelectChargeWayActivity(this, userInfoModel);
-                }
+                SelectChargeWayActivity.startSelectChargeWayActivity(this, userInfoModel);
                 break;
             case R.id.rl_view_two:
-                toActivity(UserWithdrawalActivity.class);
+                UserWithdrawalActivity.startUserWithdrawalActivity(this, userInfoModel);
                 break;
             case R.id.rl_view_three:
                 toActivity(RechargeRecordActivity.class);

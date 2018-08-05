@@ -96,22 +96,52 @@ public class AccountChargeActivity extends LotteryBaseActivity implements View.O
         tv_submit.setOnClickListener(this);
 
         userInfoModel = (UserInfoModel) getIntent().getSerializableExtra("userInfoModel");
-        type = getIntent().getIntExtra("type", 1);
-
         tv_current_account.setText(userInfoModel.getUsername());
+
+        type = getIntent().getIntExtra("type", 1);
+        setType(type);
 
         getBankInfo();
     }
 
+    private void setType(int type) {
+        switch (type) {
+            case 1:
+                tv_select_charge_way.setText(getString(R.string.select_bank));
+                break;
+            case 2:
+                tv_select_charge_way.setText(getString(R.string.select_alipay));
+                break;
+            case 3:
+                tv_select_charge_way.setText(getString(R.string.select_wechat));
+                break;
+            default:
+                tv_select_charge_way.setText(getString(R.string.select_bank));
+                break;
+        }
+    }
+
+    private void resetData() {
+        setType(bankBean.getManagerPayAccountType());
+        tv_platform_card_no.setText(bankBean.getManagerPayAccount());
+        tv_platform_card_user_name.setText(bankBean.getManagerPayAccountName());
+        tv_platform_card_bank_name.setText(bankBean.getManagerPayAccountBank());
+        tv_order_note_code.setText(bankBean.getRemarkCode());
+    }
+
     private void getBankInfo() {
         Network.getNetworkInstance().getIntegralApi()
-                .getBank(token)
+                .getBank(token, String.valueOf(type))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResultReturn<BankBean>>() {
                     @Override
                     public void accept(ResultReturn<BankBean> resultReturn) {
-                        bankBean = resultReturn.getData();
+                        if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            bankBean = resultReturn.getData();
+                            resetData();
+                        }
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -165,17 +195,25 @@ public class AccountChargeActivity extends LotteryBaseActivity implements View.O
         }
 
         Network.getNetworkInstance().getIntegralApi()
-                .add(token, money, bankBean.getUserManagerPayAccountId(), bankBean.getManagerPayAccountBank(), bankBean.getManagerPayAccountName())
+                .addCharge(token, money, bankBean.getUserManagerPayAccountId(), String.valueOf(type), bankBean.getRemarkCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
                     public void accept(ResultReturn<String> resultReturn) {
+                        if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            showToast(getString(R.string.submit_success));
+                            finish();
+                        } else {
+                            if (!TextUtils.isEmpty(resultReturn.getMsg())) {
+                                showToast(resultReturn.getMsg());
+                            }
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-                        throwable.printStackTrace();
+                        showToast(throwable.getMessage());
                     }
                 });
     }
