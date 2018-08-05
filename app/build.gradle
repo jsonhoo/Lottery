@@ -5,7 +5,7 @@ android {
     buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.wyzk.lottery"
-        minSdkVersion 19
+        minSdkVersion 18
         targetSdkVersion 25
         versionCode 3
         versionName "1.0.3"

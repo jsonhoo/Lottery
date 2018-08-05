@@ -85,4 +85,9 @@ public interface LiveApi {
     @FormUrlEncoded
     @POST(UrlContainer.MYROOM)
     Observable<ResultReturn<RoomModel.RowModel>> myRoom(@Field("token") String token);
+
+
+    @FormUrlEncoded
+    @POST(UrlContainer.GET_ONLINE_COUNT)
+    Observable<ResultReturn<Integer>> getOnlineCount(@Field("token") String token,@Field("roomId") int roomId);
 }
