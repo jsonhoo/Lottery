@@ -121,6 +121,8 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
         getLastRoomRound();//场次信息
 
         getTrend();//趋势
+
+        getRoom();
     }
 
     @Override
@@ -129,6 +131,7 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
         getUserInfo();//用户信息
         getLastRoomRound();//场次信息
         getTrend();//趋势
+        getRoom();
     }
 
     private void init() {
@@ -193,7 +196,7 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
         RoomModel.RowModel rowModel = (RoomModel.RowModel) getIntent().getSerializableExtra(IConst.ROW_INFO);
         roomId = rowModel.getRoomId();
         gameId = rowModel.getGameId();
-
+        showOnline(rowModel.getRoomOnline());
         subscribeMqTopic(IConst.TOPIC + roomId);
 
         WSChatConfig wsChatConfig = MyWSChatConfig.getWSChatConfig(wSSurfaceView, rowModel.getRoomAddress(), rowModel.getRoomAddress(),
@@ -203,6 +206,31 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
         mChatManager.init(this, true, wsChatConfig);
     }
 
+    private void showOnline(int onLineCount){
+
+            tv_online.setText("人数:"+onLineCount);
+
+    }
+    private void getRoom() {
+        Network.getNetworkInstance().getLiveApi()
+                .getOnlineCount(token,roomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ResultReturn<Integer>>() {
+                    @Override
+                    public void accept(ResultReturn<Integer> result) throws Exception {
+                        if (result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                             showOnline(result.getData());
+                        }
+                        dismissLoadingView();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        dismissLoadingView();
+                    }
+                });
+    }
 
     private void getUserInfo() {
         Network.getNetworkInstance().getUserApi()
@@ -344,6 +372,7 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
         switch (value) {
             case 1://下注中
                 betting(flag);
+                getRoom();
                 break;
             case 2://封盘
                 fengPan();

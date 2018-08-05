@@ -26,6 +26,7 @@ public interface UrlContainer {
     String UPDATE_ROOM_PERCENTAGE = "/game/room/updateRoomPercentage";//房间修改
     String MYROOM = "/game/room/myRoom";//房间信息
 
+    String GET_ONLINE_COUNT = "/game/user/getRoomStateByRoomId";//获取房间人数
 
     //充值接口
     String GET_BANK = "/game/integral/charge/bank";//获取管理员充值卡号
