@@ -32,6 +32,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:paddingTop="@dimen/dimens10"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -46,16 +47,18 @@
                 android:layout_gravity="center"
                 android:text="@string/available_balance"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"  />
+                android:textSize="@dimen/dimens16"  />
 
             <TextView
+                android:layout_marginBottom="@dimen/dimens10"
+                android:id="@+id/tv_available_integral"
                 android:layout_marginTop="@dimen/dimens10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="0.00"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"  />
+                android:textSize="@dimen/dimens14"  />
 
         </LinearLayout>
 
@@ -71,16 +74,18 @@
                 android:layout_gravity="center"
                 android:text="@string/outstanding_balance"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"  />
+                android:textSize="@dimen/dimens16"  />
 
             <TextView
+                android:id="@+id/tv_"
+                android:layout_marginBottom="@dimen/dimens10"
                 android:layout_marginTop="@dimen/dimens10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="0.00"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"  />
+                android:textSize="@dimen/dimens14"  />
 
         </LinearLayout>
 
@@ -96,16 +101,17 @@
                 android:layout_gravity="center"
                 android:text="@string/recharge_total_amount"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"  />
+                android:textSize="@dimen/dimens16"  />
 
             <TextView
+                android:layout_marginBottom="@dimen/dimens10"
                 android:layout_marginTop="@dimen/dimens10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="0.00"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"  />
+                android:textSize="@dimen/dimens14"  />
 
         </LinearLayout>
 

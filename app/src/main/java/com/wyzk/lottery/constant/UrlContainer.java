@@ -37,4 +37,5 @@ public interface UrlContainer {
     String GET_CHARGE_HISTORY_LIST = "/game/integral/charge/history";//我的充值记录
     String GET_INTEGRAL_LIST = "/game/integral/pageList";//积分列表
 
+    String GET_INTEGRAL_EXCHANGE_HISTORY = "/game/integral/exchange/history";//提现记录
 }

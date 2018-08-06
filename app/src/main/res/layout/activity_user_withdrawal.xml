@@ -68,7 +68,9 @@
                 android:id="@+id/tv_withdrawal_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimens20"
+                android:layout_marginTop="@dimen/dimens10"
+                android:layout_marginBottom="@dimen/dimens10"
+                android:layout_marginLeft="@dimen/dimens20"
                 android:text="0.0"
                 android:textColor="@color/main_text_color"
                 android:textSize="@dimen/dimens20"/>
@@ -89,6 +91,7 @@
             android:textSize="@dimen/dimens13"/>
 
         <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="@dimen/dimens5"
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -137,8 +140,10 @@
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimens50"
-            android:background="@drawable/bg_edittext"
+            android:background="@drawable/bg_submit"
             android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens18"
             android:text="@string/sumbit_apply"/>
     </LinearLayout>
 </RelativeLayout>

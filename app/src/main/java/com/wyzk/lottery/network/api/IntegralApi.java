@@ -4,6 +4,7 @@ import com.wyzk.lottery.constant.UrlContainer;
 import com.wyzk.lottery.model.AccountBean;
 import com.wyzk.lottery.model.BankBean;
 import com.wyzk.lottery.model.ChargeModel;
+import com.wyzk.lottery.model.ExchangeModel;
 import com.wyzk.lottery.model.ResultReturn;
 
 import java.util.List;
@@ -40,6 +41,8 @@ public interface IntegralApi {
     @GET(UrlContainer.GET_CHARGE_HISTORY_LIST)
     Observable<ChargeModel> getChargeHistory(@Query("token") String token, @Query("page") int page, @Query("rows") int rows);
 
+    @GET(UrlContainer.GET_INTEGRAL_EXCHANGE_HISTORY)
+    Observable<ExchangeModel> getExchangeHistory(@Query("token") String token, @Query("page") int page, @Query("rows") int rows);
 
 //            @GET(UrlContainer.GET_INTEGRAL_LIST)
 //            Observable<ResultReturn<IntegralModel>>getList(@Query("page")int page, @Query("rows")int rows);
