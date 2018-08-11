@@ -5,15 +5,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.wyzk.lottery.R;
-import com.wyzk.lottery.model.RoomModel;
+import com.wyzk.lottery.adapter.WithdrawalRecordAdapter;
+import com.wyzk.lottery.model.ExchangeModel;
+import com.wyzk.lottery.model.ResultReturn;
+import com.wyzk.lottery.model.UserInfoModel;
+import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
 
 import java.util.ArrayList;
@@ -21,6 +23,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class WithdrawalRecordActivity extends LotteryBaseActivity {
@@ -28,7 +33,13 @@ public class WithdrawalRecordActivity extends LotteryBaseActivity {
     Toolbar toolbar;
     @Bind(R.id.title)
     View title;
-    private List<RoomModel> mDataList = new ArrayList<>();
+
+    @Bind(R.id.tv_available_integral)
+    TextView tv_available_integral;
+
+    private List<ExchangeModel.ExchangeItem> mDataList = new ArrayList<>();
+    private WithdrawalRecordAdapter withdrawalRecordAdapter;
+    private int currentPage = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,49 +64,72 @@ public class WithdrawalRecordActivity extends LotteryBaseActivity {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadmore(2000);
+                currentPage++;
+                getWithdrawalRecordList();
             }
         });
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new HomeAdapter());
-    }
 
-    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
+        withdrawalRecordAdapter = new WithdrawalRecordAdapter(this, mDataList, R.layout.item_excharge_record);
+        withdrawalRecordAdapter.setOnItemClickListener(new WithdrawalRecordAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
 
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            MyViewHolder holder = new MyViewHolder(LayoutInflater.from(WithdrawalRecordActivity.this).inflate(R.layout.item_recharge_record, parent,
-                    false));
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-//           holder.tv_charge_type.setText(mDataList.get(position));
-//           holder.tv_time.setText(mDataList.get(position));
-//            holder.tv_time.setText(mDataList.get(position));
-//            holder.tv_time.setText(mDataList.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mDataList.size();
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-
-            TextView tv_charge_type;
-            TextView tv_time;
-            TextView tv_charge_value;
-            TextView tv_charge_status;
-
-            public MyViewHolder(View view) {
-                super(view);
-                tv_charge_type = (TextView) view.findViewById(R.id.tv_charge_type);
-                tv_time = (TextView) view.findViewById(R.id.tv_time);
-                tv_charge_value = (TextView) view.findViewById(R.id.tv_charge_value);
-                tv_charge_status = (TextView) view.findViewById(R.id.tv_charge_status);
+                ExchargeDetailActivity.startExchargeDetailActivity(WithdrawalRecordActivity.this, mDataList.get(position));
             }
-        }
+        });
+
+        recyclerView.setAdapter(withdrawalRecordAdapter);
+
+        getWithdrawalRecordList();
+
+        getUserInfo();
     }
+
+    private void getUserInfo() {
+        Network.getNetworkInstance().getUserApi()
+                .getUserInfo(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ResultReturn<UserInfoModel>>() {
+                    @Override
+                    public void accept(ResultReturn<UserInfoModel> userInfoModelResultReturn) {
+                        if (userInfoModelResultReturn != null) {
+                            UserInfoModel userInfoModel = userInfoModelResultReturn.getData();
+                            if (userInfoModel != null) {
+                                tv_available_integral.setText(userInfoModel.getIntegralValue() + "");
+                            }
+                        }
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+    private void getWithdrawalRecordList() {
+        Network.getNetworkInstance().getIntegralApi()
+                .getExchangeHistory(token, currentPage, 10)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ExchangeModel>() {
+                    @Override
+                    public void accept(ExchangeModel resultReturn) throws Exception {
+                        mDataList.clear();
+                        mDataList.addAll(resultReturn.getRows());
+                        withdrawalRecordAdapter.notifyDataSetChanged();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+
+                    }
+                });
+
+    }
+
 }

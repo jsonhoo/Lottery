@@ -32,7 +32,9 @@ public class RechargeRecordActivity extends LotteryBaseActivity {
     View title;
 
     private List<ChargeModel.ChargeHistoryModel> mDataList = new ArrayList<>();
-    RecordAdapter recordAdapter;
+    private RecordAdapter recordAdapter;
+
+    private int currentPage = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class RechargeRecordActivity extends LotteryBaseActivity {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadmore(2000);
+                currentPage++;
+                getChargeRecord();
             }
         });
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -76,7 +80,7 @@ public class RechargeRecordActivity extends LotteryBaseActivity {
 
     private void getChargeRecord() {
         Network.getNetworkInstance().getIntegralApi()
-                .getChargeHistory(token, 1, 10)
+                .getChargeHistory(token, currentPage, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ChargeModel>() {

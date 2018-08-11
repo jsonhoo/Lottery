@@ -98,6 +98,7 @@ public class LoginActivity extends LotteryBaseActivity {
                             TokenModel tokenModel = result.getData();
                             ACache.get(LoginActivity.this).put(IConst.TOKEN, tokenModel.getToken());
                             ACache.get(LoginActivity.this).put(IConst.USER_ID, tokenModel.getUserId());
+                            ACache.get(LoginActivity.this).put(IConst.IS_ADMIN,tokenModel.getIsAdmin());
 
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();

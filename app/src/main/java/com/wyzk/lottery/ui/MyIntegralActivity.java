@@ -97,6 +97,10 @@ public class MyIntegralActivity extends LotteryBaseActivity {
                         }
 
                     }
+                },new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                    }
                 });
     }
 
@@ -114,6 +118,10 @@ public class MyIntegralActivity extends LotteryBaseActivity {
                             mDataList.addAll(data.getRows());
                             homeAdapter.notifyDataSetChanged();
                         }
+                    }
+                },new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
                     }
                 });
     }

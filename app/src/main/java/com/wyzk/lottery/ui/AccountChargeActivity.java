@@ -189,11 +189,15 @@ public class AccountChargeActivity extends LotteryBaseActivity implements View.O
         }
 
         String money = ev_input.getText().toString().trim();
+
         if (TextUtils.isEmpty(money)) {
             ToastUtil.showToast(this, getString(R.string.money_is_empty));
             return;
         }
-
+        if(Integer.valueOf(money)<100){
+            ToastUtil.showToast(this, "充值金额必须大于等于100");
+            return;
+        }
         Network.getNetworkInstance().getIntegralApi()
                 .addCharge(token, money, bankBean.getUserManagerPayAccountId(), String.valueOf(type), bankBean.getRemarkCode())
                 .subscribeOn(Schedulers.io())

@@ -38,4 +38,13 @@ public interface UrlContainer {
     String GET_INTEGRAL_LIST = "/game/integral/pageList";//积分列表
 
     String GET_INTEGRAL_EXCHANGE_HISTORY = "/game/integral/exchange/history";//提现记录
+
+    String GET_INTEGRAL_EXCHANGE_LIST="/manager/game/integral/exchange/list";//提现待审批列表
+
+    String GET_CHARGE_LIST = "/manager/game/integral/charge/list"; //充值待审批列表
+
+    String FINISH_CHARGE = "/manager/game/integral/charge/reviewFinish";//充值审核通过
+    String REJECT_CHARGE = "/manager/game/integral/charge/reviewReject";//充值审核驳回
+    String EXCHANGE_FINISH = "/manager/game/integral/exchange/reviewFinish"; //提现审核通过
+    String EXCHANGE_REJECT = "/manager/game/integral/exchange/reviewReject";//提现审核驳回
 }

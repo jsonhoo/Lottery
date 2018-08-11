@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.model.ChargeModel;
 import com.wyzk.lottery.utils.BuildManager;
+import com.wyzk.lottery.utils.UTCDateUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,7 +42,11 @@ public class RechargeDetailActivity extends LotteryBaseActivity {
     @Bind(R.id.tv_order_note_code)
     TextView tv_order_note_code;
 
-    ChargeModel.ChargeHistoryModel chargeHistoryModel;
+//    @Bind(R.id.tv_user_name)
+//    TextView tv_user_name;
+
+    private ChargeModel.ChargeHistoryModel chargeHistoryModel;
+    //private RechargeManageModel.RechargeItem rechargeItem;
 
     public static void startRechargeDetailActivity(Context context, ChargeModel.ChargeHistoryModel chargeHistoryModel) {
         Intent intent = new Intent(context, RechargeDetailActivity.class);
@@ -66,6 +71,41 @@ public class RechargeDetailActivity extends LotteryBaseActivity {
         BuildManager.setStatusTrans(this, 1, title);
 
         chargeHistoryModel = (ChargeModel.ChargeHistoryModel) getIntent().getSerializableExtra("chargeHistoryModel");
+
+        tv_order_serial_number.setText(chargeHistoryModel.getChargeNo());
+
+        switch (chargeHistoryModel.getChargeType()) {
+            case 1:
+                tv_settlement_type.setText(R.string.bank);
+                break;
+            case 2:
+                tv_settlement_type.setText(R.string.alipay);
+                break;
+            case 3:
+                tv_settlement_type.setText(R.string.wechat);
+                break;
+        }
+
+        switch (chargeHistoryModel.getChargeStatus()) {
+            case 0:
+                tv_order_status.setText(R.string.status_5);
+                break;
+            case 1:
+                tv_order_status.setText(R.string.status_6);
+                break;
+            case 2:
+                tv_order_status.setText(R.string.status_3);
+                break;
+            case 3:
+                tv_order_status.setText(R.string.status_4);
+                break;
+        }
+        tv_order_value.setText("" + chargeHistoryModel.getChargeValue());
+        tv_order_time.setText(UTCDateUtil.format(chargeHistoryModel.getCreateTime(), UTCDateUtil.FMT_DATETIME));
+        tv_platform_card_no.setText(chargeHistoryModel.getManagerPayAccount());
+        tv_platform_card_user_name.setText(chargeHistoryModel.getManagerPayAccountName());
+        tv_platform_card_bank_name.setText(chargeHistoryModel.getManagerPayAccountBank());
+        tv_order_note_code.setText(chargeHistoryModel.getRemarkCode());
     }
 
 

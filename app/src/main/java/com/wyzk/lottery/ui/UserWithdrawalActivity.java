@@ -250,6 +250,10 @@ public class UserWithdrawalActivity extends LotteryBaseActivity {
             showToast(getString(R.string.money_shortage));
             return;
         }
+        if (Integer.valueOf(etValue) < 100) {
+            showToast("提现金额必须大于等于100");
+            return;
+        }
         if (TextUtils.isEmpty(etValue)) {
             showToast(getString(R.string.empty_data));
             return;

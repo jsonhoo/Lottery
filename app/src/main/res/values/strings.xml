@@ -27,6 +27,7 @@
     <string name="register_success2">注册成功</string>
     <string name="back_login">返回登录</string>
 
+    <string name="recharge_manage">充值提现管理</string>
     <string name="my_integral">我的积分</string>
     <string name="recharge">充值提现</string>
     <string name="recharge_detail">明细</string>
@@ -173,10 +174,29 @@
     <string name="platform_card_no">平台卡号</string>
     <string name="platform_card_no2">平台卡号:</string>
     <string name="order_note_code">备注码</string>
+
+    <string name="card_no">卡号</string>
     <string name="platform_card_user_name">持卡人</string>
     <string name="platform_card_user_name2">持卡人:</string>
     <string name="platform_card_bank_name">发卡行</string>
     <string name="platform_card_bank_name2">发卡行:</string>
 
+    <string name="status_1">待兑换</string>
+    <string name="status_2">已兑换</string>
+    <string name="status_3">作废</string>
+    <string name="status_4">驳回</string>
+
+    <string name="status_5">待充值</string>
+    <string name="status_6">已充值</string>
+
+    <string name="withdrawal_detail">提现详情</string>
+    <string name="exchange_no">提现流水号</string>
+    <string name="exchange_value">提现金额</string>
+
+    <string name="rechange_user">充值用户名称</string>
+    <string name="exchange_user">提现用户名称</string>
+
+    <string name="exchange_recorde">提现记录</string>
+    <string name="rechange_recorde">充值记录</string>
 
 </resources>

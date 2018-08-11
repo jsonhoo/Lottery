@@ -102,6 +102,12 @@
         <activity android:name=".ui.SetRateActivity"/>
         <activity android:name=".ui.TestActivity"/>
 
+        <activity android:name=".ui.ExchargeDetailActivity"/>
+        <activity android:name=".ui.RechargeManageActivity"/>
+        <activity android:name=".ui.AdminRechargeDetailActivity"/>
+        <activity android:name=".ui.fragment.MangeRechargeTabActivity"/>
+        <activity android:name=".ui.ManageExchangeDetailActivity"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

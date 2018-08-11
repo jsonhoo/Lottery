@@ -5,6 +5,7 @@ import com.wyzk.lottery.model.AccountBean;
 import com.wyzk.lottery.model.BankBean;
 import com.wyzk.lottery.model.ChargeModel;
 import com.wyzk.lottery.model.ExchangeModel;
+import com.wyzk.lottery.model.RechargeManageModel;
 import com.wyzk.lottery.model.ResultReturn;
 
 import java.util.List;
@@ -43,6 +44,33 @@ public interface IntegralApi {
 
     @GET(UrlContainer.GET_INTEGRAL_EXCHANGE_HISTORY)
     Observable<ExchangeModel> getExchangeHistory(@Query("token") String token, @Query("page") int page, @Query("rows") int rows);
+
+
+    @GET(UrlContainer.GET_CHARGE_LIST)
+    Observable<RechargeManageModel> getRechargeRecord(@Query("token") String token,
+                                                      @Query("page") int page,
+                                                      @Query("rows") int rows,
+                                                      @Query("chargeStatus") int chargeStatus);
+
+    @GET(UrlContainer.GET_INTEGRAL_EXCHANGE_LIST)
+    Observable<ExchangeModel> getExchangeList(@Query("token") String token, @Query("page") int page, @Query("rows") int rows,@Query("username") String username);
+
+
+    @FormUrlEncoded
+    @POST(UrlContainer.FINISH_CHARGE)
+    Observable<ResultReturn<String>> setRechargeFinish(@Field("token") String token, @Field("chargeId") String chargeId);
+
+    @FormUrlEncoded
+    @POST(UrlContainer.REJECT_CHARGE)
+    Observable<ResultReturn<String>> setRechargeReject(@Field("token") String token, @Field("chargeId") String chargeId);
+
+    @FormUrlEncoded
+    @POST(UrlContainer.EXCHANGE_FINISH)
+    Observable<ResultReturn<String>> setExchangeFinish(@Field("token") String token, @Field("exchangeId") String chargeId);
+
+    @FormUrlEncoded
+    @POST(UrlContainer.EXCHANGE_REJECT)
+    Observable<ResultReturn<String>> setExchangeReject(@Field("token") String token, @Field("exchangeId") String chargeId);
 
 //            @GET(UrlContainer.GET_INTEGRAL_LIST)
 //            Observable<ResultReturn<IntegralModel>>getList(@Query("page")int page, @Query("rows")int rows);
