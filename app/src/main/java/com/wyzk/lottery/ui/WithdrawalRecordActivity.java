@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.adapter.WithdrawalRecordAdapter;
 import com.wyzk.lottery.model.ExchangeModel;
@@ -17,6 +18,7 @@ import com.wyzk.lottery.model.ResultReturn;
 import com.wyzk.lottery.model.UserInfoModel;
 import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
+import com.wyzk.lottery.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,13 +61,21 @@ public class WithdrawalRecordActivity extends LotteryBaseActivity {
 
 
         RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
-        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableRefresh(true);
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadmore(2000);
                 currentPage++;
                 getWithdrawalRecordList();
+                refreshlayout.finishLoadmore(2000);
+            }
+        });
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                currentPage = 1;
+                getWithdrawalRecordList();
+                refreshlayout.finishRefresh(2000);
             }
         });
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -116,17 +126,23 @@ public class WithdrawalRecordActivity extends LotteryBaseActivity {
                 .getExchangeHistory(token, currentPage, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ExchangeModel>() {
+                .subscribe(new Consumer<ResultReturn<ExchangeModel>>() {
                     @Override
-                    public void accept(ExchangeModel resultReturn) throws Exception {
-                        mDataList.clear();
-                        mDataList.addAll(resultReturn.getRows());
-                        withdrawalRecordAdapter.notifyDataSetChanged();
+                    public void accept(ResultReturn<ExchangeModel> result) throws Exception {
+                        if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            if (result.getData() != null) {
+                                mDataList.clear();
+                                mDataList.addAll(result.getData().getRows());
+                                withdrawalRecordAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            ToastUtil.showToast(WithdrawalRecordActivity.this, "失败");
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-
+                        ToastUtil.showToast(WithdrawalRecordActivity.this, "失败");
                     }
                 });
 

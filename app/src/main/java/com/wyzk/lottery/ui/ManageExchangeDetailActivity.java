@@ -8,12 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.model.ExchangeModel;
 import com.wyzk.lottery.model.ResultReturn;
 import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
-import com.wyzk.lottery.utils.ToastUtil;
 import com.wyzk.lottery.utils.UTCDateUtil;
 
 import butterknife.Bind;
@@ -128,37 +128,79 @@ public class ManageExchangeDetailActivity extends LotteryBaseActivity {
     }
 
     private void setExchangeFinish() {
+        showMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING, "努力进行中...");
+
         Network.getNetworkInstance().getIntegralApi()
                 .setExchangeFinish(token, exchangeItem.getExchangeId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void accept(ResultReturn<String> string) throws Exception {
-                        ToastUtil.showToast(ManageExchangeDetailActivity.this,"成功");
+                    public void accept(ResultReturn<String> result) throws Exception {
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
+
+                        if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            final QMUITipDialog successDialog = new QMUITipDialog.Builder(ManageExchangeDetailActivity.this)
+                                    .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
+                                    .setTipWord("兑换成功")
+                                    .create();
+                            successDialog.show();
+                            submit_ok.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    successDialog.dismiss();
+                                    ManageExchangeDetailActivity.this.finish();
+                                    finish();
+                                }
+                            }, 500);
+
+                        } else {
+                            showMyFailDialog("提交失败", submit_ok);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-                        ToastUtil.showToast(ManageExchangeDetailActivity.this,"失败");
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
+                        showMyFailDialog("提交失败", submit_ok);
                     }
                 });
     }
 
-    private void  setExchangeReject() {
+    private void setExchangeReject() {
+        showMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING, "努力进行中...");
+
         Network.getNetworkInstance().getIntegralApi()
                 .setExchangeReject(token, exchangeItem.getExchangeId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void accept(ResultReturn<String> string) throws Exception {
-                        ToastUtil.showToast(ManageExchangeDetailActivity.this,"成功");
+                    public void accept(ResultReturn<String> result) throws Exception {
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
+                        if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            final QMUITipDialog successDialog = new QMUITipDialog.Builder(ManageExchangeDetailActivity.this)
+                                    .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
+                                    .setTipWord("兑换成功")
+                                    .create();
+                            successDialog.show();
+                            submit_ok.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    successDialog.dismiss();
+                                    ManageExchangeDetailActivity.this.finish();
+                                    finish();
+                                }
+                            }, 500);
+                        } else {
+                            showMyFailDialog("提交失败", submit_ok);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-                        ToastUtil.showToast(ManageExchangeDetailActivity.this,"失败");
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
+                        showMyFailDialog("提交失败", submit_ok);
                     }
                 });
     }

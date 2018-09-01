@@ -29,6 +29,10 @@ public class PersonalInformationActivity extends LotteryBaseActivity {
     @Bind(R.id.tv_integral)
     TextView tv_integral;
 
+    @Bind(R.id.tv_inviteCode)
+    TextView tv_inviteCode;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,8 @@ public class PersonalInformationActivity extends LotteryBaseActivity {
             if (userInfoModel != null) {
                 tv_name.setText("用户昵称：" + userInfoModel.getRealname());
                 tv_integral.setText("当前积分：" + String.valueOf(userInfoModel.getIntegralValue()));
+
+                tv_inviteCode.setText("用户邀请码：" + userInfoModel.getInviteCode());
             }
         }
     }
@@ -75,7 +81,7 @@ public class PersonalInformationActivity extends LotteryBaseActivity {
                             }
                         }
                     }
-                },new Consumer<Throwable>() {
+                }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
                     }

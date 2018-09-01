@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.adapter.ManageAdapter;
 import com.wyzk.lottery.adapter.OnItemClickListener;
 import com.wyzk.lottery.constant.IConst;
 import com.wyzk.lottery.model.RechargeManageModel;
+import com.wyzk.lottery.model.ResultReturn;
 import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.ui.AdminRechargeDetailActivity;
 import com.wyzk.lottery.utils.ACache;
@@ -47,13 +49,22 @@ public class ChargeManageFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_rechage_manage, container, false);
 
         RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
-        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableRefresh(true);
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadmore(2000);
                 pageIndex++;
                 getRechargeRecordList(pageIndex, pageRows, 0);
+                refreshlayout.finishLoadmore(2000);
+            }
+        });
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+
+                pageIndex = 1;
+                getRechargeRecordList(pageIndex, pageRows, 0);
+                refreshlayout.finishRefresh(2000);
             }
         });
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
@@ -67,8 +78,14 @@ public class ChargeManageFragment extends Fragment {
                 AdminRechargeDetailActivity.startAdminRechargeDetailActivity(getContext(), mDataList.get(position));
             }
         });
-        getRechargeRecordList(pageIndex, pageRows, 0);
+        //getRechargeRecordList(pageIndex, pageRows, 0);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getRechargeRecordList(pageIndex, pageRows, 0);
     }
 
     private void getRechargeRecordList(int pageIndex, int rowIndex, int chargeStatus) {
@@ -76,13 +93,20 @@ public class ChargeManageFragment extends Fragment {
                 .getRechargeRecord(ACache.get(getContext()).getAsString(IConst.TOKEN), pageIndex, rowIndex, chargeStatus)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<RechargeManageModel>() {
+                .subscribe(new Consumer<ResultReturn<RechargeManageModel>>() {
                     @Override
-                    public void accept(RechargeManageModel rechargeManageModel) throws Exception {
-                        if (rechargeManageModel != null && rechargeManageModel.getRows() != null) {
-                            mDataList.addAll(rechargeManageModel.getRows());
-                            manageAdapter.notifyDataSetChanged();
+                    public void accept(ResultReturn<RechargeManageModel> result) throws Exception {
+                        if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            RechargeManageModel rechargeManageModel = result.getData();
+                            if (rechargeManageModel.getRows() != null) {
+                                mDataList.clear();
+                                mDataList.addAll(rechargeManageModel.getRows());
+                                manageAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+
                         }
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override

@@ -19,13 +19,22 @@
     <string name="contact">联系方式：</string>
     <string name="contact_hint">请输入联系方式</string>
     <string name="nickname">昵称：</string>
+    <string name="invate_code">邀请码：</string>
     <string name="sex">性别：</string>
     <string name="nickname_hint">请输入昵称</string>
+    <string name="invite_code_hint">请输入邀请码</string>
+
+
     <string name="enter_your_details">请将内容填完整!</string>
     <string name="register_fail">注册失败,请检查网络状态!</string>
     <string name="register_success">恭喜!注册成功</string>
     <string name="register_success2">注册成功</string>
     <string name="back_login">返回登录</string>
+
+    <string name="account_register_too_short">账号长度必须大约6</string>
+    <string name="account_password_too_short">密码长度必须大约6</string>
+    <string name="account_nick_too_short">昵称长度必须大约6</string>
+
 
     <string name="recharge_manage">充值提现管理</string>
     <string name="my_integral">我的积分</string>
@@ -199,4 +208,9 @@
     <string name="exchange_recorde">提现记录</string>
     <string name="rechange_recorde">充值记录</string>
 
+
+    <string name="game_start">开始</string>
+    <string name="game_deciding">封盘</string>
+    <string name="game_invalid">作废</string>
+    <string name="game_balance">结算</string>
 </resources>

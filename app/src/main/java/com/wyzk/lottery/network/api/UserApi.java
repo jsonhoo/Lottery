@@ -22,7 +22,7 @@ public interface UserApi {
 
     @FormUrlEncoded
     @POST(UrlContainer.REGISTER)
-    Observable<ResultReturn<String>> register(@Field("username") String username, @Field("password") String password, @Field("realname") String realname, @Field("sex") int sex);
+    Observable<ResultReturn<String>> register(@Field("username") String username, @Field("password") String password, @Field("realname") String realname, @Field("sex") int sex, @Field("inviteCode")String inviteCode);
 
     @FormUrlEncoded
     @POST(UrlContainer.GET_USER_INFO)

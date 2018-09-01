@@ -45,10 +45,10 @@
 
             <ImageView
                 android:id="@+id/iv"
-                android:layout_width="105dp"
-                android:layout_height="105dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:background="@mipmap/pic_hy"/>
 
             <LinearLayout
@@ -199,6 +199,53 @@
                             android:ems="10"
                             android:gravity="left|center"
                             android:hint="@string/nickname_hint"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="@dimen/dimens15" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:layout_marginRight="@dimen/dimens20"
+                    android:layout_marginTop="@dimen/dimens20"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:gravity="center|left"
+                        android:text="@string/invate_code"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens16" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimens40"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/dimens20"
+                        android:background="@drawable/login_edittext"
+                        android:gravity="center_vertical">
+
+                        <EditText
+                            android:id="@+id/edt_reg_invite_code"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="@dimen/dimens12"
+                            android:layout_marginRight="10dp"
+                            android:maxLength="10"
+                            android:singleLine="true"
+                            android:background="@null"
+                            android:gravity="left|center"
+                            android:hint="@string/invite_code_hint"
                             android:inputType="textEmailAddress"
                             android:textColor="@color/white"
                             android:textColorHint="@color/white"

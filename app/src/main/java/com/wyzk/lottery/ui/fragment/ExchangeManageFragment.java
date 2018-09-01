@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.adapter.ManageExchangeAdapter;
 import com.wyzk.lottery.adapter.OnItemClickListener;
 import com.wyzk.lottery.constant.IConst;
 import com.wyzk.lottery.model.ExchangeModel;
+import com.wyzk.lottery.model.ResultReturn;
 import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.ui.ManageExchangeDetailActivity;
 import com.wyzk.lottery.utils.ACache;
@@ -47,7 +49,7 @@ public class ExchangeManageFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_rechage_manage, container, false);
 
         RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
-        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableRefresh(true);
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -56,6 +58,15 @@ public class ExchangeManageFragment extends Fragment {
                 getExchangeList(pageIndex, pageRows, "");
             }
         });
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                pageIndex = 1;
+                getExchangeList(pageIndex, pageRows, "");
+                refreshlayout.finishRefresh(2000);
+            }
+        });
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -64,24 +75,36 @@ public class ExchangeManageFragment extends Fragment {
         manageExchangeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ManageExchangeDetailActivity.startManageExchangeDetailActivity(getContext(),mDataList.get(position));
+                ManageExchangeDetailActivity.startManageExchangeDetailActivity(getContext(), mDataList.get(position));
             }
         });
         getExchangeList(pageIndex, pageRows, "");
         return view;
     }
 
-    private void getExchangeList(int pageIndex, int rowIndex,String username) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        getExchangeList(pageIndex, pageRows, "");
+    }
+
+    private void getExchangeList(int pageIndex, int rowIndex, String username) {
         Network.getNetworkInstance().getIntegralApi()
                 .getExchangeList(ACache.get(getContext()).getAsString(IConst.TOKEN), pageIndex, rowIndex, username)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ExchangeModel>() {
+                .subscribe(new Consumer<ResultReturn<ExchangeModel>>() {
                     @Override
-                    public void accept(ExchangeModel exchangeModel) throws Exception {
-                        if (exchangeModel != null && exchangeModel.getRows() != null) {
-                            mDataList.addAll(exchangeModel.getRows());
-                            manageExchangeAdapter.notifyDataSetChanged();
+                    public void accept(ResultReturn<ExchangeModel> resultReturn) throws Exception {
+                        if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            ExchangeModel exchangeModel = resultReturn.getData();
+                            if (exchangeModel != null && exchangeModel.getRows() != null) {
+                                mDataList.clear();
+                                mDataList.addAll(exchangeModel.getRows());
+                                manageExchangeAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+
                         }
                     }
                 }, new Consumer<Throwable>() {

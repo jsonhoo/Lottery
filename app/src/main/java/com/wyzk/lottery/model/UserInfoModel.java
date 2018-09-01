@@ -9,6 +9,7 @@ public class UserInfoModel implements Serializable {
     private int sex;
     private int integralValue;
     private String password;
+    private String inviteCode;
 
     public UserInfoModel() {
     }
@@ -58,6 +59,14 @@ public class UserInfoModel implements Serializable {
         this.integralValue = integralValue;
     }
 
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
+
     @Override
     public String toString() {
         return "UserInfoModel{" +
@@ -66,6 +75,7 @@ public class UserInfoModel implements Serializable {
                 ", sex=" + sex +
                 ", integralValue=" + integralValue +
                 ", password='" + password + '\'' +
+                ", inviteCode='" + inviteCode + '\'' +
                 '}';
     }
 }

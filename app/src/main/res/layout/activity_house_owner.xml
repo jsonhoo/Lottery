@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/pull_bg">
+
 
     <RelativeLayout
         android:id="@+id/view_group"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/pull_bg">
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/message"
-            layout="@layout/message"/>
+            layout="@layout/message" />
 
         <LinearLayout
             android:id="@+id/deal_message"
@@ -35,7 +36,7 @@
                     android:gravity="center"
                     android:text="房主账号"
                     android:textColor="@color/pull_top_text_color"
-                    android:textSize="@dimen/dimens13"/>
+                    android:textSize="@dimen/dimens13" />
 
                 <TextView
                     android:id="@+id/tv_username"
@@ -49,7 +50,7 @@
                     android:padding="@dimen/dimens3"
                     android:text="kr555"
                     android:textColor="@color/pull_top_data_text_color"
-                    android:textSize="@dimen/dimens13"/>
+                    android:textSize="@dimen/dimens13" />
 
             </LinearLayout>
 
@@ -67,7 +68,7 @@
                     android:gravity="center"
                     android:text="目前积分"
                     android:textColor="@color/pull_top_text_color"
-                    android:textSize="@dimen/dimens13"/>
+                    android:textSize="@dimen/dimens13" />
 
                 <TextView
                     android:id="@+id/tv_user_integral"
@@ -79,7 +80,7 @@
                     android:padding="@dimen/dimens3"
                     android:text="1000"
                     android:textColor="@color/pull_top_data_text_color"
-                    android:textSize="@dimen/dimens13"/>
+                    android:textSize="@dimen/dimens13" />
 
             </LinearLayout>
 
@@ -104,7 +105,7 @@
                     android:paddingRight="@dimen/dimens8"
                     android:paddingTop="@dimen/dimens8"
                     android:text="设置抽成"
-                    android:textSize="@dimen/dimens12"/>
+                    android:textSize="@dimen/dimens12" />
 
             </LinearLayout>
 
@@ -114,7 +115,7 @@
             layout="@layout/include_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/message"/>
+            android:layout_below="@id/message" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,7 +125,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <include layout="@layout/place"/>
+            <include layout="@layout/place" />
 
             <LinearLayout
                 android:id="@+id/ll_rank"
@@ -133,7 +134,7 @@
                 android:layout_marginTop="@dimen/dimens10"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/rg_rank"
@@ -144,39 +145,39 @@
                     <Button
                         android:id="@+id/yi"
                         style="@style/button_style"
-                        android:text="排名1"/>
+                        android:text="排名1" />
 
                     <Button
                         android:id="@+id/er"
                         style="@style/button_style"
                         android:layout_marginLeft="@dimen/dimens8"
-                        android:text="排名2"/>
+                        android:text="排名2" />
 
                     <Button
                         android:id="@+id/san"
                         style="@style/button_style"
                         android:layout_marginLeft="@dimen/dimens8"
-                        android:text="排名3"/>
+                        android:text="排名3" />
 
                     <Button
                         android:id="@+id/si"
                         style="@style/button_style"
                         android:layout_marginLeft="@dimen/dimens8"
-                        android:text="排名4"/>
+                        android:text="排名4" />
 
                     <Button
                         android:id="@+id/wu"
                         style="@style/button_style"
                         android:layout_marginLeft="@dimen/dimens8"
                         android:checked="false"
-                        android:text="排名5"/>
+                        android:text="排名5" />
 
                     <Button
                         android:id="@+id/liu"
                         style="@style/button_style"
                         android:layout_marginLeft="@dimen/dimens8"
                         android:checked="false"
-                        android:text="排名6"/>
+                        android:text="排名6" />
                 </LinearLayout>
 
                 <TextView
@@ -185,14 +186,14 @@
                     android:background="@drawable/submit_btn_selector"
                     android:clickable="true"
                     android:onClick="resetResult"
-                    android:text="重置\n结果"/>
+                    android:text="重置\n结果" />
 
                 <TextView
                     style="@style/tab_text"
                     android:background="@drawable/cancel_btn_selector"
                     android:clickable="true"
                     android:onClick="onSubmitResult"
-                    android:text="上报\n结果"/>
+                    android:text="上报\n结果" />
 
             </LinearLayout>
 
@@ -219,7 +220,7 @@
                     android:paddingRight="@dimen/dimens8"
                     android:paddingTop="@dimen/dimens8"
                     android:text="开始下注"
-                    android:textSize="@dimen/dimens12"/>
+                    android:textSize="@dimen/dimens12" />
 
                 <TextView
                     android:id="@+id/cancle"
@@ -237,7 +238,7 @@
                     android:paddingRight="@dimen/dimens8"
                     android:paddingTop="@dimen/dimens8"
                     android:text="场次作废"
-                    android:textSize="@dimen/dimens12"/>
+                    android:textSize="@dimen/dimens12" />
 
                 <TextView
                     android:id="@+id/fengpan"
@@ -255,7 +256,7 @@
                     android:paddingRight="@dimen/dimens8"
                     android:paddingTop="@dimen/dimens8"
                     android:text="封盘发牌"
-                    android:textSize="@dimen/dimens12"/>
+                    android:textSize="@dimen/dimens12" />
 
                 <TextView
                     android:id="@+id/reportResult"
@@ -273,7 +274,7 @@
                     android:paddingRight="@dimen/dimens8"
                     android:paddingTop="@dimen/dimens8"
                     android:text="上报结果"
-                    android:textSize="@dimen/dimens12"/>
+                    android:textSize="@dimen/dimens12" />
 
             </RelativeLayout>
 
@@ -287,7 +288,8 @@
         android:layout_width="@dimen/dimens220"
         android:layout_height="@dimen/dimens160"
         android:layout_centerHorizontal="true"
-        android:clickable="true">
+        android:clickable="true"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -298,7 +300,8 @@
                 android:id="@+id/preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <ImageView
@@ -310,7 +313,7 @@
             android:layout_marginBottom="@dimen/dimens5"
             android:layout_marginRight="@dimen/dimens5"
             android:src="@mipmap/uvv_player_scale_btn"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 </RelativeLayout>

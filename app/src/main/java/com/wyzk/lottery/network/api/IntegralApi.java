@@ -40,20 +40,20 @@ public interface IntegralApi {
     Observable<ResultReturn<String>> withdrawal(@Field("token") String token, @Field("exchangeValue") String exchangeValue, @Field("userPayAccountId") String userPayAccountId);
 
     @GET(UrlContainer.GET_CHARGE_HISTORY_LIST)
-    Observable<ChargeModel> getChargeHistory(@Query("token") String token, @Query("page") int page, @Query("rows") int rows);
+    Observable<ResultReturn<ChargeModel>> getChargeHistory(@Query("token") String token, @Query("page") int page, @Query("rows") int rows);
 
     @GET(UrlContainer.GET_INTEGRAL_EXCHANGE_HISTORY)
-    Observable<ExchangeModel> getExchangeHistory(@Query("token") String token, @Query("page") int page, @Query("rows") int rows);
+    Observable<ResultReturn<ExchangeModel>> getExchangeHistory(@Query("token") String token, @Query("page") int page, @Query("rows") int rows);
 
 
     @GET(UrlContainer.GET_CHARGE_LIST)
-    Observable<RechargeManageModel> getRechargeRecord(@Query("token") String token,
+    Observable<ResultReturn<RechargeManageModel>> getRechargeRecord(@Query("token") String token,
                                                       @Query("page") int page,
                                                       @Query("rows") int rows,
                                                       @Query("chargeStatus") int chargeStatus);
 
     @GET(UrlContainer.GET_INTEGRAL_EXCHANGE_LIST)
-    Observable<ExchangeModel> getExchangeList(@Query("token") String token, @Query("page") int page, @Query("rows") int rows,@Query("username") String username);
+    Observable<ResultReturn<ExchangeModel>> getExchangeList(@Query("token") String token, @Query("page") int page, @Query("rows") int rows,@Query("username") String username);
 
 
     @FormUrlEncoded

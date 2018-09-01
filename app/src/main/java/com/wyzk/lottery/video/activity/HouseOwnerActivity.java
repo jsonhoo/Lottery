@@ -651,6 +651,9 @@ public class HouseOwnerActivity extends VideoBaseActivity implements OnClickList
         mChatManager.release();
         TimeUtils.disSub();
         mMarqueeView.stopScroll();
+
+        canSubscribeMqTopic(IConst.TOPIC + roomId);
+
         super.onDestroy();
     }
 

@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.wyzk.lottery"
         minSdkVersion 18
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 3
         versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -14,15 +14,44 @@ android {
             abiFilters 'armeabi-v7a'
         }
 
-
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
         }
-
     }
+
+    signingConfigs {
+        Config {
+            storeFile file("my_one_key.jks")
+            storePassword "123456"
+            keyAlias "key1"
+            keyPassword "123456"
+        }
+    }
+
+//    buildTypes {
+////        debug {
+////            //Zipalign优化
+////            zipAlignEnabled false
+////            // 移除无用的resource文件
+////            shrinkResources false
+////            minifyEnabled false
+////            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+////            signingConfig signingConfigs.Config
+////        }
+//        release {
+//            //Zipalign优化
+//            zipAlignEnabled true
+//            // 移除无用的resource文件
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.Config
+//        }
+//
+//    }
+
     lintOptions {
         abortOnError false
     }
@@ -43,8 +72,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+
+    compile 'com.android.support:design:26.1.0'
     compile 'com.facebook.fresco:fresco:1.5.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile ('com.jakewharton.rxbinding2:rxbinding:2.1.1'){
@@ -63,8 +93,8 @@ dependencies {
     compile(name: 'wsrtcsdk-v1.1.1', ext: 'aar')
     compile project(':ijkplayer')
     compile project(':faceunity')
-
-    compile 'com.github.xxl6097:wyzkmqtt:0.1.5'
+    compile project(':hetmqsdk')
+    //compile 'com.github.xxl6097:wyzkmqtt:0.1.5'
 
     compile 'com.github.xxl6097:crashsdk:0.0.2'
     compile 'com.github.xxl6097:emailsdk:0.0.1'
@@ -74,4 +104,5 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.qmuiteam:qmui:1.1.3'
 }

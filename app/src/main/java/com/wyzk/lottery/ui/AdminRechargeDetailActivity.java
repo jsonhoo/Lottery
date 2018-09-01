@@ -8,12 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.model.RechargeManageModel;
 import com.wyzk.lottery.model.ResultReturn;
 import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
-import com.wyzk.lottery.utils.ToastUtil;
 import com.wyzk.lottery.utils.UTCDateUtil;
 
 import butterknife.Bind;
@@ -133,37 +133,79 @@ public class AdminRechargeDetailActivity extends LotteryBaseActivity {
     }
 
     private void setRechargeFinish() {
+        showMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING, "努力进行中...");
+
         Network.getNetworkInstance().getIntegralApi()
                 .setRechargeFinish(token, rechargeItem.getChargeId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void accept(ResultReturn<String> string) throws Exception {
-                        ToastUtil.showToast(AdminRechargeDetailActivity.this,"成功");
+                    public void accept(ResultReturn<String> result) throws Exception {
+                        //ToastUtil.showToast(AdminRechargeDetailActivity.this,"成功");
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
+
+                        if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            final QMUITipDialog successDialog = new QMUITipDialog.Builder(AdminRechargeDetailActivity.this)
+                                    .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
+                                    .setTipWord("充值成功")
+                                    .create();
+                            successDialog.show();
+
+                            submit_ok.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    successDialog.dismiss();
+                                    AdminRechargeDetailActivity.this.finish();
+                                }
+                            }, 500);
+                        } else {
+                            showMyFailDialog("充值失败", tv_order_status);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-                        ToastUtil.showToast(AdminRechargeDetailActivity.this,"失败");
+                        //ToastUtil.showToast(AdminRechargeDetailActivity.this,"失败");
+                        showMyFailDialog("充值失败", tv_order_status);
                     }
                 });
     }
 
     private void setRechargeReject() {
+        showMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING, "努力进行中...");
+
         Network.getNetworkInstance().getIntegralApi()
                 .setRechargeReject(token, rechargeItem.getChargeId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResultReturn<String>>() {
                     @Override
-                    public void accept(ResultReturn<String> string) throws Exception {
-                        ToastUtil.showToast(AdminRechargeDetailActivity.this,"成功");
+                    public void accept(ResultReturn<String> resultReturn) throws Exception {
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
+                        if (resultReturn != null && resultReturn.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            final QMUITipDialog successDialog = new QMUITipDialog.Builder(AdminRechargeDetailActivity.this)
+                                    .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
+                                    .setTipWord("提交成功")
+                                    .create();
+                            successDialog.show();
+                            submit_ok.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    successDialog.dismiss();
+                                    AdminRechargeDetailActivity.this.finish();
+                                }
+                            }, 500);
+                        } else {
+                            showMyFailDialog("提交失败", tv_order_status);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
-                        ToastUtil.showToast(AdminRechargeDetailActivity.this,"失败");
+                        //ToastUtil.showToast(AdminRechargeDetailActivity.this, "失败");
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
+                        showMyFailDialog("提交失败", tv_order_status);
                     }
                 });
     }

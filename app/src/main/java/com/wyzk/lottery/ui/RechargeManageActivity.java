@@ -9,12 +9,15 @@ import android.view.View;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.adapter.ManageAdapter;
 import com.wyzk.lottery.adapter.OnItemClickListener;
 import com.wyzk.lottery.model.RechargeManageModel;
+import com.wyzk.lottery.model.ResultReturn;
 import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
+import com.wyzk.lottery.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +59,7 @@ public class RechargeManageActivity extends LotteryBaseActivity {
         BuildManager.setStatusTrans(this, 1, title);
         RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
         refreshLayout.setEnableRefresh(false);
+
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -64,17 +68,29 @@ public class RechargeManageActivity extends LotteryBaseActivity {
                 getRechargeRecordList(pageIndex, pageRows, 0);
             }
         });
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                if (token != null) {
+                    pageIndex = 1;
+                    getRechargeRecordList(pageIndex, pageRows, 0);
+                }
+                refreshlayout.finishRefresh(2000);
+            }
+        });
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        manageAdapter = new ManageAdapter(this,mDataList,R.layout.item_recharge_record);
+        manageAdapter = new ManageAdapter(this, mDataList, R.layout.item_recharge_record);
 
         recyclerView.setAdapter(manageAdapter);
 
         manageAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                AdminRechargeDetailActivity.startAdminRechargeDetailActivity(RechargeManageActivity.this,mDataList.get(position));
+                AdminRechargeDetailActivity.startAdminRechargeDetailActivity(RechargeManageActivity.this, mDataList.get(position));
             }
         });
 
@@ -92,17 +108,23 @@ public class RechargeManageActivity extends LotteryBaseActivity {
                 .getRechargeRecord(token, pageIndex, rowIndex, chargeStatus)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<RechargeManageModel>() {
+                .subscribe(new Consumer<ResultReturn<RechargeManageModel>>() {
                     @Override
-                    public void accept(RechargeManageModel rechargeManageModel) throws Exception {
-                        if (rechargeManageModel != null && rechargeManageModel.getRows() != null) {
-                            mDataList.addAll(rechargeManageModel.getRows());
-                            manageAdapter.notifyDataSetChanged();
+                    public void accept(ResultReturn<RechargeManageModel> result) throws Exception {
+                        if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            if (result != null && result.getData() != null) {
+                                mDataList.addAll(result.getData().getRows());
+                                manageAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            ToastUtil.showToast(RechargeManageActivity.this, "失败");
                         }
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
+                        ToastUtil.showToast(RechargeManageActivity.this, "失败");
                     }
                 });
     }

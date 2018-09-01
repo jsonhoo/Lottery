@@ -12,8 +12,10 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.adapter.RecordAdapter;
 import com.wyzk.lottery.model.ChargeModel;
+import com.wyzk.lottery.model.ResultReturn;
 import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
+import com.wyzk.lottery.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +56,7 @@ public class RechargeRecordActivity extends LotteryBaseActivity {
 
 
         RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
-        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableRefresh(true);
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -83,16 +85,23 @@ public class RechargeRecordActivity extends LotteryBaseActivity {
                 .getChargeHistory(token, currentPage, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ChargeModel>() {
+                .subscribe(new Consumer<ResultReturn<ChargeModel>>() {
                     @Override
-                    public void accept(ChargeModel resultReturn) {
-                        mDataList.clear();
-                        mDataList.addAll(resultReturn.getRows());
-                        recordAdapter.notifyDataSetChanged();
+                    public void accept(ResultReturn<ChargeModel> result) {
+                        if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            if (result.getData() != null) {
+                                mDataList.clear();
+                                mDataList.addAll(result.getData().getRows());
+                                recordAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            ToastUtil.showToast(RechargeRecordActivity.this, "失败");
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) {
+                        ToastUtil.showToast(RechargeRecordActivity.this, "失败");
                     }
                 });
     }

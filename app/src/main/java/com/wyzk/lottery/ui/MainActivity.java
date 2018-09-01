@@ -85,11 +85,11 @@ public class MainActivity extends LotteryBaseActivity
         }
     };
 
-    Consumer<RoomModel> roomObserver = new Consumer<RoomModel>() {
+    Consumer<ResultReturn<RoomModel>> roomObserver = new Consumer<ResultReturn<RoomModel>>() {
         @Override
-        public void accept(RoomModel result) throws Exception {
-            if (result != null) {
-                List<RoomModel.RowModel> rowModels = result.getRows();
+        public void accept(ResultReturn<RoomModel> result) throws Exception {
+            if (result != null && result.getData() != null) {
+                List<RoomModel.RowModel> rowModels = result.getData().getRows();
                 mDataList.clear();
                 if (rowModels != null) {
                     mDataList.addAll(rowModels);
@@ -241,7 +241,7 @@ public class MainActivity extends LotteryBaseActivity
         if (id == R.id.my_integral) {
             String isAdmin = ACache.get(MainActivity.this).getAsString(IConst.IS_ADMIN);
             if ("".equals(isAdmin) || isAdmin == null || "0".equals(isAdmin)) {
-                ToastUtil.showToast(this,"权限不够");
+                ToastUtil.showToast(this, "权限不够");
             } else {
                 toActivity(MangeRechargeTabActivity.class);
             }
@@ -255,7 +255,8 @@ public class MainActivity extends LotteryBaseActivity
         } else if (id == R.id.my_message) {
             toActivity(MyMessageActivity.class);
         } else if (id == R.id.service) {
-            toCall();
+            //toCall();
+            toActivity(BaiJiaLeActivity.class);
         } else if (id == R.id.about) {
             toActivity(AboutActivity.class);
         }

@@ -144,7 +144,7 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
         status = (TextView) findViewById(R.id.status);
         time = (TextView) findViewById(R.id.time);
 
-        tv_online = (TextView)findViewById(R.id.tv_online);
+        tv_online = (TextView) findViewById(R.id.tv_online);
 
         p1 = (PlaceView) findViewById(R.id.p1);
         p2 = (PlaceView) findViewById(R.id.p2);
@@ -206,21 +206,22 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
         mChatManager.init(this, true, wsChatConfig);
     }
 
-    private void showOnline(int onLineCount){
+    private void showOnline(int onLineCount) {
 
-            tv_online.setText("人数:"+onLineCount);
+        tv_online.setText("人数:" + onLineCount);
 
     }
+
     private void getRoom() {
         Network.getNetworkInstance().getLiveApi()
-                .getOnlineCount(token,roomId)
+                .getOnlineCount(token, roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResultReturn<Integer>>() {
                     @Override
                     public void accept(ResultReturn<Integer> result) throws Exception {
                         if (result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
-                             showOnline(result.getData());
+                            showOnline(result.getData());
                         }
                         dismissLoadingView();
                     }
@@ -572,6 +573,7 @@ public class PlayerActivity extends VideoBaseActivity implements OnClickListener
     protected void onDestroy() {
         mChatManager.release();
         TimeUtils.disSub();
+        canSubscribeMqTopic(IConst.TOPIC + roomId);
         super.onDestroy();
     }
 

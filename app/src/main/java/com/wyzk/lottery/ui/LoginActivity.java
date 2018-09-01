@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.constant.IConst;
 import com.wyzk.lottery.model.ResultReturn;
@@ -75,13 +75,20 @@ public class LoginActivity extends LotteryBaseActivity {
             showToast(getString(R.string.username_pwd_empty));
             return;
         }
-        showLoadingView();
         login(username, pwd);
     }
 
+
+
+
+
     private void login(final String username, final String password) {
+
+        showMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING, "登录中...");
+
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String imei = telephonyManager.getDeviceId();
+
         subscription = Network.getNetworkInstance().getUserApi()
                 .login(username, password, imei)
                 .subscribeOn(Schedulers.io())
@@ -89,28 +96,40 @@ public class LoginActivity extends LotteryBaseActivity {
                 .subscribe(new Consumer<ResultReturn<TokenModel>>() {
                     @Override
                     public void accept(ResultReturn<TokenModel> result) throws Exception {
-                        dismissLoadingView();
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
                         if (result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-
+                            //Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                             setSp(IConst.USER_INFO_KEY, new UserInfoModel(username, password));
-
                             TokenModel tokenModel = result.getData();
                             ACache.get(LoginActivity.this).put(IConst.TOKEN, tokenModel.getToken());
                             ACache.get(LoginActivity.this).put(IConst.USER_ID, tokenModel.getUserId());
-                            ACache.get(LoginActivity.this).put(IConst.IS_ADMIN,tokenModel.getIsAdmin());
+                            ACache.get(LoginActivity.this).put(IConst.IS_ADMIN, tokenModel.getIsAdmin());
 
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
+                            final QMUITipDialog successDialog = new QMUITipDialog.Builder(LoginActivity.this)
+                                    .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
+                                    .setTipWord("登录成功")
+                                    .create();
+                            successDialog.show();
+
+                            tvRegister.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    successDialog.dismiss();
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    finish();
+                                }
+                            }, 500);
                         } else {
-                            Toast.makeText(LoginActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LoginActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                            showMyFailDialog("登录失败",tvRegister);
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        dismissLoadingView();
-                        Toast.makeText(LoginActivity.this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
+                        //dismissLoadingView();
+                        hideMyDialog(QMUITipDialog.Builder.ICON_TYPE_LOADING);
+                        showMyFailDialog("登录失败",tvRegister);
                     }
                 });
     }
