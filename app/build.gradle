@@ -94,6 +94,9 @@ dependencies {
     compile project(':ijkplayer')
     compile project(':faceunity')
     compile project(':hetmqsdk')
+
+    compile project(':CSRmeshLogicSDK')
+
     //compile 'com.github.xxl6097:wyzkmqtt:0.1.5'
 
     compile 'com.github.xxl6097:crashsdk:0.0.2'

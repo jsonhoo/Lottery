@@ -2,4 +2,7 @@ include ':app'
 include ':faceunity'
 include ':ijkplayer'
 include ':hetmqsdk'
+include ':CSRmeshLibrary'
+include ':CSRmeshLogicSDK'
+
 //include ':TestVersionUpdate'
