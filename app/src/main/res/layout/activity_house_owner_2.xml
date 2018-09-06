@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/pull_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_room_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimens10"
+            android:layout_weight="2"
+            android:text="123456"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens20" />
+
+        <TextView
+            android:id="@+id/tv_room_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimens10"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2018-08-13:12:56"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens20" />
+
+        <TextView
+            android:id="@+id/tv_room_roundId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dimens10"
+            android:layout_marginRight="@dimen/dimens10"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:text="5687"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens20" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/line2"
+        android:layout_below="@+id/line1"
+        android:layout_marginTop="@dimen/dimens40"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dimens10"
+        android:paddingRight="@dimen/dimens10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/line_border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/game_rk" />
+
+                    <TextView
+                        android:id="@+id/tv_position1_rk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimens10"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/my_person" />
+
+                    <TextView
+                        android:id="@+id/tv_position1_persons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/money" />
+
+                    <TextView
+                        android:id="@+id/tv_position1_sum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/line_border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/game_rk" />
+
+                    <TextView
+                        android:id="@+id/tv_position2_rk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimens10"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/my_person" />
+
+                    <TextView
+                        android:id="@+id/tv_position2_persons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/money" />
+
+                    <TextView
+                        android:id="@+id/tv_position2_sum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/line_border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/game_rk" />
+
+                    <TextView
+                        android:id="@+id/tv_position3_rk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimens10"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/my_person" />
+
+                    <TextView
+                        android:id="@+id/tv_position3_persons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/money" />
+
+                    <TextView
+                        android:id="@+id/tv_position3_sum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/line_border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/game_rk" />
+
+                    <TextView
+                        android:id="@+id/tv_position4_rk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimens10"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/my_person" />
+
+                    <TextView
+                        android:id="@+id/tv_position4_persons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/money" />
+
+                    <TextView
+                        android:id="@+id/tv_position4_sum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/line_border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/game_rk" />
+
+                    <TextView
+                        android:id="@+id/tv_position5_rk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimens10"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/my_person" />
+
+                    <TextView
+                        android:id="@+id/tv_position5_persons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/money" />
+
+                    <TextView
+                        android:id="@+id/tv_position5_sum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/line_border"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/game_rk" />
+
+                    <TextView
+                        android:id="@+id/tv_position6_rk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimens10"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/my_person" />
+
+                    <TextView
+                        android:id="@+id/tv_position6_persons"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimens10"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimens20"
+                        android:layout_height="@dimen/dimens20"
+                        android:background="@mipmap/money" />
+
+                    <TextView
+                        android:id="@+id/tv_position6_sum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/dimens18" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_rank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lin3"
+            android:layout_marginTop="@dimen/dimens10"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dimens10"
+            android:paddingRight="@dimen/dimens10"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/yi"
+                    style="@style/button_style"
+                    android:layout_centerInParent="true"
+                    android:text="排名1" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/er"
+                    style="@style/button_style"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:text="排名2" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/san"
+                    style="@style/button_style"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:text="排名3" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/si"
+                    style="@style/button_style"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:text="排名4" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/wu"
+                    style="@style/button_style"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:checked="false"
+                    android:text="排名5" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/liu"
+                    style="@style/button_style"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dimens20"
+                    android:checked="false"
+                    android:text="排名6" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/tab_text"
+                    android:layout_marginLeft="@dimen/dimens10"
+                    android:background="@drawable/submit_btn_selector"
+                    android:clickable="true"
+                    android:onClick="resetResult"
+                    android:text="重置\n结果"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    style="@style/tab_text"
+                    android:background="@drawable/cancel_btn_selector"
+                    android:clickable="true"
+                    android:onClick="onSubmitResult"
+                    android:text="上报\n结果"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dimens10"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dimens5"
+        android:paddingTop="@dimen/dimens5"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="@dimen/dimens60"
+                android:layout_height="@dimen/dimens60"
+                android:layout_centerInParent="true"
+                android:background="@drawable/btn_bg_red"
+                android:text="@string/game_start"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens18" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="@dimen/dimens60"
+                android:layout_height="@dimen/dimens60"
+                android:layout_centerInParent="true"
+                android:background="@drawable/btn_bg_red"
+                android:text="@string/game_invalid"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens18" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="@dimen/dimens60"
+                android:layout_height="@dimen/dimens60"
+                android:layout_centerInParent="true"
+                android:background="@drawable/btn_bg_red"
+                android:text="@string/game_deciding"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens18" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="@dimen/dimens60"
+                android:layout_height="@dimen/dimens60"
+                android:layout_centerInParent="true"
+                android:background="@drawable/btn_bg_red"
+                android:text="@string/game_balance"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens18" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -37,27 +37,10 @@ public class RegisterActivity extends LotteryBaseActivity {
     @Bind(R.id.rl_back)
     View rl_back;
 
-    Observer<ResultReturn<String>> observer = new Observer<ResultReturn<String>>() {
-        @Override
-        public void onSubscribe(Disposable d) {
+    @Bind(R.id.edt_reg_invite_code)
+    EditText edt_reg_invite_code;
 
-        }
 
-        @Override
-        public void onNext(ResultReturn<String> result) {
-
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
-        }
-
-        @Override
-        public void onComplete() {
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +59,28 @@ public class RegisterActivity extends LotteryBaseActivity {
     @OnClick(R.id.btn_reg_submit)
     public void onClick() {
         String username = edtRegUsername.getText().toString().trim();
+        if (username != null && username.length() < 6) {
+            Toast.makeText(getApplicationContext(), getString(R.string.account_register_too_short), Toast.LENGTH_LONG).show();
+            return;
+        }
+
         String password = edtRegPassword.getText().toString().trim();
+        if (password != null && password.length() < 6) {
+            Toast.makeText(getApplicationContext(), getString(R.string.account_password_too_short), Toast.LENGTH_LONG).show();
+            return;
+        }
+
         String nickname = edt_reg_nickname.getText().toString().trim();
+        if (nickname != null && nickname.length() < 6) {
+            Toast.makeText(getApplicationContext(), getString(R.string.account_nick_too_short), Toast.LENGTH_LONG).show();
+            return;
+        }
+
         int sex = rg_sex.getCheckedRadioButtonId() == R.id.male ? 0 : 1;
+        String inviteCode = edt_reg_invite_code.getText().toString().trim();
 
         if (!username.isEmpty() && !password.isEmpty()) {
-            registerUser(username, password, nickname, sex);
+            registerUser(username, password, nickname, sex,inviteCode);
         } else {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.enter_your_details), Toast.LENGTH_LONG)
@@ -89,10 +88,10 @@ public class RegisterActivity extends LotteryBaseActivity {
         }
     }
 
-    private void registerUser(final String username, final String password, final String realname, int sex) {
+    private void registerUser(final String username, final String password, final String realname, int sex,String inviteCode) {
         showLoadingView();
         Network.getNetworkInstance().getUserApi()
-                .register(username, password, realname, sex)
+                .register(username, password, realname, sex,inviteCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultReturn<String>>() {

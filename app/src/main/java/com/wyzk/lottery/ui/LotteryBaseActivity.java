@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.WindowManager;
@@ -16,6 +17,7 @@ import com.fsix.mqtt.bean.MqttConnBean;
 import com.fsix.mqtt.observer.EventManager;
 import com.fsix.mqtt.observer.INotify;
 import com.fsix.mqtt.util.ATil;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.wyzk.lottery.R;
 import com.wyzk.lottery.constant.IConst;
 import com.wyzk.lottery.event.NetworkEvent;
@@ -41,6 +43,48 @@ public abstract class LotteryBaseActivity extends AppCompatActivity implements I
     protected ExtraBean extraBean;
     protected String token;
     private static MQ mq;
+
+    protected QMUITipDialog loadDialog;
+
+
+    protected void showMyFailDialog(String tips, View view) {
+
+        final QMUITipDialog failDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL)
+                .setTipWord(tips)
+                .create();
+        failDialog.show();
+
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                failDialog.dismiss();
+            }
+        }, 500);
+    }
+
+
+    protected void showMyDialog(int type, String tips) {
+        if (type == QMUITipDialog.Builder.ICON_TYPE_LOADING) {
+            if (loadDialog == null) {
+                loadDialog = new QMUITipDialog.Builder(this)
+                        .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                        .setTipWord(tips)
+                        .create();
+            }
+            if (!loadDialog.isShowing()) {
+                loadDialog.show();
+            }
+        }
+    }
+
+    protected void hideMyDialog(int type) {
+        if (type == QMUITipDialog.Builder.ICON_TYPE_LOADING) {
+            if (loadDialog != null) {
+                loadDialog.dismiss();
+            }
+        }
+    }
 
     @Override
 
@@ -120,6 +164,9 @@ public abstract class LotteryBaseActivity extends AppCompatActivity implements I
      * @param text
      */
     protected void showToast(final String text) {
+        if (TextUtils.isEmpty(text)) {
+            return;
+        }
         runOnUiThread(new Runnable() {
 
             @Override
@@ -215,6 +262,12 @@ public abstract class LotteryBaseActivity extends AppCompatActivity implements I
         if (mq != null) {
             mq.stop();
             mq = null;
+        }
+    }
+
+    protected void canSubscribeMqTopic(String topic) {
+        if (mq != null) {
+            mq.unsubscribe(topic);
         }
     }
 

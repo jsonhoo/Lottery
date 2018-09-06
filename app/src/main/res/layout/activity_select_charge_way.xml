@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -25,15 +25,15 @@
                 android:layout_gravity="center"
                 android:text="@string/account_charge"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"  />
+                android:textSize="@dimen/dimens18" />
 
             <TextView
                 android:id="@+id/tv_contact_service"
                 android:layout_width="wrap_content"
-                android:padding="@dimen/dimens10"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="@dimen/dimens16"
+                android:padding="@dimen/dimens10"
                 android:text="@string/contact_service"
                 android:textColor="@color/white"
                 android:textSize="@dimen/dimens15" />
@@ -41,156 +41,146 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <View
-        android:background="@color/red"
-        android:layout_width="match_parent"
-        android:layout_height="1px"></View>
-
-    <GridLayout
-        android:id="@+id/gv_value"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </GridLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/silver"
+        android:background="@color/silver_1"
         android:orientation="vertical">
+
         <TextView
-            android:layout_marginLeft="@dimen/dimens10"
-            android:text="@string/select_charge_way"
-            android:textSize="@dimen/dimens14"
             android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/dimens10"
             android:gravity="center_vertical"
-            android:layout_height="40dp" />
+            android:text="@string/select_charge_way"
+            android:textSize="@dimen/dimens14" />
 
         <RelativeLayout
             android:id="@+id/rl_view_one"
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="@dimen/dimens60"
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/image_1"
-                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_width="@dimen/dimens40"
+                android:layout_height="@dimen/dimens40"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/unionpayred"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_marginLeft="@dimen/dimens10"
+                android:src="@mipmap/unionpayred" />
 
             <TextView
-                android:layout_toRightOf="@+id/image_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/image_1"
-                android:text="@string/select_bank"
-                android:textSize="@dimen/dimens16"
                 android:layout_marginLeft="@dimen/dimens10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_toRightOf="@+id/image_1"
+                android:text="@string/select_bank"
+                android:textSize="@dimen/dimens16" />
 
             <TextView
-                android:layout_marginLeft="@dimen/dimens10"
-                android:layout_alignBottom="@+id/image_1"
-                android:layout_toRightOf="@+id/image_1"
-                android:textSize="@dimen/dimens15"
-                android:textColor="@color/silver"
-                android:text="@string/select_bank_detail"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/image_1"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_1"
+                android:text="@string/select_bank_detail"
+                android:textColor="@color/silver"
+                android:textSize="@dimen/dimens14" />
 
             <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dimens10"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/person_go"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimens10"
+                android:src="@mipmap/person_go" />
         </RelativeLayout>
+
         <RelativeLayout
-            android:layout_marginTop="@dimen/dimens10"
             android:id="@+id/rl_view_two"
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="@dimen/dimens60"
+            android:layout_marginTop="@dimen/dimens10"
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/image_2"
-                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_width="@dimen/dimens40"
+                android:layout_height="@dimen/dimens40"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_alipay"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_marginLeft="@dimen/dimens10"
+                android:src="@mipmap/icon_alipay" />
 
             <TextView
-                android:layout_toRightOf="@+id/image_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/image_2"
-                android:text="@string/select_alipay"
-                android:textSize="@dimen/dimens16"
                 android:layout_marginLeft="@dimen/dimens10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_toRightOf="@+id/image_2"
+                android:text="@string/select_alipay"
+                android:textSize="@dimen/dimens16" />
 
             <TextView
-                android:layout_marginLeft="@dimen/dimens10"
-                android:layout_alignBottom="@+id/image_2"
-                android:layout_toRightOf="@+id/image_2"
-                android:textSize="@dimen/dimens15"
-                android:textColor="@color/silver"
-                android:text="@string/select_alipay_detail"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/image_2"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_2"
+                android:text="@string/select_alipay_detail"
+                android:textColor="@color/silver"
+                android:textSize="@dimen/dimens14" />
 
             <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dimens10"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/person_go"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimens10"
+                android:src="@mipmap/person_go" />
         </RelativeLayout>
+
         <RelativeLayout
-            android:layout_marginTop="@dimen/dimens10"
             android:id="@+id/rl_view_three"
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="@dimen/dimens60"
+            android:layout_marginTop="@dimen/dimens10"
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/image_3"
-                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_width="@dimen/dimens40"
+                android:layout_height="@dimen/dimens40"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/scanqrcode"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_marginLeft="@dimen/dimens10"
+                android:src="@mipmap/wechat" />
 
             <TextView
-                android:layout_toRightOf="@+id/image_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/image_3"
-                android:text="@string/select_scan"
-                android:textSize="@dimen/dimens16"
                 android:layout_marginLeft="@dimen/dimens10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_toRightOf="@+id/image_3"
+                android:text="@string/select_wechat"
+                android:textSize="@dimen/dimens16" />
 
             <TextView
-                android:layout_marginLeft="@dimen/dimens10"
-                android:layout_alignBottom="@+id/image_3"
-                android:layout_toRightOf="@+id/image_3"
-                android:textSize="@dimen/dimens15"
-                android:textColor="@color/silver"
-                android:text="@string/select_scan_detail"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/image_3"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_3"
+                android:text="@string/select_wechat_detail"
+                android:textColor="@color/silver"
+                android:textSize="@dimen/dimens14" />
 
             <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dimens10"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/person_go"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimens10"
+                android:src="@mipmap/person_go" />
         </RelativeLayout>
     </LinearLayout>
-
-
 </LinearLayout>

@@ -5,22 +5,26 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.wyzk.lottery.R;
-import com.wyzk.lottery.model.RoomModel;
+import com.wyzk.lottery.adapter.RecordAdapter;
+import com.wyzk.lottery.model.ChargeModel;
+import com.wyzk.lottery.model.ResultReturn;
+import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
+import com.wyzk.lottery.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class RechargeRecordActivity extends LotteryBaseActivity {
@@ -28,7 +32,11 @@ public class RechargeRecordActivity extends LotteryBaseActivity {
     Toolbar toolbar;
     @Bind(R.id.title)
     View title;
-    private List<RoomModel> mDataList = new ArrayList<>();
+
+    private List<ChargeModel.ChargeHistoryModel> mDataList = new ArrayList<>();
+    private RecordAdapter recordAdapter;
+
+    private int currentPage = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,54 +56,54 @@ public class RechargeRecordActivity extends LotteryBaseActivity {
 
 
         RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
-        refreshLayout.setEnableRefresh(false);
+        refreshLayout.setEnableRefresh(true);
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 refreshlayout.finishLoadmore(2000);
+                currentPage++;
+                getChargeRecord();
             }
         });
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new HomeAdapter());
-    }
-
-    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            MyViewHolder holder = new MyViewHolder(LayoutInflater.from(RechargeRecordActivity.this).inflate(R.layout.item_recharge_record, parent,
-                    false));
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-//           holder.tv_charge_type.setText(mDataList.get(position));
-//           holder.tv_time.setText(mDataList.get(position));
-//            holder.tv_time.setText(mDataList.get(position));
-//            holder.tv_time.setText(mDataList.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return mDataList.size();
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-
-            TextView tv_charge_type;
-            TextView tv_time;
-            TextView tv_charge_value;
-            TextView tv_charge_status;
-
-            public MyViewHolder(View view) {
-                super(view);
-                tv_charge_type = (TextView) view.findViewById(R.id.tv_charge_type);
-                tv_time = (TextView) view.findViewById(R.id.tv_time);
-                tv_charge_value = (TextView) view.findViewById(R.id.tv_charge_value);
-                tv_charge_status = (TextView) view.findViewById(R.id.tv_charge_status);
+        recordAdapter = new RecordAdapter(this, mDataList, R.layout.item_recharge_record);
+        recyclerView.setAdapter(recordAdapter);
+        recordAdapter.setOnItemClickListener(new RecordAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                RechargeDetailActivity.startRechargeDetailActivity(RechargeRecordActivity.this, mDataList.get(position));
             }
-        }
+        });
+
+        getChargeRecord();
     }
+
+
+    private void getChargeRecord() {
+        Network.getNetworkInstance().getIntegralApi()
+                .getChargeHistory(token, currentPage, 10)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ResultReturn<ChargeModel>>() {
+                    @Override
+                    public void accept(ResultReturn<ChargeModel> result) {
+                        if (result != null && result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
+                            if (result.getData() != null) {
+                                mDataList.clear();
+                                mDataList.addAll(result.getData().getRows());
+                                recordAdapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            ToastUtil.showToast(RechargeRecordActivity.this, "失败");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        ToastUtil.showToast(RechargeRecordActivity.this, "失败");
+                    }
+                });
+    }
+
 }

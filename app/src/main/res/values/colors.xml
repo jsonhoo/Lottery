@@ -8,6 +8,7 @@
     <color name="yellow">#FFFF00</color>
     <color name="fuchsia">#FF00FF</color>
     <color name="red">#FF0000</color>
+    <color name="red_2">#9f2121</color>
     <color name="silver">#C0C0C0</color>
     <color name="gray">#808080</color>
     <color name="olive">#808000</color>
@@ -37,5 +38,8 @@
     <color name="pull_top_data_text_color_normal">#E09E17</color>
 
     <color name="silver_1">#f2f2f2</color>
+
+    <color name="yellow_btn">#D7BD4D</color>
+
 
 </resources>

@@ -5,7 +5,7 @@
         <item
             android:id="@+id/my_integral"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/my_integral" />
+            android:title="@string/recharge_manage" />
         <item
             android:id="@+id/recharge"
             android:icon="@drawable/ic_menu_gallery"

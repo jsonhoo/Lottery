@@ -17,7 +17,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 获取MAC地址 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- 允许程序录制音频 -->
     <uses-permission android:name="android.permission.GET_TASKS"/>
-
+    <!--<uses-permission android:name="android.permission."/>-->
+    <!--//INTERACT_ACROSS_USERS_FULL-->
     <uses-feature android:name="android.hardware.camera"/>
 
     <application
@@ -75,7 +76,12 @@
         <activity
             android:name=".ui.RechargeRecordActivity"
             android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".ui.RechargeDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.WithdrawalRecordActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.PersonalInformationActivity"
             android:screenOrientation="portrait"/>
@@ -95,6 +101,14 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".ui.SetRateActivity"/>
         <activity android:name=".ui.TestActivity"/>
+
+        <activity android:name=".ui.ExchargeDetailActivity"/>
+        <activity android:name=".ui.RechargeManageActivity"/>
+        <activity android:name=".ui.AdminRechargeDetailActivity"/>
+        <activity android:name=".ui.fragment.MangeRechargeTabActivity"/>
+        <activity android:name=".ui.ManageExchangeDetailActivity"/>
+
+        <activity android:name=".ui.BaiJiaLeActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

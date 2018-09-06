@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/recharge"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens18"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="@dimen/dimens16"
+                android:onClick="rechargeRecord"
+                android:text="@string/recharge_detail"
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimens15"
+                android:visibility="gone"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens20"
+            android:text="@string/account_carsh"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens20"/>
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimens20"
+            android:text="0.0"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimens20"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/silver_1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_view_one"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens60"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/image_1"
+                android:layout_width="@dimen/dimens40"
+                android:layout_height="@dimen/dimens40"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:src="@mipmap/pay_home_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/image_1"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_1"
+                android:text="@string/account_charge"
+                android:textSize="@dimen/dimens16"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/image_1"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_1"
+                android:text="@string/account_charge_support"
+                android:textColor="@color/silver"
+                android:textSize="@dimen/dimens14"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimens10"
+                android:src="@mipmap/person_go"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_view_two"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens60"
+            android:layout_marginTop="@dimen/dimens10"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/image_2"
+                android:layout_width="@dimen/dimens40"
+                android:layout_height="@dimen/dimens40"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:src="@mipmap/pay_home_withdraw_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/image_2"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_2"
+                android:text="@string/user_exchange"
+                android:textSize="@dimen/dimens16"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/image_2"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_2"
+                android:text="@string/user_exchange_detail"
+                android:textColor="@color/silver"
+                android:textSize="@dimen/dimens14"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimens10"
+                android:src="@mipmap/person_go"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_view_three"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens60"
+            android:layout_marginTop="@dimen/dimens10"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/image_3"
+                android:layout_width="@dimen/dimens40"
+                android:layout_height="@dimen/dimens40"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:src="@mipmap/pay_home_history_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/image_3"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_3"
+                android:text="@string/user_recharge_record"
+                android:textSize="@dimen/dimens16"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/image_3"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_3"
+                android:text="@string/user_record_detail"
+                android:textColor="@color/silver"
+                android:textSize="@dimen/dimens14"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimens10"
+                android:src="@mipmap/person_go"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_view_four"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens60"
+            android:layout_marginTop="@dimen/dimens10"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/image_4"
+                android:layout_width="@dimen/dimens40"
+                android:layout_height="@dimen/dimens40"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:src="@mipmap/pay_home_history_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/image_4"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_4"
+                android:text="@string/user_withdrawal_record"
+                android:textSize="@dimen/dimens16"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/image_4"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:layout_toRightOf="@+id/image_4"
+                android:text="@string/user_withdrawal_record_detail"
+                android:textColor="@color/silver"
+                android:textSize="@dimen/dimens14"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dimens10"
+                android:src="@mipmap/person_go"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

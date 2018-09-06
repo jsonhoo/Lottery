@@ -26,11 +26,25 @@ public interface UrlContainer {
     String UPDATE_ROOM_PERCENTAGE = "/game/room/updateRoomPercentage";//房间修改
     String MYROOM = "/game/room/myRoom";//房间信息
 
+    String GET_ONLINE_COUNT = "/game/user/getRoomStateByRoomId";//获取房间人数
 
-    //充值接口
-    String GET_INTEGRAL_LIST = "/game/integral/pageList";//积分列表
+    //积分模块
+    String GET_BANK = "/game/integral/charge/bank";//获取管理员充值卡号
+    String ADD_CHARGE = "/game/integral/charge/add";//申请充值
+    String ADD_ACCOUNT = "/game/integral/exchange/account/add";//新增提现账号
+    String GET_ACCOUNT_LIST = "/game/integral/exchange/account/list";//获取提现账号列表
+    String WITHDRAWAL = "/game/integral/exchange/add";//提现申请
     String GET_CHARGE_HISTORY_LIST = "/game/integral/charge/history";//我的充值记录
-    String EXCHANGE_ADD = "/game/integral/exchange/add";//提现申请
-    String CHARGE_ADD = "/game/integral/charge/add";//申请充值
+    String GET_INTEGRAL_LIST = "/game/integral/pageList";//积分列表
 
+    String GET_INTEGRAL_EXCHANGE_HISTORY = "/game/integral/exchange/history";//提现记录
+
+    String GET_INTEGRAL_EXCHANGE_LIST="/manager/game/integral/exchange/list";//提现待审批列表
+
+    String GET_CHARGE_LIST = "/manager/game/integral/charge/list"; //充值待审批列表
+
+    String FINISH_CHARGE = "/manager/game/integral/charge/reviewFinish";//充值审核通过
+    String REJECT_CHARGE = "/manager/game/integral/charge/reviewReject";//充值审核驳回
+    String EXCHANGE_FINISH = "/manager/game/integral/exchange/reviewFinish"; //提现审核通过
+    String EXCHANGE_REJECT = "/manager/game/integral/exchange/reviewReject";//提现审核驳回
 }

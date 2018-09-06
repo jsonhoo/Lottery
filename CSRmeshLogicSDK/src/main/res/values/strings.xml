@@ -1,0 +1,8 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+    <string name="pref_cloud_key_url" translatable="false">pref_url_cloud</string>
+    <string name="pref_cloud_key_port" translatable="false">pref_port_cloud</string>
+    <string name="pref_cloud_key_appcode" translatable="false">pref_port_appcode</string>
+    <string name="pref_cloud_key_new_bridge" translatable="false">pref_new_bridge</string>
+</resources>

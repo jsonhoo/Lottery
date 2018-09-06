@@ -1,7 +1,7 @@
 <com.wyzk.lottery.view.InsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="match_parent"
-                                   android:background="@mipmap/login_bg">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/login_bg">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/please_login"/>
+                android:background="@mipmap/please_login" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,10 +41,12 @@
                     android:gravity="left|center_vertical"
                     android:hint="@string/username_hint"
                     android:inputType="textEmailAddress"
+                    android:maxLength="20"
                     android:padding="@dimen/dimens6"
+                    android:singleLine="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
-                    android:textSize="@dimen/dimens15"/>
+                    android:textSize="@dimen/dimens15" />
             </LinearLayout>
 
             <LinearLayout
@@ -66,13 +68,15 @@
                     android:drawablePadding="@dimen/dimens10"
                     android:ellipsize="start"
                     android:ems="10"
+                    android:maxLength="20"
+                    android:singleLine="true"
                     android:gravity="left|center_vertical"
                     android:hint="@string/password_hint"
                     android:inputType="textPassword"
                     android:padding="@dimen/dimens6"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
-                    android:textSize="@dimen/dimens15"/>
+                    android:textSize="@dimen/dimens15" />
             </LinearLayout>
 
             <TextView
@@ -85,20 +89,20 @@
                 android:gravity="right"
                 android:text="@string/donnot_have_username"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens12"/>
+                android:textSize="@dimen/dimens12" />
 
             <Button
-                android:layout_marginLeft="@dimen/dimens50"
-                android:layout_marginRight="@dimen/dimens50"
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimens40"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/dimens50"
+                android:layout_marginRight="@dimen/dimens50"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/login_btn"
                 android:text="@string/login"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens13"/>
+                android:textSize="@dimen/dimens15" />
 
             <ViewStub
                 android:id="@+id/activity_loading_stub"

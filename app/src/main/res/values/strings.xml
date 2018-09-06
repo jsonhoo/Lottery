@@ -19,14 +19,24 @@
     <string name="contact">联系方式：</string>
     <string name="contact_hint">请输入联系方式</string>
     <string name="nickname">昵称：</string>
+    <string name="invate_code">邀请码：</string>
     <string name="sex">性别：</string>
     <string name="nickname_hint">请输入昵称</string>
+    <string name="invite_code_hint">请输入邀请码</string>
+
+
     <string name="enter_your_details">请将内容填完整!</string>
     <string name="register_fail">注册失败,请检查网络状态!</string>
     <string name="register_success">恭喜!注册成功</string>
     <string name="register_success2">注册成功</string>
     <string name="back_login">返回登录</string>
 
+    <string name="account_register_too_short">账号长度必须大约6</string>
+    <string name="account_password_too_short">密码长度必须大约6</string>
+    <string name="account_nick_too_short">昵称长度必须大约6</string>
+
+
+    <string name="recharge_manage">充值提现管理</string>
     <string name="my_integral">我的积分</string>
     <string name="recharge">充值提现</string>
     <string name="recharge_detail">明细</string>
@@ -47,6 +57,8 @@
 
     <string name="sure_recharge">确认充值</string>
     <string name="recharge_record">充值记录</string>
+    <string name="withdrawal_record">提现记录</string>
+    <string name="money_is_empty">请输入充值金额</string>
 
     <string name="set_rate">设置抽成</string>
     <string name="submit">提交</string>
@@ -118,18 +130,35 @@
     <string name="select_charge_way">选择支付方式</string>
     <string name="select_bank">网银转账</string>
     <string name="select_bank_detail">大额支出专用绿色通道，首选支持方式</string>
-    <string name="select_scan">扫描支付</string>
-    <string name="select_scan_detail">支付宝、微信、QQ钱包等线下二维码支付</string>
+    <string name="select_wechat">微信支付</string>
+    <string name="select_wechat_detail">添加微信好友，微信支付</string>
     <string name="select_alipay">支付宝转账</string>
     <string name="select_alipay_detail">支付宝转账绿色通道</string>
 
+    <string name="bank">网上银行</string>
+    <string name="alipay">支付宝</string>
+    <string name="wechat">微信</string>
+
+    <string name="chargestatus1">待充值</string>
+    <string name="chargestatus2">已充值</string>
+    <string name="chargestatus3">作废</string>
+    <string name="chargestatus4">驳回</string>
+
+    <string name="submit_success">提交成功，请耐心等待客服审核。</string>
+    <string name="submit_fail">提交失败</string>
+
     <!-- 提现-->
     <string name="user_withdrawal_title">提现</string>
+    <string name="add_account">新增账号</string>
+    <string name="havenot_account">没有提现账号？去新增</string>
     <string name="user_withdrawal_record">提现记录</string>
-    <string name="user_withdrawal_value">可提现金额</string>
+    <string name="user_withdrawal_value">可提现金额（元）</string>
     <string name="user_card_num">卡号：</string>
     <string name="user_card_name">持卡人：</string>
     <string name="user_card_bank">银行卡：</string>
+    <string name="empty_data">数据不能为空</string>
+    <string name="money_shortage">账户余额不足</string>
+    <string name="account_empty">请先选择或创建账号</string>
 
     <string name="user_withdrawal_tips">提款金额</string>
     <string name="user_withdrawal_rang">可提款金额(1—200,000)</string>
@@ -152,9 +181,36 @@
     <string name="order_time">时间</string>
 
     <string name="platform_card_no">平台卡号</string>
+    <string name="platform_card_no2">平台卡号:</string>
     <string name="order_note_code">备注码</string>
+
+    <string name="card_no">卡号</string>
     <string name="platform_card_user_name">持卡人</string>
+    <string name="platform_card_user_name2">持卡人:</string>
     <string name="platform_card_bank_name">发卡行</string>
+    <string name="platform_card_bank_name2">发卡行:</string>
+
+    <string name="status_1">待兑换</string>
+    <string name="status_2">已兑换</string>
+    <string name="status_3">作废</string>
+    <string name="status_4">驳回</string>
+
+    <string name="status_5">待充值</string>
+    <string name="status_6">已充值</string>
+
+    <string name="withdrawal_detail">提现详情</string>
+    <string name="exchange_no">提现流水号</string>
+    <string name="exchange_value">提现金额</string>
+
+    <string name="rechange_user">充值用户名称</string>
+    <string name="exchange_user">提现用户名称</string>
+
+    <string name="exchange_recorde">提现记录</string>
+    <string name="rechange_recorde">充值记录</string>
 
 
+    <string name="game_start">开始</string>
+    <string name="game_deciding">封盘</string>
+    <string name="game_invalid">作废</string>
+    <string name="game_balance">结算</string>
 </resources>

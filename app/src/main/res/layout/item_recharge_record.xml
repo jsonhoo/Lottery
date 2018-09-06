@@ -10,24 +10,24 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_margin="@dimen/dimens10"
             android:id="@+id/tv_charge_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimens10"
             android:text="支付宝"
             android:textColor="@color/main_text_color"
             android:textSize="@dimen/dimens16" />
 
-
         <TextView
-            android:layout_margin="@dimen/dimens10"
-            android:id="@+id/tv_time"
-            android:layout_alignParentRight="true"
+            android:id="@+id/tv_charge_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2017-12-06"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/dimens10"
+            android:text="未审核"
             android:textColor="@color/main_text_color"
             android:textSize="@dimen/dimens16" />
+
 
     </RelativeLayout>
 
@@ -36,24 +36,24 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_margin="@dimen/dimens10"
             android:id="@+id/tv_charge_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimens10"
             android:text="10000.0"
             android:textColor="@color/main_text_color"
             android:textSize="@dimen/dimens16" />
 
-
         <TextView
-            android:layout_margin="@dimen/dimens10"
-            android:id="@+id/tv_charge_status"
-            android:layout_alignParentRight="true"
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="未审核"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/dimens10"
+            android:text="2017-12-06"
             android:textColor="@color/main_text_color"
             android:textSize="@dimen/dimens16" />
+
 
     </RelativeLayout>
 

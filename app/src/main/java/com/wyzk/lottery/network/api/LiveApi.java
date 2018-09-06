@@ -24,7 +24,7 @@ import retrofit2.http.Query;
 public interface LiveApi {
     @FormUrlEncoded
     @POST(UrlContainer.GET_ROOM_LIST)
-    Observable<RoomModel> getRoomList(@Field("token") String token, @Field("pageIndex") int pageIndex, @Field("pageRows") int pageRows);
+    Observable<ResultReturn<RoomModel>> getRoomList(@Field("token") String token, @Field("pageIndex") int pageIndex, @Field("pageRows") int pageRows);
 
     /**
      * 用户下注
@@ -85,4 +85,9 @@ public interface LiveApi {
     @FormUrlEncoded
     @POST(UrlContainer.MYROOM)
     Observable<ResultReturn<RoomModel.RowModel>> myRoom(@Field("token") String token);
+
+
+    @FormUrlEncoded
+    @POST(UrlContainer.GET_ONLINE_COUNT)
+    Observable<ResultReturn<Integer>> getOnlineCount(@Field("token") String token, @Field("roomId") int roomId);
 }
