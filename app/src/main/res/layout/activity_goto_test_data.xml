@@ -5,9 +5,9 @@ Copyright 2015 Qualcomm Technologies International, Ltd.
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -30,56 +30,64 @@ Copyright 2015 Qualcomm Technologies International, Ltd.
                 android:layout_gravity="center"
                 android:text="设备调试"
                 android:textColor="@color/white"
-                android:textSize="@dimen/dimens18"/>
+                android:textSize="@dimen/dimens18" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
-        android:layout_below="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/title"
         android:fitsSystemWindows="true">
-        <ScrollView
-            android:layout_above="@+id/re_Layout"
-            android:id="@+id/textview_scrollview"
-            android:background="@color/white"
-            android:padding="20dp"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/dimens40"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/data_value"
-                android:layout_width="match_parent"
+                android:text="识别器标识：001"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:text="@string/data_recive_place"
                 android:scrollbars="vertical"
-                android:textSize="14sp" />
-        </ScrollView>
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:visibility="visible" />
 
+            <ImageView
+                android:layout_marginTop="@dimen/dimens10"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/iv_poke"
+                android:layout_width="@dimen/dimens105"
+                android:layout_height="150dp"
+                android:background="@mipmap/mh_j" />
+        </LinearLayout>
 
         <RelativeLayout
-            android:visibility="gone"
-            android:background="@color/white"
             android:id="@+id/re_Layout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:visibility="gone">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:padding="@dimen/dimens10"
                 android:layout_alignParentBottom="true"
+                android:baselineAligned="false"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="@dimen/dimens10">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="5"
                     android:layout_height="wrap_content"
+                    android:layout_weight="5"
                     android:orientation="vertical">
 
                     <EditText
@@ -89,32 +97,32 @@ Copyright 2015 Qualcomm Technologies International, Ltd.
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:background="@drawable/btn_sent"
-                        android:inputType="number"
                         android:digits="0123456789abcdef"
-                        android:padding="5dp"
+                        android:inputType="number"
                         android:minHeight="40dp"
+                        android:padding="5dp"
                         android:textSize="17sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="vertical">
+
                     <Button
                         android:id="@+id/bt_send"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="发送"
                         android:textColor="#666666"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>
     </RelativeLayout>
-
 
 
 </RelativeLayout>

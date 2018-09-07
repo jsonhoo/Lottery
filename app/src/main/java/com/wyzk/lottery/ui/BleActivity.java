@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +24,7 @@ import com.wyzk.lottery.event.TestDataEvent;
 import com.wyzk.lottery.model.Device;
 import com.wyzk.lottery.utils.StringUtil;
 import com.wyzk.lottery.utils.ToastUtil;
+import com.wyzk.lottery.utils.Utils;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -43,15 +44,16 @@ public class BleActivity extends LotteryBaseActivity {
     Toolbar toolbar;
     @Bind(R.id.title)
     View title;
-    
+
     @Bind(R.id.data_value)
     TextView dataValue;
-    @Bind(R.id.textview_scrollview)
-    ScrollView mScrollView;
     @Bind(R.id.et_content)
     EditText etContent;
     @Bind(R.id.bt_send)
     Button btSend;
+
+    @Bind(R.id.iv_poke)
+    ImageView iv_poke;
 
 
     public static final String EXTRA_DEVICE = "EXTRA_DEVICE";
@@ -82,7 +84,7 @@ public class BleActivity extends LotteryBaseActivity {
         super.onDestroy();
         LotteryApplication.bus.unregister(this);
     }
-    
+
     protected void hideInputMethod() {
         View view = this.getCurrentFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -101,7 +103,7 @@ public class BleActivity extends LotteryBaseActivity {
                 break;
         }
     }
-    
+
     private void deviceNotFound() {
         Toast.makeText(this, "没有发现设备", Toast.LENGTH_SHORT).show();
         finish();
@@ -120,7 +122,7 @@ public class BleActivity extends LotteryBaseActivity {
         if (!TextUtils.isEmpty(device.getName())) {
             toolbar.setTitle(device.getName());
         }
-        
+
     }
 
     private void sendDataModlea(final int deviceId, byte[] data, boolean acknowledged) {
@@ -137,7 +139,7 @@ public class BleActivity extends LotteryBaseActivity {
         Logc.e(TAG, "send data =" + StringUtil.byteArrayToHexString(data));
     }
 
-    
+
     private void sendData() {
         if (etContent.getText() != null) {
             String dataString = etContent.getText().toString().trim().replace(" ", "");
@@ -173,15 +175,24 @@ public class BleActivity extends LotteryBaseActivity {
                     try {
                         DateFormat df = DateFormat.getTimeInstance(DateFormat.DEFAULT, Locale.UK);
                         String formattedDate = df.format(new Date());
-                        dataValue.append("<" + formattedDate + "> ");
-                        dataValue.append(msg);
-                        dataValue.append("\n");
-                        mScrollView.fullScroll(View.FOCUS_DOWN);
+                        //dataValue.append("<" + formattedDate + "> ");
+                        dataValue.setText("" + formattedDate);
+                        //dataValue.append(msg);
+                        //dataValue.append("\n");
+                        //mScrollView.fullScroll(View.FOCUS_DOWN);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             });
+        }
+    }
+
+    private void showPokeInfo(byte[] result) {
+        if (Utils.getPokeByIndex(result[1]) != -1) {
+            iv_poke.setBackgroundResource(Utils.getPokeByIndex(result[1]));
+        } else {
+            iv_poke.setBackgroundResource(R.mipmap.pk_bm);
         }
     }
 
@@ -200,8 +211,14 @@ public class BleActivity extends LotteryBaseActivity {
                 case DATA_RECEIVE_BLOCK: {//unack rerevice
                     byte[] reData = event.data.getByteArray(MeshConstants.EXTRA_DATA);
                     if (reData != null) {
-                        showInfo("接收Id:" + deviceId + ":" + StringUtil.byteArrayToHexString(reData));
-                        Logc.e(TAG, "#####接收Id:" + deviceId + ":" + StringUtil.byteArrayToHexString(reData));
+                        //showInfo("接收Id:" + deviceId + ":" + StringUtil.byteArrayToHexString(reData));
+                        runOnUiThread(() -> {
+                            dataValue.setText("设备编号：" + deviceId);
+                            if (reData.length == 3) {
+                                showPokeInfo(reData);
+                            }
+
+                        });
                     }
                     break;
                 }
@@ -209,15 +226,15 @@ public class BleActivity extends LotteryBaseActivity {
                     byte[] reData = event.data.getByteArray(MeshConstants.EXTRA_DATA);
                     int dataSqn = event.data.getInt(MeshConstants.EXTRA_DATA_SQN);
                     if (reData != null) {
-                        showInfo("#####接收Id:" + deviceId + "## Sqn:" + dataSqn + "数据:" + StringUtil.byteArrayToHexString(reData) + "##");
-                        Logc.e(TAG, "#####接收Id:" + deviceId + "## Sqn:" + dataSqn + "数据:" + StringUtil.byteArrayToHexString(reData) + "##");
+                        //showInfo("#####接收Id:" + deviceId + "## Sqn:" + dataSqn + "数据:" + StringUtil.byteArrayToHexString(reData) + "##");
+                        //Logc.e(TAG, "#####接收Id:" + deviceId + "## Sqn:" + dataSqn + "数据:" + StringUtil.byteArrayToHexString(reData) + "##");
                     }
 
                     break;
                 }
                 case DATA_RECEIVE_STREAM_END: {//ack rerevice end
-                    showInfo("#####接收Id:" + deviceId + ":数据接收完成 end###");
-                    Logc.e(TAG, "#####接收Id:" + deviceId + ":数据接收完成 end###");
+                    //showInfo("#####接收Id:" + deviceId + ":数据接收完成 end###");
+                    //Logc.e(TAG, "#####接收Id:" + deviceId + ":数据接收完成 end###");
                     break;
                 }
             }
@@ -225,8 +242,6 @@ public class BleActivity extends LotteryBaseActivity {
             Logc.e(TAG, "#####无关数据:");
         }
     }
-
-    
 
 
 }
