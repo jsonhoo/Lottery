@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "27.0.3"
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.wyzk.lottery"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 3
         versionName "1.0.3"
@@ -56,6 +57,11 @@ android {
         abortOnError false
     }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
 
 }
 
@@ -72,17 +78,15 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:26.1.0'
 
-    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:design:23.1.1'
+
     compile 'com.facebook.fresco:fresco:1.5.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile ('com.jakewharton.rxbinding2:rxbinding:2.1.1'){
+    compile('com.jakewharton.rxbinding2:rxbinding:2.1.1') {
         exclude group: 'com.android.support'
     }
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-
-
 
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -95,17 +99,27 @@ dependencies {
     compile project(':faceunity')
     compile project(':hetmqsdk')
 
-    compile project(':CSRmeshLogicSDK')
+    // Required by mesh library.
+    compile 'com.madgag.spongycastle:core:1.51.0.0'
+    compile 'com.madgag.spongycastle:pkix:1.51.0.0'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    // Event bus.
+    compile 'com.squareup:otto:1.3.5'
+    compile project(':CSRmeshLibrary')
 
+    compile 'com.github.szhittech:hetrecyclersdk:1.0.8-SNAPSHOT'
     //compile 'com.github.xxl6097:wyzkmqtt:0.1.5'
 
     compile 'com.github.xxl6097:crashsdk:0.0.2'
     compile 'com.github.xxl6097:emailsdk:0.0.1'
 
     compile 'com.teprinciple:updateapputils:1.4'
-    compile ('com.github.tbruyelle:rxpermissions:0.10.2'){
+    compile('com.github.tbruyelle:rxpermissions:0.10.2') {
         exclude group: 'com.android.support'
     }
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.qmuiteam:qmui:1.1.3'
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile('com.qmuiteam:qmui:1.1.3') {
+        exclude group: 'com.android.support'
+    }
 }

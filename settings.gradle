@@ -3,6 +3,6 @@ include ':faceunity'
 include ':ijkplayer'
 include ':hetmqsdk'
 include ':CSRmeshLibrary'
-include ':CSRmeshLogicSDK'
+//include ':CSRmeshLogicSDK'
 
 //include ':TestVersionUpdate'

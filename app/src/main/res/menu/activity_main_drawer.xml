@@ -26,6 +26,14 @@
             android:id="@+id/about"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/about" />
+        <item
+            android:id="@+id/deviceList"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/deviceList" />
+        <item
+            android:id="@+id/add"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/add" />
     </group>
 
 </menu>

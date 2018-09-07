@@ -7,10 +7,27 @@
               android:orientation="vertical"
               android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/status"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/dimens10"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/ripple_round_channel"
+            android:padding="20dip"
+            android:src="@mipmap/ic_bluetooth_not_connected_24dp"
+            android:tint="@color/material_color_4" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:orientation="vertical"
         android:paddingLeft="@dimen/dimens45">
 

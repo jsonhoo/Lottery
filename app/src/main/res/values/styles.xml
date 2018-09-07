@@ -302,4 +302,13 @@
         <item name="android:windowEnterAnimation">@anim/setting_panel_show_animation</item>
         <item name="android:windowExitAnimation">@anim/setting_panel_hide_animation</item>
     </style>
+
+    <!-- 分割线 -->
+    <style name="Style.Divider.Horizontal.Default" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#FFD2D2D2</item>
+    </style>
+
+
 </resources>

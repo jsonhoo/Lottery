@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.het.recyclerview.swipemenu.SwipeMenuLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <include
+        android:id="@+id/smMenuView"
+        layout="@layout/item_name" />
+
+    <RelativeLayout
+        android:id="@+id/smContentView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/dimens11"
+        android:paddingRight="@dimen/dimens11">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens10">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/device_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:padding="1dp"
+                        android:textColor="#ccffffff"
+                        android:textSize="16.0dip" />
+
+                    <TextView
+                        android:id="@+id/device_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:padding="1dp"
+                        android:textColor="#ccffffff"
+                        android:textSize="16.0dip" />
+
+                    <TextView
+                        android:id="@+id/device_Uuid"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:padding="1dp"
+                        android:textColor="#ffffff"
+                        android:textSize="16.0dip" />
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/call_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimens20"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/btn_call"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_marginLeft="@dimen/dimens10"
+            android:layout_marginRight="@dimen/dimens10"
+            android:layout_alignParentBottom="true"
+            style="@style/Style.Divider.Horizontal.Default" />
+    </RelativeLayout>
+
+</com.het.recyclerview.swipemenu.SwipeMenuLayout>
+

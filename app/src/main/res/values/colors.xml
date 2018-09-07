@@ -23,6 +23,34 @@
     <color name="black">#000000</color>
     <color name="light_black">#111111</color>
 
+    <!-- Info buttons on device detail page -->
+    <color name="info_icon">#eee</color>
+
+    <color name="thumbColor">#66aaaaaa</color>
+    <color name="material_positive_color">#551E88E5</color>
+
+    <!-- Drawer menu -->
+    <color name="channel_disconnected_background">#44FFFFFF</color>
+    <color name="channel_connected_background">#44FFFFFF</color>
+
+    <!-- Drawer menu -->
+    <color name="material_color_1">#f44336</color>
+    <color name="material_color_2">#e91e63</color>
+    <color name="material_color_3">#9c27b0</color>
+    <color name="material_color_4">#3f51b5</color>
+    <color name="material_color_5">#2196f3</color>
+    <color name="material_color_6">#00bcd4</color>
+    <color name="material_color_7">#009688</color>
+    <color name="material_color_8">#4caf50</color>
+    <color name="material_color_9">#8bc34a</color>
+    <color name="material_color_10">#cddc39</color>
+    <color name="material_color_11">#ffba00</color>
+    <color name="material_color_12">#ff9800</color>
+    <color name="material_color_13">#795548</color>
+    <color name="material_color_14">#9e9e9e</color>
+    <color name="material_color_15">#607d8b</color>
+
+
     <color name="main_text_color">#323232</color>
     <color name="line_color">#848484</color>
     <color name="ececec">#ececec</color>

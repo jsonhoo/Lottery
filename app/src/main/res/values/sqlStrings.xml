@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+******************************************************************************
+Copyright 2015 Qualcomm Technologies International, Ltd.
+******************************************************************************
+-->
+
+<resources>
+
+    <!-- Select -->
+    <string name="sql_get_devices" translatable="false">SELECT _id, deviceHash, deviceId, name, appearance, modelHigh, modelLow, uuid, authCode, model, area FROM devices ORDER BY _id ASC</string>
+
+    <!-- Where clauses -->
+    <string name="sql_where_clause_id" translatable="false">_id = ?</string>
+    <string name="sql_where_clause_device_id" translatable="false">deviceId = ?</string>
+    <string name="sql_where_clause_place_id" translatable="false">placeId = ?</string>
+    <string name="sql_where_clause_events_id" translatable="false">type = ? AND placeId = ?</string>
+    <string name="sql_where_clause_area_id" translatable="false">areaID = ? AND placeId = ?</string>
+    <string name="sql_where_clause_fav_device_id" translatable="false">isFavourite = ? AND placeId = ?</string>
+    <string name="sql_where_clause_uuid" translatable="false">uuid = ?</string>
+
+
+</resources>

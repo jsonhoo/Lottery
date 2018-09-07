@@ -1,5 +1,6 @@
 package com.wyzk.lottery.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,8 +19,11 @@ import com.fsix.mqtt.observer.EventManager;
 import com.fsix.mqtt.observer.INotify;
 import com.fsix.mqtt.util.ATil;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
+import com.wyzk.lottery.LotteryApplication;
 import com.wyzk.lottery.R;
+import com.wyzk.lottery.api.DeviceManager;
 import com.wyzk.lottery.constant.IConst;
+import com.wyzk.lottery.database.DBManager;
 import com.wyzk.lottery.event.NetworkEvent;
 import com.wyzk.lottery.model.ExtraBean;
 import com.wyzk.lottery.utils.ACache;
@@ -45,7 +49,9 @@ public abstract class LotteryBaseActivity extends AppCompatActivity implements I
     private static MQ mq;
 
     protected QMUITipDialog loadDialog;
-
+    protected DBManager mDBManager;
+    protected DeviceManager mDeviceManager;
+    private Context mContext;
 
     protected void showMyFailDialog(String tips, View view) {
 
@@ -92,13 +98,16 @@ public abstract class LotteryBaseActivity extends AppCompatActivity implements I
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
         EventManager.getInstance().registerObserver(this);
-
+        mContext = this;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             extraBean = (ExtraBean) bundle.getSerializable(VALUE_KEY);
         }
         token = ACache.get(this).getAsString(IConst.TOKEN);
         EventBus.getDefault().register(this);
+
+        mDBManager = DBManager.getInstence(LotteryApplication.get(mContext));
+        mDeviceManager = DeviceManager.getInstence(mContext, mDBManager);
     }
 
 

@@ -1,0 +1,58 @@
+<!--
+******************************************************************************
+Copyright 2015 Qualcomm Technologies International, Ltd.
+******************************************************************************
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dip"
+    android:layout_marginBottom="2dp" >
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="25dip"
+        android:layout_height="25dip"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dip"
+        android:src="@mipmap/ic_launcher"/>
+    <!-- UUID -->
+    <TextView
+        android:id="@+id/mTitle"
+        android:layout_toRightOf="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:typeface="sans"
+        android:text=""
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <!-- Bottom right: RSSI -->
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="right"
+        android:textIsSelectable="false"
+        android:text=""
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <!-- Bottom left: apperance text-->
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/icon"
+        android:text=""
+        android:layout_below="@+id/mTitle"
+        android:textSize="12sp"
+        android:textStyle="bold"/>
+
+
+
+</RelativeLayout>
