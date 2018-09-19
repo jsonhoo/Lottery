@@ -47,10 +47,13 @@
     <dimen name="dimens248">248dp</dimen>
 
 
-    <dimen name="money_icon_dimen">@dimen/dimens38</dimen>
+    <dimen name="money_icon_dimen">@dimen/dimens40</dimen>
 
     <dimen name="audience_icon_hight">40dp</dimen>
 
     <dimen name="config_textview_size">10dp</dimen>
     <dimen name="config_edittext_size">12dp</dimen>
+
+    <dimen name="poke_with">30dp</dimen>
+    <dimen name="poke_height">45dp</dimen>
 </resources>

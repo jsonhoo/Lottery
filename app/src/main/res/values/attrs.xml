@@ -37,4 +37,10 @@
         </attr>
     </declare-styleable>
 
+
+    <declare-styleable name="MultiView">
+        <attr name="divideSpace" format="dimension"/>
+        <attr name="placeholder" format="reference"/>
+    </declare-styleable>
+
 </resources>

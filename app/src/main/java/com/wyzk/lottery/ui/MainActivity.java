@@ -62,6 +62,8 @@ import com.wyzk.lottery.utils.DialogBuilder;
 import com.wyzk.lottery.utils.NetUtil;
 import com.wyzk.lottery.utils.ToastUtil;
 import com.wyzk.lottery.utils.Utils;
+import com.wyzk.lottery.video.activity.BjlOwnerActivity;
+import com.wyzk.lottery.video.activity.BjlPlayerActivity;
 import com.wyzk.lottery.video.activity.HouseOwnerActivity;
 import com.wyzk.lottery.video.activity.PlayerActivity;
 import com.wyzk.lottery.view.DialogMaterial;
@@ -457,18 +459,25 @@ public class MainActivity extends LotteryBaseActivity
     }
 
     public void toVideoActivity(int position) {
-        Intent intent;
+        Intent intent = null;
 
         RoomModel.RowModel rowModel = mDataList.get(position);
         String userId = ACache.get(this).getAsString(IConst.USER_ID);
         if (userId != null && userId.equals(rowModel.getUserId())) {
             //房主
-            intent = new Intent(this, HouseOwnerActivity.class);
+            if (rowModel.getGameId() == 1) {
+                intent = new Intent(this, HouseOwnerActivity.class);
+            } else if (rowModel.getGameId() == 2) {
+                intent = new Intent(this, BjlOwnerActivity.class);
+            }
         } else {
             //玩家
-            intent = new Intent(this, PlayerActivity.class);
+            if (rowModel.getGameId() == 1) {
+                intent = new Intent(this, PlayerActivity.class);
+            }else if(rowModel.getGameId() == 2){
+                intent = new Intent(this, BjlPlayerActivity.class);
+            }
         }
-
         intent.putExtra(IConst.ROW_INFO, rowModel);
         startActivity(intent);
     }

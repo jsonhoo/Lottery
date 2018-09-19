@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible">
+
+
+        <com.wangsu.wsrtc.sdk.WSSurfaceView
+            android:id="@+id/surface_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/title"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="直播"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimens18"/>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_below="@+id/title"
+            android:layout_marginTop="@dimen/dimens5"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_player_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="闲"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/dimens20" />
+
+
+                <ImageView
+                    android:layout_width="@dimen/poke_with"
+                    android:layout_height="@dimen/poke_height"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@mipmap/ht_2"
+                    android:rotation="90" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/poke_with"
+                        android:layout_height="@dimen/poke_height"
+                        android:layout_marginLeft="@dimen/dimens10"
+                        android:background="@mipmap/ht_2" />
+
+                    <ImageView
+                        android:layout_width="@dimen/poke_with"
+                        android:layout_height="@dimen/poke_height"
+                        android:layout_marginLeft="@dimen/dimens5"
+                        android:background="@mipmap/ht_2" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimens10"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bank_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="庄"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/dimens20" />
+
+                <ImageView
+                    android:layout_width="@dimen/poke_with"
+                    android:layout_height="@dimen/poke_height"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@mipmap/ht_2"
+                    android:rotation="90" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/poke_with"
+                        android:layout_height="@dimen/poke_height"
+                        android:layout_marginLeft="@dimen/dimens10"
+                        android:background="@mipmap/ht_2" />
+
+                    <ImageView
+                        android:layout_width="@dimen/poke_with"
+                        android:layout_height="@dimen/poke_height"
+                        android:layout_marginLeft="@dimen/dimens5"
+                        android:background="@mipmap/ht_2" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/bjl_311"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/l_bet8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rect_position_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet8_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet8_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="任意对子"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet8_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:6"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l_bet3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rect_position_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet3_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet3_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="和局"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet3_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:5"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l_bet9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rect_position_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet9_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet9_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="完美对"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet9_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:26"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/l_bet4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rect_position_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet4_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet4_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="闲对"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet4_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:12"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l_bet1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rect_position_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet1_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet1_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="闲"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet1_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:2"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l_bet5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rect_position_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet5_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet5_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="庄对"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet5_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:5"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimens8"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/l_bet6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_top_right"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet6_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet6_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="大"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet6_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:1.5"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l_bet2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/rect_position_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet2_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet2_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="庄"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet2_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:1.95"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l_bet7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_top_left"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bet7_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="250/1"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet7_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="小"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_bet7_odds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="1:2.5"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens50"
+            android:background="@color/black"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens5"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/yishi"
+                    android:layout_width="@dimen/money_icon_dimen"
+                    android:layout_height="@dimen/money_icon_dimen"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rect"
+                    android:src="@mipmap/bt_10" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens5"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/yibai"
+                    android:layout_width="@dimen/money_icon_dimen"
+                    android:layout_height="@dimen/money_icon_dimen"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/bt_100"
+                    android:button="@null" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens5"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/yik"
+                    android:layout_width="@dimen/money_icon_dimen"
+                    android:layout_height="@dimen/money_icon_dimen"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/bt_1k"
+                    android:button="@null" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens5"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/shik"
+                    android:layout_width="@dimen/money_icon_dimen"
+                    android:layout_height="@dimen/money_icon_dimen"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/bt_10k"
+                    android:button="@null" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimens5"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/yibaik"
+                    android:layout_width="@dimen/money_icon_dimen"
+                    android:layout_height="@dimen/money_icon_dimen"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/bt_100k"
+                    android:button="@null" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens40"
+            android:background="@color/black"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/tv_show_bank_count"
+                    android:layout_width="@dimen/dimens30"
+                    android:layout_height="@dimen/dimens30"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dimens10"
+                    android:background="@drawable/circle_bank_shape"
+                    android:gravity="center"
+                    android:text="12"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimens18" />
+
+                <TextView
+                    android:id="@+id/tv_show_player_count"
+                    android:layout_width="@dimen/dimens30"
+                    android:layout_height="@dimen/dimens30"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dimens10"
+                    android:background="@drawable/circle_player_shape"
+                    android:gravity="center"
+                    android:text="8"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimens18" />
+
+                <TextView
+                    android:id="@+id/tv_show_tie_count"
+                    android:layout_width="@dimen/dimens30"
+                    android:layout_height="@dimen/dimens30"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dimens10"
+                    android:background="@drawable/circle_tie_shape"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimens18" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@color/black"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sure"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dimens5"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_bet"
+                    android:drawableLeft="@mipmap/bet_sure"
+                    android:drawablePadding="@dimen/dimens20"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens10"
+                    android:text="确认"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimens18" />
+
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dimens5"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_bet"
+                    android:drawableLeft="@mipmap/bet_cancle"
+                    android:drawablePadding="@dimen/dimens20"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/dimens10"
+                    android:text="取消"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimens18" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <org.lucasr.twowayview.widget.TwoWayView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/list0"
+                    style="@style/TwoWayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@drawable/rect"
+                    app:twowayview_layoutManager="GridLayoutManager"
+                    app:twowayview_numColumns="6"
+                    app:twowayview_numRows="6" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <org.lucasr.twowayview.widget.TwoWayView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/list"
+                    style="@style/TwoWayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens60"
+                    android:background="@drawable/rect"
+                    app:twowayview_layoutManager="GridLayoutManager"
+                    app:twowayview_numColumns="20"
+                    app:twowayview_numRows="6" />
+
+                <org.lucasr.twowayview.widget.TwoWayView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/list2"
+                    style="@style/TwoWayView"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/rect"
+                    app:twowayview_layoutManager="GridLayoutManager"
+                    app:twowayview_numColumns="20"
+                    app:twowayview_numRows="3" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <org.lucasr.twowayview.widget.TwoWayView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/list3"
+                        style="@style/TwoWayView"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="12"
+                        android:background="@drawable/rect"
+                        app:twowayview_layoutManager="GridLayoutManager"
+                        app:twowayview_numColumns="12"
+                        app:twowayview_numRows="3" />
+
+                    <org.lucasr.twowayview.widget.TwoWayView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/list4"
+                        style="@style/TwoWayView"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="8"
+                        android:background="@drawable/rect"
+                        app:twowayview_layoutManager="GridLayoutManager"
+                        app:twowayview_numColumns="8"
+                        app:twowayview_numRows="3" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/sex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rp_1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="true"
+            android:gravity="center"
+            android:text="1" />
+
+        <RadioButton
+            android:id="@+id/rp_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:text="2" />
+        <RadioButton
+            android:id="@+id/rp_3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:text="3" />
+        <RadioButton
+            android:id="@+id/rp_4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:text="4" />
+        <RadioButton
+            android:id="@+id/rp_5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:text="5" />
+        <RadioButton
+            android:id="@+id/rp_6"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:text="6" />
+    </RadioGroup>
+</LinearLayout>
