@@ -193,6 +193,28 @@ public class DataModelManager {
 
 
     /**
+     * 解绑设备 命令字0x03  组播解绑设备
+     * deviceId  0 组播解绑   其他单播解绑
+     *
+     * @throws Exception
+     */
+    public synchronized void unackUnbindSendData(int deviceId) {
+        //判断是否连接上桥
+        if (MeshLibraryManager.isBluetoothBridgeReady()) {
+            byte[] sendByte = new byte[2];
+            sendByte[0] = (byte) 0x03;
+            sendByte[sendByte.length - 1] = RandomUtils.getRandomHex();
+            MeshPacket packet = new MeshPacket(deviceId, sendByte);
+            packet.setMinTimes(System.currentTimeMillis());
+            sendMeshPacket(packet);
+            showInfo(deviceId, sendByte);
+            Logc.e(TAG, "id:" + deviceId + "##DataModel send data =" + StringUtil.byteArrayToHexString(sendByte));
+        } else {
+            Logc.e(TAG, "mesh not BridgeReady");
+        }
+    }
+
+    /**
      * 打印 设备数据
      *
      * @param deviceId

@@ -39,6 +39,7 @@
     <string name="recharge_manage">充值提现管理</string>
     <string name="my_integral">我的积分</string>
     <string name="scanbind">设备绑定</string>
+    <string name="unbind">设备解绑</string>
     <string name="recharge">充值提现</string>
     <string name="recharge_detail">明细</string>
 
@@ -364,6 +365,7 @@
     <string name="delete_device">删除设备</string>
     <string name="retrieving_info">Retrieving some required info, please retry in few seconds.</string>
     <string name="delete_device_double_check">你确定要删除这台设备吗?</string>
+    <string name="unbind_device_scan">扫描识别设备，请待识别牌放在识别设备上</string>
     <string name="forcing_delete_device">没有找到该设备,是否坚持删除这台设备?</string>
     <string name="device_name_l">Device name</string>
     <string name="invalid_name">Device name invalid</string>

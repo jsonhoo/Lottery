@@ -35,7 +35,6 @@
         <meta-data
             android:name="PGYER_APPID111"
             android:value="eac9a6ad1e6f106809475e0855f208c8" />
-
         <meta-data
             android:name="AA_DB_NAME"
             android:value="hetmesh.db" />
@@ -49,11 +48,11 @@
         <activity
             android:name=".ui.SplashActivity"
             android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.MainActivity"
@@ -139,15 +138,15 @@
         <activity
             android:name=".ui.BleActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.DeviceListActivity"></activity>
-
-
+        <activity android:name=".ui.DeviceListActivity" />
         <activity android:name=".video.activity.BjlPlayerActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <service
@@ -159,10 +158,9 @@
             android:name="com.activeandroid.content.ContentProvider"
             android:authorities="com.wyzk.lottery"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false"></provider>
 
-        </provider>
-
+        <activity android:name=".ui.UnbindMeshDeviceActivity"></activity>
     </application>
 
 </manifest>

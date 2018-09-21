@@ -34,6 +34,10 @@
             android:id="@+id/add"
             android:icon="@drawable/ic_menu_send"
             android:title="@string/add" />
+        <item
+            android:id="@+id/unbind"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/unbind" />
     </group>
 
 </menu>

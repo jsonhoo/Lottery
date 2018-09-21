@@ -512,6 +512,8 @@ public class MainActivity extends LotteryBaseActivity
             toActivity(DeviceListActivity.class);
         } else if (id == R.id.add) {
             checkDialog();
+        } else if (id == R.id.unbind){
+            toActivity(UnbindMeshDeviceActivity.class);
         }
         drawer_layout.closeDrawer(GravityCompat.START);
         return true;
