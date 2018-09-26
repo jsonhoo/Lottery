@@ -557,7 +557,7 @@ public class BjlPlayerActivity extends VideoBaseActivity implements OnClickListe
                     public void accept(ResultReturn<RoomRoundModel> ret) throws Exception {
                         if (ret != null && ret.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue() && ret.getData() != null) {
                             roomRoundModel = ret.getData();
-                            setStatus();
+                            setStatus(roomRoundModel.getRoundState());
                         }
                     }
                 }, new Consumer<Throwable>() {
