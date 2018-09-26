@@ -299,16 +299,25 @@
             android:id="@+id/tv_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/num_button"
             android:gravity="center"
-            android:padding="@dimen/dimens5"
+            android:paddingBottom="@dimen/dimens5"
+            android:paddingLeft="@dimen/dimens10"
+            android:paddingRight="@dimen/dimens10"
+            android:paddingTop="@dimen/dimens5"
             android:text="开始" />
 
         <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimens20"
+            android:background="@drawable/num_button"
             android:gravity="center"
-            android:padding="@dimen/dimens5"
+            android:paddingBottom="@dimen/dimens5"
+            android:paddingLeft="@dimen/dimens10"
+            android:paddingRight="@dimen/dimens10"
+            android:paddingTop="@dimen/dimens5"
             android:text="作废" />
     </LinearLayout>
 
@@ -332,6 +341,7 @@
             android:id="@+id/rp_2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dimens10"
             android:checked="false"
             android:text="2" />
 
@@ -339,6 +349,7 @@
             android:id="@+id/rp_3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dimens10"
             android:checked="false"
             android:text="3" />
 
@@ -346,6 +357,7 @@
             android:id="@+id/rp_4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dimens10"
             android:checked="false"
             android:text="4" />
 
@@ -353,6 +365,7 @@
             android:id="@+id/rp_5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dimens10"
             android:checked="false"
             android:text="5" />
 
@@ -363,4 +376,12 @@
             android:checked="false"
             android:text="6" />
     </RadioGroup>
+
+    <com.wyzk.lottery.view.CircleTextProgressbar
+        android:id="@+id/tv_time_circle"
+        android:layout_width="@dimen/dimens50"
+        android:layout_height="@dimen/dimens50"
+        android:layout_below="@+id/title"
+        android:layout_gravity="center_horizontal"
+        android:text="30s" />
 </LinearLayout>

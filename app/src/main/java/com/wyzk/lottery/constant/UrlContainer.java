@@ -47,4 +47,6 @@ public interface UrlContainer {
     String REJECT_CHARGE = "/manager/game/integral/charge/reviewReject";//充值审核驳回
     String EXCHANGE_FINISH = "/manager/game/integral/exchange/reviewFinish"; //提现审核通过
     String EXCHANGE_REJECT = "/manager/game/integral/exchange/reviewReject";//提现审核驳回
+
+    String UP_POKE = "/game/round/baccarat/uploadCard"; //牌上传
 }

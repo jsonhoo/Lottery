@@ -19,6 +19,9 @@ public class MQPlayerBean implements Serializable {
     private int betValue;
     private int position;
 
+    private int cardId;
+
+
     public int getRoomRoundId() {
         return roomRoundId;
     }
@@ -49,6 +52,14 @@ public class MQPlayerBean implements Serializable {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(int cardId) {
+        this.cardId = cardId;
     }
 
     @Override

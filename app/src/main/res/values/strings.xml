@@ -141,7 +141,7 @@
     <string name="please_select_place_or_integral">请先选择方位和下注积分</string>
 
     <string name="please_select_place">请先选择方位</string>
-    <string name="generate_success">开始下注成功</string>
+    <string name="generate_success">开始下注</string>
     <string name="cancel_success">场次作废成功</string>
     <string name="fengpan_success">封盘成功</string>
 

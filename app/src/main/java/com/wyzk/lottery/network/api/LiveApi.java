@@ -40,6 +40,11 @@ public interface LiveApi {
     @POST(UrlContainer.BET)
     Observable<ResultReturn<String>> bet(@Field("token") String token, @Field("roomId") int roomId, @Field("positionId") int postionId, @Field("roundId") int roundId, @Field("betValue") int betValue);
 
+
+    @Headers("Content-Type: application/json")
+    @POST(UrlContainer.BET)
+    Observable<ResultReturn<String>> betBatch(@Query("token") String token, @Body RequestBody array);
+
     /**
      * 生成场次
      *
@@ -66,6 +71,7 @@ public interface LiveApi {
     @POST(UrlContainer.ROUND_SETTLE)
     Observable<ResultReturn<String>> settleRound(@Query("token") String token, @Body RequestBody array);
 
+
     @FormUrlEncoded
     @POST(UrlContainer.ROUND_LICENSING)
     Observable<ResultReturn<String>> licensing(@Field("token") String token);//封盘
@@ -90,4 +96,8 @@ public interface LiveApi {
     @FormUrlEncoded
     @POST(UrlContainer.GET_ONLINE_COUNT)
     Observable<ResultReturn<Integer>> getOnlineCount(@Field("token") String token, @Field("roomId") int roomId);
+
+    @FormUrlEncoded
+    @POST(UrlContainer.UP_POKE)
+    Observable<ResultReturn<Integer>> upPoke(@Field("token") String token, @Field("cardId") int cardId, @Field("positionId") int positionId);
 }

@@ -26,6 +26,7 @@ import com.wyzk.lottery.constant.IConst;
 import com.wyzk.lottery.database.DBManager;
 import com.wyzk.lottery.event.NetworkEvent;
 import com.wyzk.lottery.model.ExtraBean;
+import com.wyzk.lottery.model.UserInfoModel;
 import com.wyzk.lottery.utils.ACache;
 import com.wyzk.lottery.utils.AppTools;
 import com.wyzk.lottery.utils.Base64;
@@ -243,11 +244,14 @@ public abstract class LotteryBaseActivity extends AppCompatActivity implements I
     protected void startMqtt() {
         if (mq == null) {
             mq = new MQ();
+            UserInfoModel cache = getSp(IConst.USER_INFO_KEY);
             MqttConnBean mqttConnBean = new MqttConnBean();
             mqttConnBean.setBrokerUrl(IConst.BROKEURL);
             mqttConnBean.setClientId(ATil.getDeviceId(this));
+
             mqttConnBean.setUserName(IConst.USERNAME);
-            mqttConnBean.setPassword(IConst.PASSWORD);
+            mqttConnBean.setPassword("wyzktlc666888@xcgs");
+
             mqttConnBean.setQos(IConst.QOS);
             mq.start(this, mqttConnBean, new IMqttActionListener() {
                 @Override

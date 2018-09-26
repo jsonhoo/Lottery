@@ -139,6 +139,8 @@
             android:name=".ui.BleActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.DeviceListActivity" />
+        <activity android:name="com.wyzk.lottery.video.activity.BjlOwnerActivity"/>
+
         <activity android:name=".video.activity.BjlPlayerActivity">
 
             <!-- <intent-filter> -->
