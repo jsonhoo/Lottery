@@ -29,7 +29,7 @@ import com.wyzk.lottery.network.Network;
 import com.wyzk.lottery.utils.BuildManager;
 import com.wyzk.lottery.utils.ToastUtil;
 import com.wyzk.lottery.utils.Utils;
-import com.wyzk.lottery.view.CircleTextProgressbar;
+import com.wyzk.lottery.view.CountDownView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -90,8 +90,24 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
     @Bind(R.id.iv_discern_banker_3)
     ImageView iv_discern_banker_3;
 
-    @Bind(R.id.tv_time_circle)
-    CircleTextProgressbar tv_time_circle;
+
+    @Bind(R.id.iv_on_discern_player_1)
+    ImageView iv_on_discern_player_1;
+    @Bind(R.id.iv_on_discern_player_2)
+    ImageView iv_on_discern_player_2;
+    @Bind(R.id.iv_on_discern_player_3)
+    ImageView iv_on_discern_player_3;
+
+    @Bind(R.id.iv_on_discern_banker_1)
+    ImageView iv_on_discern_banker_1;
+    @Bind(R.id.iv_on_discern_banker_2)
+    ImageView iv_on_discern_banker_2;
+    @Bind(R.id.iv_on_discern_banker_3)
+    ImageView iv_on_discern_banker_3;
+
+
+    @Bind(R.id.countDownView)
+    CountDownView countDownView;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -135,6 +151,13 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
         initData();
 
         getLastRoomRound();
+
+        countDownView.setAddCountDownListener(new CountDownView.OnCountDownFinishListener() {
+            @Override
+            public void countDownFinished() {
+                fengpanGame();
+            }
+        });
     }
 
 
@@ -159,26 +182,9 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
         if (coutDown <= 0) {
             return;
         }
-        tv_time_circle.setProgressLineWidth(30);//写入宽度。
-        tv_time_circle.setTimeMillis(coutDown * 1000);// 把倒计时时间改长一点。
-        tv_time_circle.setCountdownProgressListener(1, progressListener);
-        tv_time_circle.reStart();
+        countDownView.setCountdownTime(30);
+        countDownView.startCountDown();
     }
-
-    private CircleTextProgressbar.OnCountdownProgressListener progressListener = new CircleTextProgressbar.OnCountdownProgressListener() {
-        @Override
-        public void onProgress(int what, int progress) {
-            if (what == 1) {
-                tv_time_circle.setText(progress + "%");
-                if (progress == 0) {
-                    fengpanGame();
-                }
-            } else if (what == 2) {
-                tv_time_circle.setText(progress + "%");
-            }
-            // 比如在首页，这里可以判断进度，进度到了100或者0的时候，你可以做跳过操作。
-        }
-    };
 
 
     public void setStatus(int value, boolean flag) {
@@ -276,17 +282,17 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
     private void showPokeInfo2(int cardId, int positionId) {
 
         if (positionId == 1) {
-            iv_discern_player_1.setBackgroundResource(Utils.getPokeByIndex(cardId));
+            iv_on_discern_player_1.setBackgroundResource(Utils.getPokeByIndex(cardId));
         } else if (positionId == 2) {
-            iv_discern_player_2.setBackgroundResource(Utils.getPokeByIndex(cardId));
+            iv_on_discern_player_2.setBackgroundResource(Utils.getPokeByIndex(cardId));
         } else if (positionId == 3) {
-            iv_discern_player_3.setBackgroundResource(Utils.getPokeByIndex(cardId));
+            iv_on_discern_player_3.setBackgroundResource(Utils.getPokeByIndex(cardId));
         } else if (positionId == 4) {
-            iv_discern_banker_1.setBackgroundResource(Utils.getPokeByIndex(cardId));
+            iv_on_discern_banker_1.setBackgroundResource(Utils.getPokeByIndex(cardId));
         } else if (positionId == 5) {
-            iv_discern_banker_2.setBackgroundResource(Utils.getPokeByIndex(cardId));
+            iv_on_discern_banker_2.setBackgroundResource(Utils.getPokeByIndex(cardId));
         } else if (positionId == 6) {
-            iv_discern_banker_3.setBackgroundResource(Utils.getPokeByIndex(cardId));
+            iv_on_discern_banker_3.setBackgroundResource(Utils.getPokeByIndex(cardId));
         }
     }
 

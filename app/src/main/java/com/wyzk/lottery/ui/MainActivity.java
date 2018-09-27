@@ -557,7 +557,7 @@ public class MainActivity extends LotteryBaseActivity
             mPlace = new Place();
             mPlace.setName("place1");
             mPlace.setPlaceId(10);
-            mPlace.setPassphrase("passphrase"+10);
+            mPlace.setPassphrase("passphrase"+10);//+10
             if (mPlace.getHostControllerID() == 0) {
                 mPlace.setHostControllerID(DEFAULT_HOST_ID);
             }

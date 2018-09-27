@@ -196,6 +196,7 @@
 
 
                 <ImageView
+                    android:id="@+id/iv_on_discern_player_3"
                     android:layout_width="@dimen/poke_with"
                     android:layout_height="@dimen/poke_height"
                     android:layout_gravity="center_horizontal"
@@ -208,12 +209,14 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/iv_on_discern_player_1"
                         android:layout_width="@dimen/poke_with"
                         android:layout_height="@dimen/poke_height"
                         android:layout_marginLeft="@dimen/dimens10"
                         android:background="@mipmap/ht_2" />
 
                     <ImageView
+                        android:id="@+id/iv_on_discern_player_2"
                         android:layout_width="@dimen/poke_with"
                         android:layout_height="@dimen/poke_height"
                         android:layout_marginLeft="@dimen/dimens5"
@@ -238,6 +241,7 @@
                     android:textSize="@dimen/dimens20" />
 
                 <ImageView
+                    android:id="@+id/iv_on_discern_banker_3"
                     android:layout_width="@dimen/poke_with"
                     android:layout_height="@dimen/poke_height"
                     android:layout_gravity="center_horizontal"
@@ -250,12 +254,14 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/iv_on_discern_banker_1"
                         android:layout_width="@dimen/poke_with"
                         android:layout_height="@dimen/poke_height"
                         android:layout_marginLeft="@dimen/dimens10"
                         android:background="@mipmap/ht_2" />
 
                     <ImageView
+                        android:id="@+id/iv_on_discern_banker_2"
                         android:layout_width="@dimen/poke_with"
                         android:layout_height="@dimen/poke_height"
                         android:layout_marginLeft="@dimen/dimens5"
@@ -377,11 +383,12 @@
             android:text="6" />
     </RadioGroup>
 
-    <com.wyzk.lottery.view.CircleTextProgressbar
-        android:id="@+id/tv_time_circle"
-        android:layout_width="@dimen/dimens50"
-        android:layout_height="@dimen/dimens50"
-        android:layout_below="@+id/title"
+    <com.wyzk.lottery.view.CountDownView
+        android:id="@+id/countDownView"
+        android:layout_width="@dimen/dimens70"
+        android:layout_height="@dimen/dimens70"
         android:layout_gravity="center_horizontal"
-        android:text="30s" />
+        app:progressTextColor="@color/red"
+        app:ringColor="@color/material_color_8"
+        app:ringWidth="10" />
 </LinearLayout>
