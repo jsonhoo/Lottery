@@ -462,23 +462,27 @@ public class MainActivity extends LotteryBaseActivity
         Intent intent = null;
 
         RoomModel.RowModel rowModel = mDataList.get(position);
+        System.out.println("rowModel==== "+rowModel+" size== "+mDataList.size());
         String userId = ACache.get(this).getAsString(IConst.USER_ID);
         if (userId != null && userId.equals(rowModel.getUserId())) {
             //房主
             if (rowModel.getGameId() == 1) {
                 intent = new Intent(this, HouseOwnerActivity.class);
-            } else if (rowModel.getGameId() == 2) {
+                intent.putExtra(IConst.ROW_INFO, rowModel);
+            } else if (rowModel.getGameId() == 3) {
                 intent = new Intent(this, BjlOwnerActivity.class);
+                intent.putExtra(IConst.ROW_INFO, rowModel);
             }
         } else {
             //玩家
             if (rowModel.getGameId() == 1) {
                 intent = new Intent(this, PlayerActivity.class);
-            }else if(rowModel.getGameId() == 2){
+                intent.putExtra(IConst.ROW_INFO, rowModel);
+            }else if(rowModel.getGameId() == 3){
                 intent = new Intent(this, BjlPlayerActivity.class);
+                intent.putExtra(IConst.ROW_INFO, rowModel);
             }
         }
-        intent.putExtra(IConst.ROW_INFO, rowModel);
         startActivity(intent);
     }
 

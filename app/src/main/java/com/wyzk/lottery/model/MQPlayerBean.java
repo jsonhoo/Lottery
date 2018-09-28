@@ -11,15 +11,15 @@ public class MQPlayerBean implements Serializable {
     /**
      * roomRoundId : 13
      * status : 2 1 房间状态（1：下注中，2：封盘中，3：结算中，4：结算完成，5：作废）
+     * type = 2 下注，type=0房间状态信息，type=1牌信息
      */
 
     private int roomRoundId;
-    private int status;
-
-    private int betValue;
-    private int position;
-
     private int cardId;
+    private int position;
+    private int type;
+    private int status;
+    private int betValue;
 
 
     public int getRoomRoundId() {
@@ -62,13 +62,23 @@ public class MQPlayerBean implements Serializable {
         this.cardId = cardId;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "MQPlayerBean{" +
                 "roomRoundId=" + roomRoundId +
+                ", cardId=" + cardId +
+                ", position=" + position +
+                ", type=" + type +
                 ", status=" + status +
                 ", betValue=" + betValue +
-                ", position=" + position +
                 '}';
     }
 }

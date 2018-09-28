@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.csr.csrmesh2.MeshConstants;
 import com.fsix.mqtt.bean.MQBean;
@@ -69,7 +68,10 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
     private int positionValue = 0;
 
     private int roomId;
+
     private int roundId;
+
+    private int status;
 
     public static final String EXTRA_DEVICE = "EXTRA_DEVICE";
     public static final String TAG = BjlOwnerActivity.class.getSimpleName();
@@ -174,7 +176,7 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
     }
 
     private void deviceNotFound() {
-        Toast.makeText(this, "没有发现设备", Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(this, "没有发现设备");
         finish();
     }
 
@@ -187,18 +189,36 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
     }
 
 
-    public void setStatus(int value, boolean flag) {
+    public void setStatus(int countDown, boolean flag) {
         tv_serial_num.setText(getString(R.string.serial_number) + ": " + roundId);
-        switch (value) {
+        switch (status) {
             case 1://下注中
+                if (flag) {
+                    countDownView.setCountdownTime(countDown);
+                    countDownView.startCountDown();
+                }
+                tv_start.setEnabled(false);
+                tv_cancel.setEnabled(true);
                 break;
             case 2://封盘中
+                tv_start.setEnabled(false);
+                tv_cancel.setEnabled(true);
+                countDownView.stopCountDown();
                 break;
             case 3://结算中
+                tv_start.setEnabled(false);
+                tv_cancel.setEnabled(false);
+                countDownView.stopCountDown();
                 break;
             case 4://结算完成
+                tv_start.setEnabled(true);
+                tv_cancel.setEnabled(false);
+                countDownView.stopCountDown();
                 break;
             case 5://场次作废
+                tv_start.setEnabled(true);
+                tv_cancel.setEnabled(false);
+                countDownView.stopCountDown();
                 break;
         }
     }
@@ -265,11 +285,11 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
             } else if (positionValue == 2) {
                 iv_discern_player_2.setBackgroundResource(Utils.getPokeByIndex(result[1]));
             } else if (positionValue == 3) {
-                iv_discern_player_3.setBackgroundResource(Utils.getPokeByIndex(result[1]));
-            } else if (positionValue == 4) {
                 iv_discern_banker_1.setBackgroundResource(Utils.getPokeByIndex(result[1]));
-            } else if (positionValue == 5) {
+            } else if (positionValue == 4) {
                 iv_discern_banker_2.setBackgroundResource(Utils.getPokeByIndex(result[1]));
+            } else if (positionValue == 5) {
+                iv_discern_player_3.setBackgroundResource(Utils.getPokeByIndex(result[1]));
             } else if (positionValue == 6) {
                 iv_discern_banker_3.setBackgroundResource(Utils.getPokeByIndex(result[1]));
             }
@@ -280,17 +300,17 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
     }
 
     private void showPokeInfo2(int cardId, int positionId) {
-
+        // 1
         if (positionId == 1) {
             iv_on_discern_player_1.setBackgroundResource(Utils.getPokeByIndex(cardId));
         } else if (positionId == 2) {
             iv_on_discern_player_2.setBackgroundResource(Utils.getPokeByIndex(cardId));
         } else if (positionId == 3) {
-            iv_on_discern_player_3.setBackgroundResource(Utils.getPokeByIndex(cardId));
-        } else if (positionId == 4) {
             iv_on_discern_banker_1.setBackgroundResource(Utils.getPokeByIndex(cardId));
-        } else if (positionId == 5) {
+        } else if (positionId == 4) {
             iv_on_discern_banker_2.setBackgroundResource(Utils.getPokeByIndex(cardId));
+        } else if (positionId == 5) {
+            iv_on_discern_player_3.setBackgroundResource(Utils.getPokeByIndex(cardId));
         } else if (positionId == 6) {
             iv_on_discern_banker_3.setBackgroundResource(Utils.getPokeByIndex(cardId));
         }
@@ -319,11 +339,6 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
                 break;
         }
     }
-
-    private void showCutDown() {
-
-    }
-
     /**
      * 获取最新的场次信息
      */
@@ -337,8 +352,9 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
                     public void accept(ResultReturn<RoomRoundModel> ret) throws Exception {
                         if (ret != null && ret.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue() && ret.getData() != null) {
                             roundId = ret.getData().getRoomRoundId();
-                            showCoutDown(ret.getData().getCountdown());
-                            setStatus(ret.getData().getRoundState(), false);
+                            //showCoutDown(ret.getData().getCountdown());
+                            status = ret.getData().getRoundState();
+                            setStatus(ret.getData().getCountdown(),true);
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -436,8 +452,10 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ResultReturn<Integer>>() {
                     @Override
-                    public void accept(ResultReturn<Integer> resultReturn) throws Exception {
+                    public void accept(ResultReturn<Integer> result) throws Exception {
+                        if (result.getCode() == ResultReturn.ResultCode.RESULT_OK.getValue()) {
 
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -454,12 +472,20 @@ public class BjlOwnerActivity extends VideoBaseActivity implements OnClickListen
             String data = eventData.getMessage().toString();
 
             MQPlayerBean mqPlayerBean = GsonUtil.getInstance().toObject(data, MQPlayerBean.class);
+            System.out.println("MQPlayerBean== " + mqPlayerBean.toString());
+
             roundId = mqPlayerBean.getRoomRoundId();
 
-            if (mqPlayerBean.getCardId() != 0) {
+            if (mqPlayerBean.getType() != 0) {
+                //type=0房间状态信息
+                status = mqPlayerBean.getStatus();
+                setStatus(30,false);
+            } else if (mqPlayerBean.getType() != 1) {
+                // type=1牌信息
                 showPokeInfo2(mqPlayerBean.getCardId(), mqPlayerBean.getPosition());
+            } else if (mqPlayerBean.getType() != 2) {
+                //下注信息推送
             }
         }
     }
-
 }
